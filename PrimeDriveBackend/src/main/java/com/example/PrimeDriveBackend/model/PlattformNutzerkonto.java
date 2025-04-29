@@ -12,13 +12,16 @@ import lombok.NoArgsConstructor;
 public class PlattformNutzerkonto {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long kontoId;
+    private Integer kontoId;
 
+    @Column(nullable = false)
     private String benutzername;
+
+    @Column(nullable = false)
     private String passwort;
+
     private String rolle;
 
     @Column(unique = true)
-    private String email;
+    private String eMail;
 }

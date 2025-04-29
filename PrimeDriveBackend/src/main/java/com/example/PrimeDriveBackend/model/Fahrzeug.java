@@ -5,8 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.math.BigDecimal;
-
 @Entity
 @Data
 @NoArgsConstructor
@@ -14,18 +12,24 @@ import java.math.BigDecimal;
 public class Fahrzeug {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long fahrzeugId;
+    private Integer fahrzeugId;
 
     private String marke;
+
     private String modell;
+
     private Integer baujahr;
+
     private Integer kilometerstand;
-    private BigDecimal preis;
+
+    private Double preis;
+
     private String zustand;
+
+    @Lob
     private String fahrzeughistorie;
 
     @ManyToOne
-    @JoinColumn(name = "verkaeufer_id")
+    @JoinColumn(name = "verkaeuferId")
     private Verkaeufer verkaeufer;
 }

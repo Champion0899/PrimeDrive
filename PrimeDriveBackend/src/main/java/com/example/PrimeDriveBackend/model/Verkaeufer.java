@@ -12,19 +12,20 @@ import lombok.NoArgsConstructor;
 public class Verkaeufer {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long verkaeuferId;
+    private Integer verkaeuferId;
 
     private String name;
+
     private String vorname;
 
     @Column(unique = true)
-    private String email;
+    private String eMail;
 
     private String telefonnummer;
+
     private String adresse;
 
     @OneToOne
-    @JoinColumn(name = "konto_id", referencedColumnName = "kontoId")
+    @JoinColumn(name = "kontoId", unique = true)
     private PlattformNutzerkonto konto;
 }

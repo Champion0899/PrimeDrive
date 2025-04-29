@@ -15,19 +15,21 @@ import java.time.LocalTime;
 public class Probefahrt {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long probefahrtId;
+    private Integer probefahrtId;
 
     private LocalDate datum;
+
     private LocalTime uhrzeit;
+
     private String ort;
+
     private String status;
 
-    @OneToOne
-    @JoinColumn(name = "kaeufer_id", unique = true)
+    @ManyToOne
+    @JoinColumn(name = "kaeuferId")
     private Kaeufer kaeufer;
 
     @OneToOne
-    @JoinColumn(name = "fahrzeug_id", unique = true)
+    @JoinColumn(name = "fahrzeugId", unique = true)
     private Fahrzeug fahrzeug;
 }

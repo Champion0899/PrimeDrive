@@ -13,12 +13,16 @@ import lombok.NoArgsConstructor;
 public class Kauf {
 
     @Id
-    @ManyToOne
-    @JoinColumn(name = "kaeufer_id")
-    private Kaeufer kaeufer;
+    private Integer kaeuferId;
 
     @Id
+    private Integer fahrzeugId;
+
     @ManyToOne
-    @JoinColumn(name = "fahrzeug_id")
+    @JoinColumn(name = "kaeuferId", insertable = false, updatable = false)
+    private Kaeufer kaeufer;
+
+    @ManyToOne
+    @JoinColumn(name = "fahrzeugId", insertable = false, updatable = false)
     private Fahrzeug fahrzeug;
 }

@@ -10,6 +10,6 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 public class KaufId implements Serializable {
-    private Long kaeufer;
-    private Long fahrzeug;
+    private Integer kaeuferId;
+    private Integer fahrzeugId;
 }
