@@ -1,3 +1,8 @@
-import { Routes } from '@angular/router';
+import {Routes} from '@angular/router';
+import {DetailComponent} from './detailFahrzeug/detail.component';
+import {OverviewComponent} from './overviewFahrzeuge/overview.component';
 
-export const routes: Routes = [];
+export const routes: Routes = [
+  {path: 'fahrzeuge', component: OverviewComponent},
+  {path: 'fahrzeuge/:id', component: DetailComponent},
+];

@@ -2,7 +2,9 @@
   <div class="bg-white rounded-xl shadow-md hover:shadow-lg transition">
     <div class="card">
       <div class="card-header">
-        <img src="{{fahrzeug.image}}" class="fahrzeug-image">
+        <a [routerLink]="['/fahrzeuge/', fahrzeug.id]">
+          <img [src]="fahrzeug.image" alt="Fahrzeugbild" class="fahrzeug-image"/>
+        </a>
         {{ fahrzeug.marke }} {{ fahrzeug.modell }}
       </div>
       <div class="card-body">

@@ -17,4 +17,9 @@ export class FahrzeugService {
   getFahrzeuge(): Observable<Fahrzeug[]> {
     return this.http.get<Fahrzeug[]>(this.fahrzeugUrl, this.httpOptions)
   }
+
+  getFahrzeugById(id: number): Observable<Fahrzeug> {
+    return this.http.get<Fahrzeug>(`${this.fahrzeugUrl}/${id}`);
+  }
+
 }
