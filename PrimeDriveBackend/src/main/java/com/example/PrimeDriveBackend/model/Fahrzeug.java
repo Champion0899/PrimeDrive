@@ -14,6 +14,8 @@ public class Fahrzeug {
     @Id
     private Integer fahrzeugId;
 
+    private String image;
+
     private String marke;
 
     private String modell;

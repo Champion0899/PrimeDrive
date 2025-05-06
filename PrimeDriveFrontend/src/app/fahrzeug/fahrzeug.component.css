@@ -1,0 +1,28 @@
+.fahrzeug-image {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.card {
+  padding: 1rem;
+  border-radius: 0.75rem;
+}
+
+.card-header {
+  font-size: 1.25rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  color: #1a202c; /* Tailwind's gray-900 */
+}
+
+.card-body p {
+  margin: 0.25rem 0;
+  color: #4a5568; /* Tailwind's gray-700 */
+}
+
+.card-body strong {
+  color: #2d3748; /* Tailwind's gray-800 */
+}
+

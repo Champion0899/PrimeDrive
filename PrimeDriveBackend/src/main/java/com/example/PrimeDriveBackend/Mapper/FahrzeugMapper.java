@@ -12,6 +12,7 @@ public class FahrzeugMapper {
 
     public FahrzeugDto toDto(Fahrzeug fahrzeug) {
         FahrzeugDto dto = new FahrzeugDto();
+        dto.setImage(fahrzeug.getImage());
         dto.setId(Long.valueOf(fahrzeug.getFahrzeugId()));
         dto.setMarke(fahrzeug.getMarke());
         dto.setModell(fahrzeug.getModell());
@@ -24,6 +25,7 @@ public class FahrzeugMapper {
     public Fahrzeug toEntity(FahrzeugDto dto) {
         Fahrzeug fahrzeug = new Fahrzeug();
         fahrzeug.setFahrzeugId(Math.toIntExact(dto.getId()));
+        fahrzeug.setImage(dto.getImage());
         fahrzeug.setMarke(dto.getMarke());
         fahrzeug.setModell(dto.getModell());
         fahrzeug.setBaujahr(dto.getBaujahr());

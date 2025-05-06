@@ -11,6 +11,7 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 public class FahrzeugDto {
     private Long id;
+    private String image;
     private String marke;
     private String modell;
     private Integer baujahr;
