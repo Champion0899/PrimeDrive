@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { FahrzeugService } from '../fahrzeug/fahrzeug.service';
-import { Fahrzeug } from '../fahrzeug/fahrzeug.model';
+import {Component, OnInit} from '@angular/core';
+import {ActivatedRoute} from '@angular/router';
+import {FahrzeugService} from '../fahrzeug/fahrzeug.service';
+import {Fahrzeug} from '../fahrzeug/fahrzeug.model';
 import {CurrencyPipe, NgIf} from '@angular/common';
 
 @Component({
+  standalone: true,
   selector: 'app-detail',
   templateUrl: 'detail.component.html',
   imports: [
@@ -19,15 +20,18 @@ export class DetailComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private fahrzeugService: FahrzeugService
-  ) {}
+  ) {
+  }
 
   ngOnInit(): void {
-    const id = this.route.snapshot.paramMap.get('id');
-    if (id) {
-      this.fahrzeugService.getFahrzeugById(+id).subscribe(fahrzeug => {
-        console.log(fahrzeug);
-        this.fahrzeug = fahrzeug;
-      });
-    }
+    this.route.paramMap.subscribe(params => {
+      const id = params.get('id');
+      if (id) {
+        this.fahrzeugService.getFahrzeugById(id).subscribe(fahrzeug => {
+          this.fahrzeug = fahrzeug;
+          console.log(this.fahrzeug)
+        });
+      }
+    });
   }
 }

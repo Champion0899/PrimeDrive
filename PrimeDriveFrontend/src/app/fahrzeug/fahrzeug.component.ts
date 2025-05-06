@@ -5,6 +5,7 @@ import {RouterLink} from '@angular/router';
 
 
 @Component({
+  standalone: true,
   selector: 'app-fahrzeug',
   templateUrl: './fahrzeug.component.html',
   imports: [

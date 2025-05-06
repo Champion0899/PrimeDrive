@@ -1,13 +1,14 @@
 import {Component, inject, OnInit} from '@angular/core';
-import {HttpClientModule} from '@angular/common/http';
 import {FahrzeugComponent} from '../fahrzeug/fahrzeug.component';
 import {NgForOf} from '@angular/common';
 import {Fahrzeug} from '../fahrzeug/fahrzeug.model';
 import {FahrzeugService} from '../fahrzeug/fahrzeug.service';
+import {RouterModule} from '@angular/router';
 
 @Component({
+  standalone: true,
   selector: 'app-overview',
-  imports: [HttpClientModule, FahrzeugComponent, NgForOf],
+  imports: [FahrzeugComponent, NgForOf, RouterModule],
   templateUrl: './overview.component.html',
   styleUrl: './overview.component.css'
 })
