@@ -5,10 +5,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.example.PrimeDriveBackend.model.PlattformNutzerkonto;
 import com.example.PrimeDriveBackend.service.AuthenticationService;
+import com.example.PrimeDriveBackend.util.JwtUtil;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.http.ResponseEntity;
 
 @CrossOrigin(origins = "http://localhost:4200")
@@ -17,8 +22,9 @@ import org.springframework.http.ResponseEntity;
 @RequiredArgsConstructor
 public class AuthenticationController {
     private final AuthenticationService authenticationService;
+    private final JwtUtil jwtUtils;
 
-    @PostMapping("/registerPlatfformNutzer")
+    @PostMapping("/register")
     public ResponseEntity<?> registerPlattformNutzer(@RequestBody PlattformNutzerkonto request) {
         authenticationService.registerPlattformNutzer(
                 request.getBenutzername(),
@@ -34,7 +40,11 @@ public class AuthenticationController {
                 request.getBenutzername(),
                 request.getPasswort());
         if (isAuthenticated) {
-            return ResponseEntity.ok("Login successful");
+            String token = jwtUtils.generateToken(request.getKontoId(), request.getRolle());
+            Map<String, Object> responseBody = new HashMap<>();
+            responseBody.put("token", token);
+            responseBody.put("userId", request.getKontoId());
+            return ResponseEntity.ok(responseBody);
         } else {
             return ResponseEntity.status(401).body("Invalid credentials");
         }

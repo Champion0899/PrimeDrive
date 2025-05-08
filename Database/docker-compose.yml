@@ -1,0 +1,14 @@
+services:
+  mysql:
+    build:
+      context: ./Docker
+      dockerfile: Dockerfile
+    env_file:
+      - .env
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+volumes:
+  mysql_data:

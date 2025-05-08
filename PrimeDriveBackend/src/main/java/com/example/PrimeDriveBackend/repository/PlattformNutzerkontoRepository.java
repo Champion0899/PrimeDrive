@@ -8,9 +8,11 @@ import org.springframework.stereotype.Repository;
 import com.example.PrimeDriveBackend.model.PlattformNutzerkonto;
 
 @Repository
-public interface PlattformNutzerkontoRepository extends JpaRepository<PlattformNutzerkonto, Long> {
+public interface PlattformNutzerkontoRepository extends JpaRepository<PlattformNutzerkonto, Integer> {
 
-    boolean existsByUsername(String username);
-    
-    Optional<PlattformNutzerkonto> findByUsername(String username);
+    boolean existsByBenutzername(String benutzername);
+
+    Optional<PlattformNutzerkonto> findById(Integer kontoId);
+
+    Optional<PlattformNutzerkonto> findByBenutzername(String benutzername);
 }

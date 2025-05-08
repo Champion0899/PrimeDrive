@@ -1,6 +1,5 @@
 package com.example.PrimeDriveBackend.service;
 
-import java.lang.foreign.Linker.Option;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
@@ -16,14 +15,18 @@ public class PlattformNutzerkontoService {
     private final PlattformNutzerkontoRepository plattformNutzerkontoRepository;
 
     public boolean existsByUsername(String username) {
-        return plattformNutzerkontoRepository.existsByUsername(username);
+        return plattformNutzerkontoRepository.existsByBenutzername(username);
     }
 
     public Optional<PlattformNutzerkonto> findByUsername(String username) {
-        return plattformNutzerkontoRepository.findByUsername(username);
+        return plattformNutzerkontoRepository.findByBenutzername(username);
     }
 
     public PlattformNutzerkonto save(PlattformNutzerkonto plattformNutzerkonto) {
         return plattformNutzerkontoRepository.save(plattformNutzerkonto);
+    }
+
+    public Optional<PlattformNutzerkonto> findbyId(Integer id) {
+        return plattformNutzerkontoRepository.findById(id);
     }
 }

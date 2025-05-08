@@ -14,7 +14,7 @@ public class Kaeufer {
 
     @Id
     private Integer kaeuferId;
-
+    
     private String name;
 
     private String vorname;
