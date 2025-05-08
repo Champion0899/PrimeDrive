@@ -7,8 +7,8 @@ Dieses Verzeichnis enthält alles, was du brauchst, um deine MySQL-Datenbank fü
 ```bash
 DATABASE/
 ├── DeltaScripts/       # Alle SQL-Migrationen in numerischer Reihenfolge
-│   └── 000.000.000.000.sql # init script
-│   └── 000.000.000.001.sql # create tables
+│   └── 000.000.000.000.sql # init script schema_version
+│   └── 000.000.000.001.sql # create tables or add default datasets, currently just a example
 ├── Deploy/             # Bash-Skripte für Setup, Restore etc.
 │   ├── restore.sh
 │   └── update.sh
