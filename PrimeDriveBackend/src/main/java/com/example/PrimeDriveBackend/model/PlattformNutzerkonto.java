@@ -1,5 +1,9 @@
 package com.example.PrimeDriveBackend.model;
 
+import java.util.Collection;
+
+import org.springframework.security.core.GrantedAuthority;
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -12,6 +16,7 @@ import lombok.NoArgsConstructor;
 public class PlattformNutzerkonto {
 
     @Id
+    @Column(name = "id")
     private Integer kontoId;
 
     @Column(nullable = false)
@@ -24,4 +29,8 @@ public class PlattformNutzerkonto {
 
     @Column(unique = true)
     private String eMail;
+
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return java.util.Collections.singletonList(() -> "ROLE_" + this.rolle);
+    }
 }
