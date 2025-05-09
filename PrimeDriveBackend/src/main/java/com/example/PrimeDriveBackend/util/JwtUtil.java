@@ -19,7 +19,7 @@ public class JwtUtil {
         this.EXPIRATION_TIME = properties.getExpirationTime();
     }
 
-    public String generateToken(Integer kontoId, String role) {
+    public String generateToken(Integer kontoId) {
         return Jwts.builder()
                 .claim("id", kontoId)
                 .setSubject(kontoId.toString())

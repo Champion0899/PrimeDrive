@@ -40,7 +40,7 @@ public class AuthenticationController {
                 request.getBenutzername(),
                 request.getPasswort());
         if (isAuthenticated) {
-            String token = jwtUtils.generateToken(request.getKontoId(), request.getRolle());
+            String token = jwtUtils.generateToken(request.getKontoId());
             Map<String, Object> responseBody = new HashMap<>();
             responseBody.put("token", token);
             responseBody.put("userId", request.getKontoId());
