@@ -28,6 +28,7 @@ public class AuthenticationController {
     private final JwtUtil jwtUtils;
 
     @PostMapping("/register")
+    @CrossOrigin
     @Operation(summary = "Register a new user", description = "Registers a new user with the provided credentials.")
     public ResponseEntity<?> registerPlattformNutzer(@RequestBody PlattformNutzerkonto request) {
         authenticationService.registerPlattformNutzer(
@@ -39,6 +40,7 @@ public class AuthenticationController {
     }
 
     @PostMapping("/login")
+    @CrossOrigin
     @Operation(summary = "User login", description = "Authenticates a user and returns a JWT token.")
     public ResponseEntity<?> login(@RequestBody PlattformNutzerkonto request) {
         boolean isAuthenticated = authenticationService.login(
