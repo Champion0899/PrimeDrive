@@ -3,6 +3,9 @@ package com.example.PrimeDriveBackend.controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.example.PrimeDriveBackend.Dto.LoginRequestDto;
+import com.example.PrimeDriveBackend.Dto.RegisterRequestDto;
 import com.example.PrimeDriveBackend.model.PlattformNutzerkonto;
 import com.example.PrimeDriveBackend.service.AuthenticationService;
 import com.example.PrimeDriveBackend.service.PlattformNutzerkontoService;
@@ -32,19 +35,19 @@ public class AuthenticationController {
     @PostMapping("/register")
     @CrossOrigin
     @Operation(summary = "Register a new user", description = "Registers a new user with the provided credentials.")
-    public ResponseEntity<?> registerPlattformNutzer(@RequestBody PlattformNutzerkonto request) {
+    public ResponseEntity<?> registerPlattformNutzer(@RequestBody RegisterRequestDto request) {
         authenticationService.registerPlattformNutzer(
-                request.getBenutzername(),
-                request.getPasswort(),
-                request.getRolle(),
-                request.getEMail());
+                request.getUsername(),
+                request.getPassword(),
+                request.getRole(),
+                request.getEmail());
         return ResponseEntity.ok("User registered successfully");
     }
 
     @PostMapping("/login")
     @CrossOrigin
     @Operation(summary = "User login", description = "Authenticates a user and returns a JWT token.")
-    public ResponseEntity<?> login(@RequestBody PlattformNutzerkonto request) {
+    public ResponseEntity<?> login(@RequestBody LoginRequestDto request) {
         boolean isAuthenticated = authenticationService.login(
                 request.getBenutzername(),
                 request.getPasswort());

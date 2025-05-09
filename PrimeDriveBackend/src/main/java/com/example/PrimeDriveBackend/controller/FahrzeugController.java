@@ -4,6 +4,7 @@ import com.example.PrimeDriveBackend.Dto.FahrzeugDto;
 import com.example.PrimeDriveBackend.service.FahrzeugService;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +16,7 @@ import java.util.List;
 @RequestMapping("/api/fahrzeuge")
 @RequiredArgsConstructor
 @Tag(name = "Fahrzeug", description = "Endpoints for managing vehicles")
+@SecurityRequirement(name = "bearer")
 public class FahrzeugController {
     private final FahrzeugService fahrzeugService;
 

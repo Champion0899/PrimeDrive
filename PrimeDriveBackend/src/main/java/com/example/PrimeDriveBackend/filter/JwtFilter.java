@@ -37,18 +37,35 @@ public class JwtFilter extends OncePerRequestFilter {
 
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
             jwt = authHeader.substring(7);
-            id = jwtUtil.extractUserId(jwt);
+            try {
+                id = jwtUtil.extractUserId(jwt);
+                System.out.println("✅ JWT valid, extracted ID: " + id);
+            } catch (Exception e) {
+                System.out.println("❌ Invalid JWT: " + e.getMessage());
+            }
+        } else {
+            System.out.println("❌ No Bearer token found");
         }
 
         if (id != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             Optional<PlattformNutzerkonto> userDetails = plattformNutzerkontoService.findbyId(id);
+            System.out.println("🔍 User found: " + userDetails.isPresent());
             if (userDetails.isPresent() && jwtUtil.validateToken(jwt, userDetails.get())) {
+                System.out.println("✅ Token validated, setting authentication");
                 UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
                         userDetails.get(), null, userDetails.get().getAuthorities());
                 SecurityContextHolder.getContext().setAuthentication(authToken);
+            } else {
+                System.out.println("❌ Token validation failed");
+            }
+        } else {
+            if (id == null) {
+                System.out.println("❌ ID extraction failed, skipping authentication");
+            } else {
+                System.out.println("⚠️ SecurityContext already has authentication");
             }
         }
         filterChain.doFilter(request, response);
     }
-    
+
 }

@@ -1,7 +1,6 @@
 package com.example.PrimeDriveBackend.model;
 
 import java.util.Collection;
-
 import org.springframework.security.core.GrantedAuthority;
 
 import jakarta.persistence.*;
@@ -32,6 +31,6 @@ public class PlattformNutzerkonto {
     private String eMail;
 
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return java.util.Collections.singletonList(() -> "ROLE_" + this.rolle);
+        return java.util.Collections.singletonList(() -> "ROLE_" + this.rolle.toUpperCase());
     }
 }
