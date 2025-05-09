@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.example.PrimeDriveBackend.model.PlattformNutzerkonto;
 import com.example.PrimeDriveBackend.service.AuthenticationService;
+import com.example.PrimeDriveBackend.service.PlattformNutzerkontoService;
 import com.example.PrimeDriveBackend.util.JwtUtil;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -26,6 +27,7 @@ import org.springframework.http.ResponseEntity;
 public class AuthenticationController {
     private final AuthenticationService authenticationService;
     private final JwtUtil jwtUtils;
+    private final PlattformNutzerkontoService plattformNutzerkontoService;
 
     @PostMapping("/register")
     @CrossOrigin
@@ -47,10 +49,14 @@ public class AuthenticationController {
                 request.getBenutzername(),
                 request.getPasswort());
         if (isAuthenticated) {
-            String token = jwtUtils.generateToken(request.getKontoId());
+            PlattformNutzerkonto plattformNutzerkonto = plattformNutzerkontoService
+                    .findByUsername(request.getBenutzername())
+                    .orElseThrow(() -> new RuntimeException("User not found"));
+            int userId = plattformNutzerkonto.getKontoId();
+            String token = jwtUtils.generateToken(userId);
             Map<String, Object> responseBody = new HashMap<>();
             responseBody.put("token", token);
-            responseBody.put("userId", request.getKontoId());
+            responseBody.put("userId", userId);
             return ResponseEntity.ok(responseBody);
         } else {
             return ResponseEntity.status(401).body("Invalid credentials");
