@@ -31,5 +31,5 @@ public class Probefahrt {
 
     @OneToOne
     @JoinColumn(name = "fahrzeugId", unique = true)
-    private Fahrzeug fahrzeug;
+    private Vehicle fahrzeug;
 }

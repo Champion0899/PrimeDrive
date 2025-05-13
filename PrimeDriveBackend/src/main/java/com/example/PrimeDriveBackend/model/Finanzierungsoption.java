@@ -26,5 +26,5 @@ public class Finanzierungsoption {
 
     @OneToOne
     @JoinColumn(name = "fahrzeugId")
-    private Fahrzeug fahrzeug;
+    private Vehicle fahrzeug;
 }

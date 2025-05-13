@@ -24,5 +24,5 @@ public class Kauf {
 
     @ManyToOne
     @JoinColumn(name = "fahrzeugId", insertable = false, updatable = false)
-    private Fahrzeug fahrzeug;
+    private Vehicle fahrzeug;
 }

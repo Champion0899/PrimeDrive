@@ -9,7 +9,7 @@ import java.math.BigDecimal;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class FahrzeugDto {
+public class VehicleDto {
     private Long id;
     private String image;
     private String marke;

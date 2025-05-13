@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Fahrzeug {
+public class Vehicle {
 
     @Id
     private Integer fahrzeugId;

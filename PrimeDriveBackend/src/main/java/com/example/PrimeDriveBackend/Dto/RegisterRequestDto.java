@@ -21,8 +21,43 @@ public class RegisterRequestDto {
     @Schema(description = "Email address of the user", example = "user@example.com", required = true)
     private String email;
 
-    // Getters & Setters
+    @NotNull
+    @Schema(description = "Address of the user", example = "Funnystreet 15", required = true)
+    private String address;
 
+    @NotNull
+    @Schema(description = "ZipCode of the user", example = "3013", required = true)
+    private Number zipCode;
+
+    @NotNull
+    @Schema(description = "City of the user", example = "John", required = true)
+    private String city;
+
+    @NotNull
+    @Schema(description = "Country of the user", example = "John", required = true)
+    private String country;
+
+    @NotNull
+    @Schema(description = "Phone number of the user", example = "John", required = true)
+    private String phoneNumber;
+
+    @NotNull
+    @Schema(description = "Creator of the user", example = "John", required = true)
+    private String createUser;
+
+    @NotNull
+    @Schema(description = "Created at", example = "John", required = true)
+    private String createDate;
+
+    @NotNull
+    @Schema(description = "Modified user", example = "John", required = true)
+    private String modifidUser;
+
+    @NotNull
+    @Schema(description = "Modified at", example = "John", required = true)
+    private String modifidDate;
+
+    // Getters & Setters
     public String getUsername() {
         return username;
     }
@@ -54,4 +89,77 @@ public class RegisterRequestDto {
     public void setEmail(String email) {
         this.email = email;
     }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public Number getZipCode() {
+        return zipCode;
+    }
+
+    public void setZipCode(Number zipCode) {
+        this.zipCode = zipCode;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public String getCreateUser() {
+        return createUser;
+    }
+
+    public void setCreateUser(String createUser) {
+        this.createUser = createUser;
+    }
+
+    public String getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(String createDate) {
+        this.createDate = createDate;
+    }
+
+    public String getModifidUser() {
+        return modifidUser;
+    }
+
+    public void setModifidUser(String modifidUser) {
+        this.modifidUser = modifidUser;
+    }
+
+    public String getModifidDate() {
+        return modifidDate;
+    }
+
+    public void setModifidDate(String modifidDate) {
+        this.modifidDate = modifidDate;
+    }
+
 }
