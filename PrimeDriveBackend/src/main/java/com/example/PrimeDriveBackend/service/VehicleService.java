@@ -15,23 +15,23 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class VehicleService {
     private final VehicleRepository vehicleRepository;
-    private final VehicleMapper vehcicleMapper;
+    private final VehicleMapper vehicleMapper;
 
-    public List<VehicleDto> getAllFahrzeuge() {
+    public List<VehicleDto> getAllVehicles() {
         return vehicleRepository.findAll()
                 .stream()
-                .map(vehcicleMapper::toDto)
+                .map(vehicleMapper::toDto)
                 .collect(Collectors.toList());
     }
 
-    public VehicleDto getFahrzeugById(Long id) {
+    public VehicleDto getVehicleById(Long id) {
         return vehicleRepository.findById(id)
-                .map(vehcicleMapper::toDto)
+                .map(vehicleMapper::toDto)
                 .orElseThrow(() -> new EntityNotFoundException("Fahrzeug nicht gefunden"));
     }
 
-    public VehicleDto saveFahrzeug(VehicleDto dto) {
-        Vehicle vehicle = vehcicleMapper.toEntity(dto);
-        return vehcicleMapper.toDto(vehicleRepository.save(vehicle));
+    public VehicleDto saveVehicle(VehicleDto dto) {
+        Vehicle vehicle = vehicleMapper.toEntity(dto);
+        return vehicleMapper.toDto(vehicleRepository.save(vehicle));
     }
 }

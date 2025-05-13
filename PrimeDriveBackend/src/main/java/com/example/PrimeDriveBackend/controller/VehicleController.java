@@ -18,23 +18,23 @@ import java.util.List;
 @Tag(name = "Fahrzeug", description = "Endpoints for managing vehicles")
 @SecurityRequirement(name = "bearer")
 public class VehicleController {
-    private final VehicleService fahrzeugService;
+    private final VehicleService vehicleService;
 
     @GetMapping
     @Operation(summary = "Get all vehicles", description = "Retrieves a list of all vehicles.")
     public List<VehicleDto> listAll() {
-        return fahrzeugService.getAllFahrzeuge();
+        return vehicleService.getAllVehicles();
     }
 
     @GetMapping("/{id}")
     @Operation(summary = "Get vehicle by ID", description = "Retrieves a vehicle by its ID.")
     public VehicleDto getById(@PathVariable Long id) {
-        return fahrzeugService.getFahrzeugById(id);
+        return vehicleService.getVehicleById(id);
     }
 
     @PostMapping
     @Operation(summary = "Create a new vehicle", description = "Creates a new vehicle with the provided details.")
     public VehicleDto create(@RequestBody VehicleDto dto) {
-        return fahrzeugService.saveFahrzeug(dto);
+        return vehicleService.saveVehicle(dto);
     }
 }
