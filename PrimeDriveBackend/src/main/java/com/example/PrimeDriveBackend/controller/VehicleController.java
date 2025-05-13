@@ -29,7 +29,7 @@ public class VehicleController {
 
     @GetMapping("/{id}")
     @Operation(summary = "Get vehicle by ID", description = "Retrieves a vehicle by its ID.")
-    public VehicleDto getById(@PathVariable UUID id) {
+    public VehicleDto getById(@PathVariable String id) {
         return vehicleService.getVehicleById(id);
     }
 

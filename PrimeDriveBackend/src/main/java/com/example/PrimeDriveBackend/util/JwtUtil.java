@@ -2,7 +2,6 @@ package com.example.PrimeDriveBackend.util;
 
 import java.sql.Date;
 import java.util.Base64;
-import java.util.UUID;
 
 import javax.crypto.SecretKey;
 

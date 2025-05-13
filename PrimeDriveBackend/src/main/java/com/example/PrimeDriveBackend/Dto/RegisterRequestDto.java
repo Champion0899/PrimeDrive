@@ -32,7 +32,7 @@ public class RegisterRequestDto {
     private String eMail;
 
     @NotNull
-    @Schema(description = "Address of the user", example = "Funnystreet 15", required = true)
+    @Schema(description = "Address of the user", example = "Jurastrasse 15", required = true)
     private String address;
 
     @NotNull
@@ -40,15 +40,15 @@ public class RegisterRequestDto {
     private String zipCode;
 
     @NotNull
-    @Schema(description = "City of the user", example = "John", required = true)
+    @Schema(description = "City of the user", example = "Bern", required = true)
     private String city;
 
     @NotNull
-    @Schema(description = "Country of the user", example = "John", required = true)
+    @Schema(description = "Country of the user", example = "Schweiz", required = true)
     private String country;
 
     @NotNull
-    @Schema(description = "Phone number of the user", example = "John", required = true)
+    @Schema(description = "Phone number of the user", example = "0790010101", required = true)
     private String phoneNumber;
 
     // Getters & Setters

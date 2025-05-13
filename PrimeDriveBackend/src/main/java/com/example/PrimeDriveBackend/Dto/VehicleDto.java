@@ -5,20 +5,64 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
-import java.util.UUID;
+import java.sql.Date;
+
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotNull;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class VehicleDto {
-    private UUID id;
+    @NotNull
+    @Schema(description = "Id of the vehicle", example = "48d183d9-5658-4488-984e-8801967850e9")
+    private String id;
+
+    @NotNull
+    @Schema(description = "Name of the vehicle", example = "BMW")
+    private String name;
+
+    @NotNull
+    @Schema(description = "Price of the vehicle", example = "50000.00")
+    private Double price;
+
+    @NotNull
+    @Schema(description = "Year of the build", example = "2020")
+    private Date year;
+
+    @NotNull
+    @Schema(description = "Image of the vehicle", example = "https://example.com/image.jpg")
     private String image;
-    private String brand;
-    private String model;
-    private Integer yearBuild;
-    private Integer mileage;
-    private BigDecimal price;
+
+    @NotNull
+    @Schema(description = "Mileage of the vehicle", example = "30000")
+    private Number mileage;
+
+    @NotNull
+    @Schema(description = "Condition of the vehicle", example = "new")
     private String condition;
+
+    @NotNull
+    @Schema(description = "vehicleHistory of the vehicle", example = "No accidents")
     private String vehicleHistory;
+
+    @NotNull
+    @Schema(description = "BrandId of the vehicle", example = "48d183d9-5658-4488-984e-8801967850e9")
+    private String brandsId;
+
+    @NotNull
+    @Schema(description = "SpecsId of the vehicle", example = "48d183d9-5658-4488-984e-8801967850e9")
+    private String specsId;
+
+    @NotNull
+    @Schema(description = "TypesId of the vehicle", example = "48d183d9-5658-4488-984e-8801967850e9")
+    private String typesId;
+
+    @NotNull
+    @Schema(description = "ColorsId of the vehicle", example = "48d183d9-5658-4488-984e-8801967850e9")
+    private String colorsId;
+
+    @NotNull
+    @Schema(description = "SellerId of the vehicle", example = "48d183d9-5658-4488-984e-8801967850e9")
     private String sellerId;
 }
