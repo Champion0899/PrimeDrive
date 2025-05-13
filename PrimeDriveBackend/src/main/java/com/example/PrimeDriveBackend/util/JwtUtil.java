@@ -8,7 +8,7 @@ import javax.crypto.SecretKey;
 import org.springframework.stereotype.Component;
 
 import com.example.PrimeDriveBackend.config.JwtProperties;
-import com.example.PrimeDriveBackend.model.PlattformNutzerkonto;
+import com.example.PrimeDriveBackend.model.Users;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -30,14 +30,14 @@ public class JwtUtil {
                 .build();
     }
 
-    public String generateToken(Integer kontoId) {
-        if (kontoId == null) {
+    public String generateToken(Integer id) {
+        if (id == null) {
             throw new IllegalArgumentException("KontoId cannot be null");
         }
 
         return Jwts.builder()
-                .claim("id", kontoId)
-                .setSubject(kontoId.toString())
+                .claim("id", id)
+                .setSubject(id.toString())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
                 .signWith(secretKey, SignatureAlgorithm.HS512)
@@ -49,9 +49,9 @@ public class JwtUtil {
         return claims.get("id", Integer.class);
     }
 
-    public boolean validateToken(String token, PlattformNutzerkonto user) {
+    public boolean validateToken(String token, Users user) {
         Integer extractedId = extractUserId(token);
-        return extractedId.equals(user.getKontoId()) && !isTokenExpired(token);
+        return extractedId.equals(user.getId()) && !isTokenExpired(token);
     }
 
     private boolean isTokenExpired(String token) {

@@ -1,11 +1,12 @@
 START TRANSACTION;
 
-CREATE TABLE IF NOT EXISTS PlattformNutzerkonto (
+CREATE TABLE IF NOT EXISTS Users (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    benutzername VARCHAR(255) NOT NULL,
-    passwort VARCHAR(255) NOT NULL,
-    rolle VARCHAR(100),
+    username VARCHAR(255) NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    role VARCHAR(100),
     eMail VARCHAR(255) UNIQUE
 ) ENGINE=InnoDB;
+
 
 COMMIT;

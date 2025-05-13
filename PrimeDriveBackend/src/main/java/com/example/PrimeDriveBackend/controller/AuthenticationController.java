@@ -6,9 +6,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.PrimeDriveBackend.Dto.LoginRequestDto;
 import com.example.PrimeDriveBackend.Dto.RegisterRequestDto;
-import com.example.PrimeDriveBackend.model.PlattformNutzerkonto;
+import com.example.PrimeDriveBackend.model.Users;
 import com.example.PrimeDriveBackend.service.AuthenticationService;
-import com.example.PrimeDriveBackend.service.PlattformNutzerkontoService;
+import com.example.PrimeDriveBackend.service.UserService;
 import com.example.PrimeDriveBackend.util.JwtUtil;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -22,6 +22,7 @@ import java.util.Map;
 
 import org.springframework.http.ResponseEntity;
 
+// 
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/api/authentication")
@@ -30,13 +31,13 @@ import org.springframework.http.ResponseEntity;
 public class AuthenticationController {
     private final AuthenticationService authenticationService;
     private final JwtUtil jwtUtils;
-    private final PlattformNutzerkontoService plattformNutzerkontoService;
+    private final UserService userService;
 
     @PostMapping("/register")
     @CrossOrigin
     @Operation(summary = "Register a new user", description = "Registers a new user with the provided credentials.")
-    public ResponseEntity<?> registerPlattformNutzer(@RequestBody RegisterRequestDto request) {
-        authenticationService.registerPlattformNutzer(
+    public ResponseEntity<?> registerUser(@RequestBody RegisterRequestDto request) {
+        authenticationService.registerUser(
                 request.getUsername(),
                 request.getPassword(),
                 request.getRole(),
@@ -52,10 +53,10 @@ public class AuthenticationController {
                 request.getBenutzername(),
                 request.getPasswort());
         if (isAuthenticated) {
-            PlattformNutzerkonto plattformNutzerkonto = plattformNutzerkontoService
+            Users user = userService
                     .findByUsername(request.getBenutzername())
                     .orElseThrow(() -> new RuntimeException("User not found"));
-            int userId = plattformNutzerkonto.getKontoId();
+            int userId = user.getId();
             String token = jwtUtils.generateToken(userId);
             Map<String, Object> responseBody = new HashMap<>();
             responseBody.put("token", token);

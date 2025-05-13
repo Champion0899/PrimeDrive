@@ -8,8 +8,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import java.io.IOException;
 import java.util.Optional;
 
-import com.example.PrimeDriveBackend.model.PlattformNutzerkonto;
-import com.example.PrimeDriveBackend.service.PlattformNutzerkontoService;
+import com.example.PrimeDriveBackend.model.Users;
+import com.example.PrimeDriveBackend.service.UserService;
 import com.example.PrimeDriveBackend.util.JwtUtil;
 
 import jakarta.servlet.FilterChain;
@@ -21,11 +21,11 @@ import jakarta.servlet.http.HttpServletResponse;
 public class JwtFilter extends OncePerRequestFilter {
 
     private final JwtUtil jwtUtil;
-    private final PlattformNutzerkontoService plattformNutzerkontoService;
+    private final UserService userService;
 
-    public JwtFilter(JwtUtil jwtUtil, PlattformNutzerkontoService plattformNutzerkontoService) {
+    public JwtFilter(JwtUtil jwtUtil, UserService userService) {
         this.jwtUtil = jwtUtil;
-        this.plattformNutzerkontoService = plattformNutzerkontoService;
+        this.userService = userService;
     }
 
     @Override
@@ -48,7 +48,7 @@ public class JwtFilter extends OncePerRequestFilter {
         }
 
         if (id != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            Optional<PlattformNutzerkonto> userDetails = plattformNutzerkontoService.findbyId(id);
+            Optional<Users> userDetails = userService.findById(id);
             System.out.println("🔍 User found: " + userDetails.isPresent());
             if (userDetails.isPresent() && jwtUtil.validateToken(jwt, userDetails.get())) {
                 System.out.println("✅ Token validated, setting authentication");

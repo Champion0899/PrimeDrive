@@ -31,5 +31,5 @@ public class Kaeufer {
 
     @OneToOne
     @JoinColumn(name = "kontoId", unique = true)
-    private PlattformNutzerkonto konto;
+    private Users konto;
 }

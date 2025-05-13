@@ -12,25 +12,25 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class PlattformNutzerkonto {
+public class Users {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private Integer kontoId;
+    private Integer id;
 
     @Column(nullable = false)
-    private String benutzername;
+    private String username;
 
     @Column(nullable = false)
-    private String passwort;
+    private String password;
 
-    private String rolle;
+    private String role;
 
     @Column(unique = true)
     private String eMail;
 
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return java.util.Collections.singletonList(() -> "ROLE_" + this.rolle.toUpperCase());
+        return java.util.Collections.singletonList(() -> "ROLE_" + this.role.toUpperCase());
     }
 }

@@ -1,28 +1,28 @@
 package com.example.PrimeDriveBackend.service;
 
 import org.springframework.stereotype.Service;
-import com.example.PrimeDriveBackend.model.PlattformNutzerkonto;
+import com.example.PrimeDriveBackend.model.Users;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
 public class AuthenticationService {
-    private final PlattformNutzerkontoService plattformNutzerkontoService;
+    private final UserService userService;
     private final PasswordEncoder passwordEncoder;
 
-    public void registerPlattformNutzer(String username, String password, String role, String email) {
-        if (plattformNutzerkontoService.existsByUsername(username)) {
+    public void registerUser(String username, String password, String role, String email) {
+        if (userService.existsByUsername(username)) {
             throw new IllegalArgumentException("Username already exists");
         }
 
-        PlattformNutzerkonto plattformNutzerkonto = new PlattformNutzerkonto();
-        plattformNutzerkonto.setBenutzername(username);
-        plattformNutzerkonto.setPasswort(passwordEncoder.encode(password));
-        plattformNutzerkonto.setRolle(role);
-        plattformNutzerkonto.setEMail(email);
+        Users user = new Users();
+        user.setUsername(username);
+        user.setPassword(passwordEncoder.encode(password));
+        user.setRole(role);
+        user.setEMail(email);
 
-        plattformNutzerkontoService.save(plattformNutzerkonto);
+        userService.save(user);
     }
 
     public boolean comparePassword(String rawPassword, String encodedPassword) {
@@ -33,10 +33,10 @@ public class AuthenticationService {
     }
 
     public boolean login(String username, String password) {
-        PlattformNutzerkonto plattformNutzerkonto = plattformNutzerkontoService.findByUsername(username)
+        Users user = userService.findByUsername(username)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
-        return comparePassword(password, plattformNutzerkonto.getPasswort());
+        return comparePassword(password, user.getPassword());
     }
 
 }
