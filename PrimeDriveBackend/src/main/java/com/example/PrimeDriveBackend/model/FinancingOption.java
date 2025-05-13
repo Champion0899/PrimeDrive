@@ -6,25 +6,26 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
+import java.util.UUID;
 
 @Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Finanzierungsoption {
+public class FinancingOption {
 
     @Id
-    private Integer finanzierungId;
+    private UUID id;
 
     private String art;
 
-    private Double zinssatz;
+    private Double interestRate;
 
-    private Integer laufzeit;
+    private Integer maturity;
 
-    private Double monatlicheRate;
+    private Double monthlyRate;
 
     @OneToOne
-    @JoinColumn(name = "fahrzeugId")
-    private Vehicle fahrzeug;
+    @JoinColumn(name = "vehicleId")
+    private Vehicle vehicle;
 }

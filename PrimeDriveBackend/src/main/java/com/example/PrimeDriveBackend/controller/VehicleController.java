@@ -10,12 +10,13 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/api/vehicle")
 @RequiredArgsConstructor
-@Tag(name = "Fahrzeug", description = "Endpoints for managing vehicles")
+@Tag(name = "vehicle", description = "Endpoints for managing vehicles")
 @SecurityRequirement(name = "bearer")
 public class VehicleController {
     private final VehicleService vehicleService;
@@ -28,7 +29,7 @@ public class VehicleController {
 
     @GetMapping("/{id}")
     @Operation(summary = "Get vehicle by ID", description = "Retrieves a vehicle by its ID.")
-    public VehicleDto getById(@PathVariable Long id) {
+    public VehicleDto getById(@PathVariable UUID id) {
         return vehicleService.getVehicleById(id);
     }
 

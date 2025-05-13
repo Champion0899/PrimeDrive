@@ -5,16 +5,20 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
+import java.util.UUID;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class VehicleDto {
-    private Long id;
+    private UUID id;
     private String image;
-    private String marke;
-    private String modell;
-    private Integer baujahr;
-    private Integer kilometerstand;
-    private BigDecimal preis;
+    private String brand;
+    private String model;
+    private Integer yearBuild;
+    private Integer mileage;
+    private BigDecimal price;
+    private String condition;
+    private String vehicleHistory;
+    private String sellerId;
 }

@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -24,7 +25,7 @@ public class VehicleService {
                 .collect(Collectors.toList());
     }
 
-    public VehicleDto getVehicleById(Long id) {
+    public VehicleDto getVehicleById(UUID id) {
         return vehicleRepository.findById(id)
                 .map(vehicleMapper::toDto)
                 .orElseThrow(() -> new EntityNotFoundException("Fahrzeug nicht gefunden"));

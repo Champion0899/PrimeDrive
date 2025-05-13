@@ -12,24 +12,24 @@ public class VehicleMapper {
     public VehicleDto toDto(Vehicle vehicle) {
         VehicleDto dto = new VehicleDto();
         dto.setImage(vehicle.getImage());
-        dto.setId(Long.valueOf(vehicle.getFahrzeugId()));
-        dto.setMarke(vehicle.getMarke());
-        dto.setModell(vehicle.getModell());
-        dto.setBaujahr(vehicle.getBaujahr());
-        dto.setKilometerstand(vehicle.getKilometerstand());
-        dto.setPreis(BigDecimal.valueOf(vehicle.getPreis()));
+        dto.setId(vehicle.getId());
+        dto.setBrand(vehicle.getBrand());
+        dto.setModel(vehicle.getModel());
+        dto.setYearBuild(vehicle.getYearBuild());
+        dto.setMileage(vehicle.getMileage());
+        dto.setPrice(BigDecimal.valueOf(vehicle.getPrice()));
         return dto;
     }
 
     public Vehicle toEntity(VehicleDto dto) {
         Vehicle vehicle = new Vehicle();
-        vehicle.setFahrzeugId(Math.toIntExact(dto.getId()));
+        vehicle.setId(dto.getId());
         vehicle.setImage(dto.getImage());
-        vehicle.setMarke(dto.getMarke());
-        vehicle.setModell(dto.getModell());
-        vehicle.setBaujahr(dto.getBaujahr());
-        vehicle.setKilometerstand(dto.getKilometerstand());
-        vehicle.setPreis(dto.getPreis().toBigInteger().doubleValue());
+        vehicle.setBrand(dto.getBrand());
+        vehicle.setModel(dto.getModel());
+        vehicle.setYearBuild(dto.getYearBuild());
+        vehicle.setMileage(dto.getMileage());
+        vehicle.setPrice(dto.getPrice().toBigInteger().doubleValue());
         return vehicle;
     }
 }

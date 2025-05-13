@@ -2,6 +2,7 @@ package com.example.PrimeDriveBackend.util;
 
 import java.sql.Date;
 import java.util.Base64;
+import java.util.UUID;
 
 import javax.crypto.SecretKey;
 
@@ -30,9 +31,9 @@ public class JwtUtil {
                 .build();
     }
 
-    public String generateToken(Integer id) {
+    public String generateToken(String id) {
         if (id == null) {
-            throw new IllegalArgumentException("KontoId cannot be null");
+            throw new IllegalArgumentException("userId cannot be null");
         }
 
         return Jwts.builder()
@@ -44,13 +45,13 @@ public class JwtUtil {
                 .compact();
     }
 
-    public Integer extractUserId(String token) {
+    public String extractUserId(String token) {
         Claims claims = jwtParser.parseClaimsJws(token).getBody();
-        return claims.get("id", Integer.class);
+        return claims.get("id", String.class);
     }
 
     public boolean validateToken(String token, Users user) {
-        Integer extractedId = extractUserId(token);
+        String extractedId = extractUserId(token);
         return extractedId.equals(user.getId()) && !isTokenExpired(token);
     }
 

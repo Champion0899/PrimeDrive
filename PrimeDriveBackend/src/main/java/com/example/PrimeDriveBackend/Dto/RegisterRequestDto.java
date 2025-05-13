@@ -1,6 +1,11 @@
 package com.example.PrimeDriveBackend.Dto;
 
 import jakarta.validation.constraints.NotNull;
+
+import java.sql.Date;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import io.swagger.v3.oas.annotations.media.Schema;
 
 public class RegisterRequestDto {
@@ -18,8 +23,13 @@ public class RegisterRequestDto {
     private String role;
 
     @NotNull
+    @Schema(description = "Birth date of the user", example = "12.12.2012", required = true)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd.MM.yyyy")
+    private Date birthdate;
+
+    @NotNull
     @Schema(description = "Email address of the user", example = "user@example.com", required = true)
-    private String email;
+    private String eMail;
 
     @NotNull
     @Schema(description = "Address of the user", example = "Funnystreet 15", required = true)
@@ -27,7 +37,7 @@ public class RegisterRequestDto {
 
     @NotNull
     @Schema(description = "ZipCode of the user", example = "3013", required = true)
-    private Number zipCode;
+    private String zipCode;
 
     @NotNull
     @Schema(description = "City of the user", example = "John", required = true)
@@ -40,22 +50,6 @@ public class RegisterRequestDto {
     @NotNull
     @Schema(description = "Phone number of the user", example = "John", required = true)
     private String phoneNumber;
-
-    @NotNull
-    @Schema(description = "Creator of the user", example = "John", required = true)
-    private String createUser;
-
-    @NotNull
-    @Schema(description = "Created at", example = "John", required = true)
-    private String createDate;
-
-    @NotNull
-    @Schema(description = "Modified user", example = "John", required = true)
-    private String modifidUser;
-
-    @NotNull
-    @Schema(description = "Modified at", example = "John", required = true)
-    private String modifidDate;
 
     // Getters & Setters
     public String getUsername() {
@@ -82,12 +76,20 @@ public class RegisterRequestDto {
         this.role = role;
     }
 
-    public String getEmail() {
-        return email;
+    public Date getBirthdate() {
+        return birthdate;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setBirthdate(Date birthdate) {
+        this.birthdate = birthdate;
+    }
+
+    public String getEmail() {
+        return eMail;
+    }
+
+    public void setEmail(String eMail) {
+        this.eMail = eMail;
     }
 
     public String getAddress() {
@@ -98,11 +100,11 @@ public class RegisterRequestDto {
         this.address = address;
     }
 
-    public Number getZipCode() {
+    public String getZipCode() {
         return zipCode;
     }
 
-    public void setZipCode(Number zipCode) {
+    public void setZipCode(String zipCode) {
         this.zipCode = zipCode;
     }
 
@@ -129,37 +131,4 @@ public class RegisterRequestDto {
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
-
-    public String getCreateUser() {
-        return createUser;
-    }
-
-    public void setCreateUser(String createUser) {
-        this.createUser = createUser;
-    }
-
-    public String getCreateDate() {
-        return createDate;
-    }
-
-    public void setCreateDate(String createDate) {
-        this.createDate = createDate;
-    }
-
-    public String getModifidUser() {
-        return modifidUser;
-    }
-
-    public void setModifidUser(String modifidUser) {
-        this.modifidUser = modifidUser;
-    }
-
-    public String getModifidDate() {
-        return modifidDate;
-    }
-
-    public void setModifidDate(String modifidDate) {
-        this.modifidDate = modifidDate;
-    }
-
 }

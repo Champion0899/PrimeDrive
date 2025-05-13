@@ -1,5 +1,7 @@
 package com.example.PrimeDriveBackend.model;
 
+import java.util.UUID;
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -12,26 +14,26 @@ import lombok.NoArgsConstructor;
 public class Vehicle {
 
     @Id
-    private Integer fahrzeugId;
+    private UUID id;
 
     private String image;
 
-    private String marke;
+    private String brand;
 
-    private String modell;
+    private String model;
 
-    private Integer baujahr;
+    private Integer yearBuild;
 
-    private Integer kilometerstand;
+    private Integer mileage;
 
-    private Double preis;
+    private Double price;
 
-    private String zustand;
+    private String condition;
 
     @Lob
-    private String fahrzeughistorie;
+    private String vehicleHistory;
 
     @ManyToOne
-    @JoinColumn(name = "verkaeuferId")
-    private Verkaeufer verkaeufer;
+    @JoinColumn(name = "sellerId")
+    private Users user;
 }

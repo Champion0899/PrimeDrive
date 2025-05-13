@@ -5,11 +5,12 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
+import java.util.UUID;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class KaufId implements Serializable {
-    private Integer kaeuferId;
-    private Integer fahrzeugId;
+public class PurchaseId implements Serializable {
+    private UUID userId;
+    private UUID vehicleId;
 }
