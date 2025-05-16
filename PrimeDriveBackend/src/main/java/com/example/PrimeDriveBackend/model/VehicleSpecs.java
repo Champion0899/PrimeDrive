@@ -43,5 +43,5 @@ public class VehicleSpecs {
 
     @ManyToOne
     @JoinColumn(name = "vehicle_fuel_id", referencedColumnName = "id")
-    private VehicleFuel fuel;
+    private VehicleFuels fuels;
 }

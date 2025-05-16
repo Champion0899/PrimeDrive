@@ -5,6 +5,9 @@ import java.util.List;
 import org.springframework.data.convert.ReadingConverter;
 import org.springframework.stereotype.Service;
 
+import com.example.PrimeDriveBackend.Dto.VehicleBrandsDto;
+import com.example.PrimeDriveBackend.Mapper.VehicleBrandsMapper;
+import com.example.PrimeDriveBackend.model.VehicleBrands;
 import com.example.PrimeDriveBackend.repository.VehicleBrandsRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -25,6 +28,11 @@ public class VehicleBrandsService {
     public VehicleBrandsDto getBrandById(String id) {
         return vehicleBrandsRepository.findById(id)
                 .map(vehicleBrandsMapper::toDto)
+                .orElseThrow(() -> new RuntimeException("Brand not found with id: " + id));
+    }
+
+    public VehicleBrands getBrandByIdEntity(String id) {
+        return vehicleBrandsRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Brand not found with id: " + id));
     }
 

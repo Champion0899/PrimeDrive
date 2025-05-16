@@ -14,5 +14,5 @@ public class VehicleEngine {
 
     @Id
     private String id;
-    private String engine;
+    private String engineType;
 }

@@ -1,15 +1,18 @@
 package com.example.PrimeDriveBackend.Mapper;
 
+import org.springframework.stereotype.Component;
+
 import com.example.PrimeDriveBackend.Dto.VehicleBrandsDto;
 import com.example.PrimeDriveBackend.model.VehicleBrands;
-import com.example.PrimeDriveBackend.service.VehicleBrandsService;
+import com.example.PrimeDriveBackend.service.VehicleHoldingsService;
 
+@Component
 public class VehicleBrandsMapper {
-    private final VehicleBrandsService vehicleBrandsService;
     private final VehicleHoldingsService vehicleHoldingsService;
 
-    public VehicleBrandsMapper(VehicleBrandsService vehicleBrandsService) {
-        this.vehicleBrandsService = vehicleBrandsService;
+    public VehicleBrandsMapper(
+            VehicleHoldingsService vehicleHoldingsService) {
+        this.vehicleHoldingsService = vehicleHoldingsService;
     }
 
     public VehicleBrandsDto toDto(VehicleBrands vehicleBrands) {
@@ -18,7 +21,7 @@ public class VehicleBrandsMapper {
         dto.setName(vehicleBrands.getName());
         dto.setFounding(vehicleBrands.getFounding());
         dto.setLogo(vehicleBrands.getLogo());
-        dto.setHoldingId(vehicleBrands.getHoldingId().getId());
+        dto.setHoldingId(vehicleBrands.getHolding().getId());
         return dto;
     }
 
@@ -28,7 +31,7 @@ public class VehicleBrandsMapper {
         vehicleBrands.setName(dto.getName());
         vehicleBrands.setFounding(dto.getFounding());
         vehicleBrands.setLogo(dto.getLogo());
-        vehicleBrands.setHoldingId(vehicleHoldingsService.getHoldingById(dto.getHoldingId()));
+        vehicleBrands.setHolding(vehicleHoldingsService.getVehicleHoldingsEntityById(dto.getHoldingId()));
         return vehicleBrands;
     }
 }

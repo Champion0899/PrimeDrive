@@ -24,6 +24,14 @@ import java.util.Map;
 
 import org.springframework.http.ResponseEntity;
 
+/**
+ * REST controller providing endpoints for user registration and login.
+ * Handles incoming authentication requests and delegates processing to the AuthenticationService.
+ *
+ * Author: Fatlum Epiroti
+ * Version: 1.0
+ * Date: 2025-05-16
+ */
 // 
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
@@ -36,6 +44,14 @@ public class AuthenticationController {
     private final UserService userService;
     private final RequestInfoService requestInfoService;
 
+    /**
+     * Endpoint to register a new user.
+     * Extracts the IP address from the request and passes all registration data to the service layer.
+     *
+     * @param httpRequest The incoming HTTP request used to extract client IP
+     * @param request The registration request data (username, password, etc.)
+     * @return ResponseEntity indicating successful registration
+     */
     @PostMapping("/register")
     @CrossOrigin
     @Operation(summary = "Register a new user", description = "Registers a new user with the provided credentials.")
@@ -55,6 +71,12 @@ public class AuthenticationController {
         return ResponseEntity.ok("User registered successfully");
     }
 
+    /**
+     * Endpoint to authenticate a user and return a JWT token if successful.
+     *
+     * @param request Login request containing username and password
+     * @return JWT token and userId if authenticated, or 401 error otherwise
+     */
     @PostMapping("/login")
     @CrossOrigin
     @Operation(summary = "User login", description = "Authenticates a user and returns a JWT token.")

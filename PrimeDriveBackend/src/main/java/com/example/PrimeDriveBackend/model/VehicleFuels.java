@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class VehicleFuel {
+public class VehicleFuels {
 
     @Id
     private String id;

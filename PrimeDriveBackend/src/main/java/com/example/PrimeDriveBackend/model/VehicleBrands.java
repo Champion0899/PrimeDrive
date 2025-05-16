@@ -24,5 +24,5 @@ public class VehicleBrands {
 
     @ManyToOne
     @JoinColumn(name = "holdingId", referencedColumnName = "id")
-    private VehicleHoldings holdingId;
+    private VehicleHoldings holding;
 }

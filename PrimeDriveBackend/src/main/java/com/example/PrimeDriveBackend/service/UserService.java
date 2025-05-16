@@ -30,4 +30,9 @@ public class UserService {
     public Optional<Users> findById(String id) {
         return userRepository.findById(id);
     }
+
+    public Users getByIdEntity(String id) {
+        return userRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Users not found with id: " + id));
+    }
 }
