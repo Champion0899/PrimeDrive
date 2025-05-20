@@ -2,6 +2,7 @@ package com.example.PrimeDriveBackend.controller;
 
 import java.util.List;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,6 +16,8 @@ import com.example.PrimeDriveBackend.Dto.VehicleFuelsDto;
 import com.example.PrimeDriveBackend.service.VehicleFuelsService;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -30,32 +33,62 @@ public class VehicleFuelsController {
     private final VehicleFuelsService vehicleFuelsService;
 
     @GetMapping
-    @Operation(summary = "Get all vehicle fuel types", description = "Retrieves a list of all vehicle fuel types.")
+    @Operation(
+        summary = "Get all vehicle fuel types",
+        description = "Retrieves a list of all vehicle fuel types. Access: All authenticated roles."
+    )
     public List<VehicleFuelsDto> listAll() {
         return vehicleFuelsService.getFuelTypes();
     }
 
     @GetMapping("/{id}")
-    @Operation(summary = "Get vehicle fuel by ID", description = "Retrieves a vehicle fuel by its ID.")
+    @Operation(
+        summary = "Get vehicle fuel by ID",
+        description = "Retrieves a vehicle fuel by its ID. Access: All authenticated roles."
+    )
     public VehicleFuelsDto getById(@PathVariable String id) {
         return vehicleFuelsService.getFuelsById(id);
     }
 
     @PostMapping
-    @Operation(summary = "Create a new vehicle fuel", description = "Creates a new vehicle fuel with the provided details.")
+    @PreAuthorize("hasRole('ADMIN')")
+    @Operation(
+        summary = "Create a new vehicle fuel",
+        description = "Creates a new vehicle fuel with the provided details. Access: ADMIN only."
+    )
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Vehicle fuel created successfully"),
+        @ApiResponse(responseCode = "403", description = "Access denied – only ADMIN allowed")
+    })
     public VehicleFuelsDto create(@RequestBody VehicleFuelsDto dto) {
         return vehicleFuelsService.saveFuels(dto);
     }
 
     @PutMapping("/{id}")
-    @Operation(summary = "Update a vehicle fuel", description = "Updates the details of an existing vehicle fuel.")
+    @PreAuthorize("hasRole('ADMIN')")
+    @Operation(
+        summary = "Update a vehicle fuel",
+        description = "Updates the details of an existing vehicle fuel. Access: ADMIN only."
+    )
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Vehicle fuel updated successfully"),
+        @ApiResponse(responseCode = "403", description = "Access denied – only ADMIN allowed")
+    })
     public VehicleFuelsDto update(@PathVariable String id, @RequestBody VehicleFuelsDto dto) {
         dto.setId(id);
         return vehicleFuelsService.updateFuels(id, dto);
     }
 
     @DeleteMapping("/{id}")
-    @Operation(summary = "Delete a vehicle fuel", description = "Deletes a vehicle fuel by its ID.")
+    @PreAuthorize("hasRole('ADMIN')")
+    @Operation(
+        summary = "Delete a vehicle fuel",
+        description = "Deletes a vehicle fuel by its ID. Access: ADMIN only."
+    )
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Vehicle fuel deleted successfully"),
+        @ApiResponse(responseCode = "403", description = "Access denied – only ADMIN allowed")
+    })
     public void delete(@PathVariable String id) {
         vehicleFuelsService.deleteFuels(id);
     }

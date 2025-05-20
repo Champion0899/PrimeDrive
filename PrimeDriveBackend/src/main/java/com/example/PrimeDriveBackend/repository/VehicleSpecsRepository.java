@@ -9,5 +9,4 @@ import com.example.PrimeDriveBackend.model.VehicleSpecs;
 
 @Repository
 public interface VehicleSpecsRepository extends JpaRepository<VehicleSpecs, String> {
-    Optional<VehicleSpecs> findById(String id);
 }

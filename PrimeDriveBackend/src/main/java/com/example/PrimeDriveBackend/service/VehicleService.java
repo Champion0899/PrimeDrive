@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 @Service
 @RequiredArgsConstructor
@@ -40,6 +41,11 @@ public class VehicleService {
         Vehicle existing = vehicleRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Vehicle not found with id: " + id));
 
+        String currentUserId = SecurityContextHolder.getContext().getAuthentication().getName();
+        if (!existing.getUsers().equals(currentUserId)) {
+            throw new SecurityException("You are not authorized to update this vehicle.");
+        }
+
         Vehicle updatedVehicle = vehicleMapper.toEntity(dto);
         updatedVehicle.setId(existing.getId());
 
@@ -47,8 +53,12 @@ public class VehicleService {
     }
 
     public void deleteVehicle(String id) {
-        if (!vehicleRepository.existsById(id)) {
-            throw new EntityNotFoundException("Vehicle not found with id: " + id);
+        Vehicle existing = vehicleRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Vehicle not found with id: " + id));
+
+        String currentUserId = SecurityContextHolder.getContext().getAuthentication().getName();
+        if (!existing.getUsers().equals(currentUserId)) {
+            throw new SecurityException("You are not authorized to update this vehicle.");
         }
         vehicleRepository.deleteById(id);
     }

@@ -2,6 +2,7 @@ package com.example.PrimeDriveBackend.controller;
 
 import java.util.List;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,6 +19,8 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 
 @CrossOrigin(origins = "http://localhost:4200")
@@ -30,31 +33,46 @@ public class VehicleBrandsController {
     private final VehicleBrandsService vehicleBrandsService;
 
     @GetMapping
-    @Operation(summary = "Get all vehicle brands", description = "Retrieves a list of all vehicle brands.")
+    @Operation(summary = "Get all vehicle brands", description = "Retrieves a list of all vehicle brands. Access: All authenticated roles.")
     public List<VehicleBrandsDto> listAll() {
         return vehicleBrandsService.getAllBrands();
     }
 
     @GetMapping("/{id}")
-    @Operation(summary = "Get vehicle brand by ID", description = "Retrieves a vehicle brand by its ID.")
+    @Operation(summary = "Get vehicle brand by ID", description = "Retrieves a vehicle brand by its ID. Access: All authenticated roles.")
     public VehicleBrandsDto getById(@PathVariable String id) {
         return vehicleBrandsService.getBrandById(id);
     }
 
     @PostMapping
-    @Operation(summary = "Create a new vehicle brand", description = "Creates a new vehicle brand with the provided details.")
+    @PreAuthorize("hasRole('ADMIN')")
+    @Operation(summary = "Create a new vehicle brand", description = "Creates a new vehicle brand with the provided details. Access: ADMIN only.")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Vehicle brand created successfully."),
+        @ApiResponse(responseCode = "403", description = "Access denied – only ADMIN allowed")
+    })
     public VehicleBrandsDto create(@RequestBody VehicleBrandsDto dto) {
         return vehicleBrandsService.saveBrand(dto);
     }
 
     @PutMapping("/{id}")
-    @Operation(summary = "Update vehicle brand by ID", description = "Updates a vehicle brand with the provided ID and details.")
+    @PreAuthorize("hasRole('ADMIN')")
+    @Operation(summary = "Update vehicle brand by ID", description = "Updates a vehicle brand with the provided ID and details. Access: ADMIN only.")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Vehicle brand updated successfully."),
+        @ApiResponse(responseCode = "403", description = "Access denied – only ADMIN allowed")
+    })
     public VehicleBrandsDto update(@PathVariable String id, @RequestBody VehicleBrandsDto dto) {
         return vehicleBrandsService.updateBrand(id, dto);
     }
 
     @DeleteMapping("/{id}")
-    @Operation(summary = "Delete vehicle brand by ID", description = "Deletes a vehicle brand by its ID.")
+    @PreAuthorize("hasRole('ADMIN')")
+    @Operation(summary = "Delete vehicle brand by ID", description = "Deletes a vehicle brand by its ID. Access: ADMIN only.")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Vehicle brand deleted successfully."),
+        @ApiResponse(responseCode = "403", description = "Access denied – only ADMIN allowed")
+    })
     public void delete(@PathVariable String id) {
         vehicleBrandsService.deleteBrand(id);
     }
