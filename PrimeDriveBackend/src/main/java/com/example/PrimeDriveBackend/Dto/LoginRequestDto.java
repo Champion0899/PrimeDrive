@@ -7,25 +7,25 @@ public class LoginRequestDto {
 
     @NotNull
     @Schema(description = "username", example = "userTim", required = true)
-    private String benutzername;
+    private String username;
 
     @NotNull
     @Schema(description = "Password", example = "secretPassword123", required = true)
-    private String passwort;
+    private String password;
 
-    public String getBenutzername() {
-        return benutzername;
+    public String getUsername() {
+        return username;
     }
 
-    public void setBenutzername(String benutzername) {
-        this.benutzername = benutzername;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
-    public String getPasswort() {
-        return passwort;
+    public String getPassword() {
+        return password;
     }
 
-    public void setPasswort(String passwort) {
-        this.passwort = passwort;
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

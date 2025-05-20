@@ -1,0 +1,14 @@
+START TRANSACTION;
+
+USE PrimeDrive;
+
+SET FOREIGN_KEY_CHECKS=0; 
+
+INSERT INTO PrimeDrive.vehicle_doors (id, quantity)
+VALUES 
+("09a42ff4-359a-11f0-9e9f-6e56b6962fb5", 2),
+("09a4314e-359a-11f0-9e9f-6e56b6962fb5", 4);
+
+SET FOREIGN_KEY_CHECKS=1;
+
+COMMIT;

@@ -7,29 +7,30 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.UUID;
 
 @Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Probefahrt {
+public class TestDrive {
 
     @Id
-    private Integer probefahrtId;
+    private UUID testDriveId;
 
-    private LocalDate datum;
+    private LocalDate date;
 
-    private LocalTime uhrzeit;
+    private LocalTime time;
 
-    private String ort;
+    private String city;
 
     private String status;
 
     @ManyToOne
-    @JoinColumn(name = "kaeuferId")
-    private Kaeufer kaeufer;
+    @JoinColumn(name = "userId")
+    private Users user;
 
     @OneToOne
-    @JoinColumn(name = "fahrzeugId", unique = true)
-    private Vehicle fahrzeug;
+    @JoinColumn(name = "vehicleId", unique = true)
+    private Vehicle vehicle;
 }

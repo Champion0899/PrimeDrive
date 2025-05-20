@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 @Service
 @RequiredArgsConstructor
@@ -24,14 +25,41 @@ public class VehicleService {
                 .collect(Collectors.toList());
     }
 
-    public VehicleDto getVehicleById(Long id) {
+    public VehicleDto getVehicleById(String id) {
         return vehicleRepository.findById(id)
                 .map(vehicleMapper::toDto)
-                .orElseThrow(() -> new EntityNotFoundException("Fahrzeug nicht gefunden"));
+                .orElseThrow(() -> new EntityNotFoundException("Vehicle not found with id: "
+                        + id));
     }
 
     public VehicleDto saveVehicle(VehicleDto dto) {
         Vehicle vehicle = vehicleMapper.toEntity(dto);
         return vehicleMapper.toDto(vehicleRepository.save(vehicle));
+    }
+
+    public VehicleDto updateVehicle(String id, VehicleDto dto) {
+        Vehicle existing = vehicleRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Vehicle not found with id: " + id));
+
+        String currentUserId = SecurityContextHolder.getContext().getAuthentication().getName();
+        if (!existing.getUsers().equals(currentUserId)) {
+            throw new SecurityException("You are not authorized to update this vehicle.");
+        }
+
+        Vehicle updatedVehicle = vehicleMapper.toEntity(dto);
+        updatedVehicle.setId(existing.getId());
+
+        return vehicleMapper.toDto(vehicleRepository.save(updatedVehicle));
+    }
+
+    public void deleteVehicle(String id) {
+        Vehicle existing = vehicleRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Vehicle not found with id: " + id));
+
+        String currentUserId = SecurityContextHolder.getContext().getAuthentication().getName();
+        if (!existing.getUsers().equals(currentUserId)) {
+            throw new SecurityException("You are not authorized to update this vehicle.");
+        }
+        vehicleRepository.deleteById(id);
     }
 }

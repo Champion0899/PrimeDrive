@@ -48,7 +48,7 @@ public class SecurityConfig {
                                 "/api/authentication/login",
                                 "/api/authentication/register")
                         .permitAll()
-                        .requestMatchers("/api/fahrzeuge/**").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
+                        .requestMatchers("/api/vehicle/**").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN", "ROLE_SELLER")
                         .anyRequest().authenticated())
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 

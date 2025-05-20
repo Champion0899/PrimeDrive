@@ -1,0 +1,18 @@
+START TRANSACTION;
+
+USE PrimeDrive;
+
+SET FOREIGN_KEY_CHECKS=0; 
+
+INSERT INTO PrimeDrive.vehicle_types (id, type)
+VALUES 
+("28991c1f-3598-11f0-9e9f-6e56b6962fb5", "SUV"),
+("28991d96-3598-11f0-9e9f-6e56b6962fb5", "Limousine"),
+("28991e23-3598-11f0-9e9f-6e56b6962fb5", "Coupé"),
+("28991e42-3598-11f0-9e9f-6e56b6962fb5", "Van"),
+("28991e59-3598-11f0-9e9f-6e56b6962fb5", "Cabrio"),
+("28991e71-3598-11f0-9e9f-6e56b6962fb5", "Combi");
+
+SET FOREIGN_KEY_CHECKS=1;
+
+COMMIT;

@@ -8,11 +8,11 @@ import org.springframework.stereotype.Repository;
 import com.example.PrimeDriveBackend.model.Users;
 
 @Repository
-public interface UsersRepository extends JpaRepository<Users, Integer> {
+public interface UsersRepository extends JpaRepository<Users, String> {
 
     boolean existsByUsername(String username);
 
-    Optional<Users> findById(Integer id);
+    Optional<Users> findById(String id);
 
     Optional<Users> findByUsername(String username);
 }

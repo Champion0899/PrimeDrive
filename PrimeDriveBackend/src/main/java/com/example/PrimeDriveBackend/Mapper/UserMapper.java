@@ -7,17 +7,39 @@ public class UserMapper {
 
     public UserDto toDto(Users users) {
         UserDto dto = new UserDto();
-        dto.setKontoId(users.getId());
+        dto.setId(users.getId());
+        dto.setUsername(users.getUsername());
+        dto.setPassword(users.getPassword());
         dto.setEMail(users.getEMail());
-        dto.setPasswort(users.getPassword());
+        dto.setRole(users.getRole());
+        dto.setAddress(users.getAddress());
+        dto.setZipCode(users.getZipCode());
+        dto.setCity(users.getCity());
+        dto.setCountry(users.getCountry());
+        dto.setPhoneNumber(users.getPhoneNumber());
+        dto.setCreatedUser(users.getCreatedUser());
+        dto.setCreatedDate(users.getCreatedDate());
+        dto.setModifiedUser(users.getModifiedUser());
+        dto.setModifiedDate(users.getModifiedDate());
         return dto;
     }
 
     public Users toEntity(UserDto dto) {
         Users users = new Users();
-        users.setId(dto.getKontoId());
+        users.setId(dto.getId());
+        users.setUsername(dto.getUsername());
+        users.setPassword(dto.getPassword());
         users.setEMail(dto.getEMail());
-        users.setPassword(dto.getPasswort());
+        users.setRole(dto.getRole());
+        users.setAddress(dto.getAddress());
+        users.setZipCode(dto.getZipCode());
+        users.setCity(dto.getCity());
+        users.setCountry(dto.getCountry());
+        users.setPhoneNumber(dto.getPhoneNumber());
+        users.setCreatedUser(dto.getCreatedUser());
+        users.setCreatedDate(dto.getCreatedDate());
+        users.setModifiedUser(dto.getModifiedUser());
+        users.setModifiedDate(dto.getModifiedDate());
         return users;
     }
 }

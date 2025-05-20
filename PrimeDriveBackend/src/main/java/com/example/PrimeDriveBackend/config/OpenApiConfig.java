@@ -14,6 +14,6 @@ public class OpenApiConfig {
                 .info(new Info()
                         .title("PrimeDrive API")
                         .version("1.0")
-                        .description("Dokumentation der PrimeDrive REST-API"));
+                        .description("Documentation of PrimeDrive REST-API"));
     }
 }

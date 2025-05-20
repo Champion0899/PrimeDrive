@@ -1,6 +1,7 @@
 package com.example.PrimeDriveBackend.service;
 
 import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
@@ -26,7 +27,12 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public Optional<Users> findById(Integer id) {
+    public Optional<Users> findById(String id) {
         return userRepository.findById(id);
+    }
+
+    public Users getByIdEntity(String id) {
+        return userRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Users not found with id: " + id));
     }
 }
