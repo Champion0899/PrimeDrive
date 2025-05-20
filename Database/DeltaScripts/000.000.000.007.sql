@@ -1,0 +1,15 @@
+START TRANSACTION;
+
+USE PrimeDrive;
+
+SET FOREIGN_KEY_CHECKS=0;
+
+INSERT INTO PrimeDrive.vehicle_seats (id, quantity)
+VALUES
+("b28f8ef7-359c-11f0-9e9f-6e56b6962fb5", 2),
+("b28f90a8-359c-11f0-9e9f-6e56b6962fb5", 4),
+("b28f9189-359c-11f0-9e9f-6e56b6962fb5", 5);
+
+SET FOREIGN_KEY_CHECKS=1;
+
+COMMIT;

@@ -23,14 +23,14 @@ CREATE TABLE IF NOT EXISTS users (
 CREATE TABLE IF NOT EXISTS vehicle_holdings (
     id VARCHAR(36) PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
-    founding DATE NOT NULL,
+    founding INT NOT NULL,
     logo VARCHAR(255) NOT NULL
 ) ENGINE=InnoDB;
 
 CREATE TABLE IF NOT EXISTS vehicle_brands (
     id VARCHAR(36) PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
-    founding DATE NOT NULL,
+    founding INT,
     logo VARCHAR(255) NOT NULL,
     foreign_key_vehicle_holding_id VARCHAR(36) NOT NULL,
     FOREIGN KEY (foreign_key_vehicle_holding_id) REFERENCES vehicle_holdings(id)
@@ -69,18 +69,18 @@ CREATE TABLE IF NOT EXISTS vehicle_fuels (
 
 CREATE TABLE IF NOT EXISTS vehicle_specs (
     id VARCHAR(36) PRIMARY KEY,
-    power_kw INT NOT NULL,
-    power_ps INT NOT NULL,
-    length_millimeter INT NOT NULL,
-    width_millimeter INT NOT NULL,
-    height_millimeter INT NOT NULL,
-    trunk_in_liter_min INT NOT NULL,
-    trunk_in_liter_max INT NOT NULL,
-    zero_to_hundred_in_seconds FLOAT NOT NULL,
-    top_speed_in_kmh INT NOT NULL,
-    consumption_hundred_in_x FLOAT NOT NULL,
-    co_two_emission_in_g_per_km INT NOT NULL,
-    cubic_capacity INT NOT NULL,
+    power_kw INT,
+    power_ps INT,
+    length_millimeter INT,
+    width_millimeter INT,
+    height_millimeter INT,
+    trunk_in_liter_min INT,
+    trunk_in_liter_max INT,
+    zero_to_hundred_in_seconds FLOAT,
+    top_speed_in_kmh INT,
+    consumption_hundred_in_x FLOAT,
+    co_two_emission_in_g_per_km INT,
+    cubic_capacity INT,
     foreign_key_vehicle_doors_id VARCHAR(36),
     foreign_key_vehicle_seats_id VARCHAR(36),
     foreign_key_vehicle_engine_id VARCHAR(36),
@@ -103,7 +103,7 @@ CREATE TABLE IF NOT EXISTS vehicle (
     id VARCHAR(36) PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
     price FLOAT NOT NULL,
-    year DATE NOT NULL,
+    year INT NOT NULL,
     image VARCHAR(255) NOT NULL,
     mileage INT NOT NULL,
     `condition` VARCHAR(255) NOT NULL,
