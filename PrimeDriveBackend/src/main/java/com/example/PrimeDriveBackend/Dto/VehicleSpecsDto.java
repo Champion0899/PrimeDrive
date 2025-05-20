@@ -56,7 +56,7 @@ public class VehicleSpecsDto {
     @Schema(description = "Number of seats", example = "5")
     String seatsId;
     @NotNull
-    @Schema(description = "Engine type", example = "Petrol")
+    @Schema(description = "Engine type", example = "v6")
     String engineId;
     @NotNull
     @Schema(description = "Fuel type", example = "Petrol")

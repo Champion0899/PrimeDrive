@@ -10,13 +10,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.UUID;
 
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/api/vehicle")
 @RequiredArgsConstructor
-@Tag(name = "vehicle", description = "Endpoints for managing vehicles")
+@Tag(name = "Vehicle", description = "Endpoints for managing vehicles")
 @SecurityRequirement(name = "bearer")
 public class VehicleController {
     private final VehicleService vehicleService;
@@ -37,5 +36,17 @@ public class VehicleController {
     @Operation(summary = "Create a new vehicle", description = "Creates a new vehicle with the provided details.")
     public VehicleDto create(@RequestBody VehicleDto dto) {
         return vehicleService.saveVehicle(dto);
+    }
+
+    @PutMapping("/{id}")
+    @Operation(summary = "Update vehicle by ID", description = "Updates an existing vehicle with the provided details.")
+    public VehicleDto update(@PathVariable String id, @RequestBody VehicleDto dto) {
+        return vehicleService.updateVehicle(id, dto);
+    }
+
+    @DeleteMapping("/{id}")
+    @Operation(summary = "Delete vehicle by ID", description = "Deletes a vehicle by its ID.")
+    public void delete(@PathVariable String id) {
+        vehicleService.deleteVehicle(id);
     }
 }

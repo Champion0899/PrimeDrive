@@ -24,19 +24,35 @@ public class VehicleHoldingsService {
                 .toList();
     }
 
-    public VehicleHoldingsDto getHoldingsById(String id) {
+    public VehicleHoldingsDto getHoldingById(String id) {
         return vehicleHoldingsRepository.findById(id)
                 .map(vehicleHoldingsMapper::toDto)
                 .orElseThrow(() -> new RuntimeException("Holdings not found with id: " + id));
     }
 
-    public VehicleHoldings getVehicleHoldingsEntityById(String id) {
+    public VehicleHoldings getVehicleHoldingEntityById(String id) {
         return vehicleHoldingsRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Holdings not found with id: " + id));
     }
 
-    public VehicleHoldingsDto saveHoldings(VehicleHoldingsDto dto) {
+    public VehicleHoldingsDto saveHolding(VehicleHoldingsDto dto) {
         VehicleHoldings vehicleHoldings = vehicleHoldingsMapper.toEntity(dto);
         return vehicleHoldingsMapper.toDto(vehicleHoldingsRepository.save(vehicleHoldings));
+    }
+
+    public VehicleHoldingsDto updateHolding(String id, VehicleHoldingsDto dto) {
+        VehicleHoldings existing = vehicleHoldingsRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Holdings not found with id: " + id));
+
+        VehicleHoldings updatedHolding = vehicleHoldingsMapper.toEntity(dto);
+        updatedHolding.setId(existing.getId());
+        return vehicleHoldingsMapper.toDto(vehicleHoldingsRepository.save(updatedHolding));
+    }
+
+    public void deleteHolding(String id) {
+        if (!vehicleHoldingsRepository.existsById(id)) {
+            throw new RuntimeException("Holdings not found with id: " + id);
+        }
+        vehicleHoldingsRepository.deleteById(id);
     }
 }

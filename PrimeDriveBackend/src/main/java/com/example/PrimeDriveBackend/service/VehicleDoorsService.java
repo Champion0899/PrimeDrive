@@ -40,4 +40,19 @@ public class VehicleDoorsService {
         VehicleDoors vehicleDoors = vehicleDoorsMapper.toEntity(dto);
         return vehicleDoorsMapper.toDto(vehicleDoorsRepository.save(vehicleDoors));
     }
+
+    public VehicleDoorsDto updateDoors(String id, VehicleDoorsDto dto) {
+        VehicleDoors existing = vehicleDoorsRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Doors not found with id: " + id));
+
+        VehicleDoors updatedVehicleDoors = vehicleDoorsMapper.toEntity(dto);
+        updatedVehicleDoors.setId(existing.getId());
+        return vehicleDoorsMapper.toDto(vehicleDoorsRepository.save(existing));
+    }
+
+    public void deleteDoors(String id) {
+        VehicleDoors existing = vehicleDoorsRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Doors not found with id: " + id));
+        vehicleDoorsRepository.delete(existing);
+    }
 }

@@ -1,7 +1,5 @@
 package com.example.PrimeDriveBackend.Dto;
 
-import java.sql.Date;
-
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -17,7 +15,7 @@ public class VehicleHoldingsDto {
     String id;
 
     @NotNull
-    @Schema(description = "Name of the vehicle holding", example = "BMW")
+    @Schema(description = "Name of the vehicle holding", example = "Volkswagen AG")
     String name;
 
     @NotNull

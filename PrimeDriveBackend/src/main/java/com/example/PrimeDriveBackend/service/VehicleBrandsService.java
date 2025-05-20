@@ -2,7 +2,6 @@ package com.example.PrimeDriveBackend.service;
 
 import java.util.List;
 
-import org.springframework.data.convert.ReadingConverter;
 import org.springframework.stereotype.Service;
 
 import com.example.PrimeDriveBackend.Dto.VehicleBrandsDto;
@@ -39,5 +38,22 @@ public class VehicleBrandsService {
     public VehicleBrandsDto saveBrand(VehicleBrandsDto dto) {
         VehicleBrands vehicleBrands = vehicleBrandsMapper.toEntity(dto);
         return vehicleBrandsMapper.toDto(vehicleBrandsRepository.save(vehicleBrands));
+    }
+
+    public VehicleBrandsDto updateBrand(String id, VehicleBrandsDto dto) {
+        VehicleBrands existing = vehicleBrandsRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Brand not found with id: " + id));
+
+        VehicleBrands updatedVehicleBrand = vehicleBrandsMapper.toEntity(dto);
+        updatedVehicleBrand.setId(existing.getId());
+
+        return vehicleBrandsMapper.toDto(vehicleBrandsRepository.save(existing));
+    }
+
+    public void deleteBrand(String id) {
+        if (!vehicleBrandsRepository.existsById(id)) {
+            throw new RuntimeException("Brand not found with id: " + id);
+        }
+        vehicleBrandsRepository.deleteById(id);
     }
 }

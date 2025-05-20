@@ -4,9 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.math.BigDecimal;
-import java.sql.Date;
-
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
 
@@ -19,7 +16,7 @@ public class VehicleDto {
     private String id;
 
     @NotNull
-    @Schema(description = "Name of the vehicle", example = "BMW")
+    @Schema(description = "Name of the vehicle", example = "M5")
     private String name;
 
     @NotNull

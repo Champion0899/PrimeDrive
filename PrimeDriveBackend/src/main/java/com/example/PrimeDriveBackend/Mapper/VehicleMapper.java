@@ -70,7 +70,7 @@ public class VehicleMapper {
         }
         vehicle.setBrands(vehicleBrands);
 
-        VehicleTypes vehicleTypes = vehicleTypesService.getSpecsByIdEntity(dto.getBrandsId());
+        VehicleTypes vehicleTypes = vehicleTypesService.getTypeByIdEntity(dto.getBrandsId());
         if (vehicleTypes == null) {
             throw new RuntimeException("Type not found");
         }
@@ -82,7 +82,7 @@ public class VehicleMapper {
         }
         vehicle.setSpecs(vehicleSpecs);
 
-        VehicleColors vehicleColors = vehicleColorsService.getBrandByIdEntity(dto.getColorsId());
+        VehicleColors vehicleColors = vehicleColorsService.getColorByIdEntity(dto.getColorsId());
         if (vehicleColors == null) {
             throw new RuntimeException("Color not found");
         }

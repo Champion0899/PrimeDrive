@@ -39,4 +39,21 @@ public class VehicleSpecsService {
         VehicleSpecs vehicleSpecs = vehicleSpecsMapper.toEntity(dto);
         return vehicleSpecsMapper.toDto(vehicleSpecsRepository.save(vehicleSpecs));
     }
+
+    public VehicleSpecsDto updateSpecs(String id, VehicleSpecsDto updatedDto) {
+        VehicleSpecs existing = vehicleSpecsRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Specs not found with id: " + id));
+
+        VehicleSpecs updatedSpecs = vehicleSpecsMapper.toEntity(updatedDto);
+        updatedSpecs.setId(existing.getId());
+
+        return vehicleSpecsMapper.toDto(vehicleSpecsRepository.save(updatedSpecs));
+    }
+
+    public void deleteSpecs(String id) {
+        if (!vehicleSpecsRepository.existsById(id)) {
+            throw new RuntimeException("Specs not found with id: " + id);
+        }
+        vehicleSpecsRepository.deleteById(id);
+    }
 }

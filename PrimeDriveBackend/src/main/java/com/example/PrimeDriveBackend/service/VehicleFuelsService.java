@@ -39,4 +39,20 @@ public class VehicleFuelsService {
         VehicleFuels vehicleFuels = vehicleFuelsMapper.toEntity(dto);
         return vehicleFuelsMapper.toDto(vehicleFuelsRepository.save(vehicleFuels));
     }
+
+    public VehicleFuelsDto updateFuels(String id, VehicleFuelsDto dto) {
+        VehicleFuels existing = vehicleFuelsRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Fuel not found with id: " + id));
+
+        VehicleFuels updatedVehicleFuel = vehicleFuelsMapper.toEntity(dto);
+        updatedVehicleFuel.setId(existing.getId());
+
+        return vehicleFuelsMapper.toDto(vehicleFuelsRepository.save(existing));
+    }
+
+    public void deleteFuels(String id) {
+        VehicleFuels existing = vehicleFuelsRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Fuel not found with id: " + id));
+        vehicleFuelsRepository.delete(existing);
+    }
 }

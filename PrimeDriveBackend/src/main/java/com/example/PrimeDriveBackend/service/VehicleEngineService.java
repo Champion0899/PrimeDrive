@@ -40,4 +40,21 @@ public class VehicleEngineService {
         VehicleEngine vehicleEngine = vehicleEngineMapper.toEntity(dto);
         return vehicleEngineMapper.toDto(vehicleEngineRepository.save(vehicleEngine));
     }
+
+    public VehicleEngineDto updateEngine(String id, VehicleEngineDto dto) {
+        VehicleEngine existing = vehicleEngineRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Engine not found with id: " + id));
+
+        VehicleEngine updatedVehicleEngine = vehicleEngineMapper.toEntity(dto);
+        updatedVehicleEngine.setId(existing.getId());
+
+        return vehicleEngineMapper.toDto(vehicleEngineRepository.save(updatedVehicleEngine));
+    }
+
+    public void deleteEngine(String id) {
+        if (!vehicleEngineRepository.existsById(id)) {
+            throw new RuntimeException("Engine not found with id: " + id);
+        }
+        vehicleEngineRepository.deleteById(id);
+    }
 }

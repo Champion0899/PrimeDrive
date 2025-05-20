@@ -24,19 +24,36 @@ public class VehicleColorsService {
                 .toList();
     }
 
-    public VehicleColorsDto getBrandById(String id) {
+    public VehicleColorsDto getColorById(String id) {
         return vehicleColorsRepository.findById(id)
                 .map(vehicleColorsMapper::toDto)
                 .orElseThrow(() -> new RuntimeException("Brand not found with id: " + id));
     }
 
-    public VehicleColors getBrandByIdEntity(String id) {
+    public VehicleColors getColorByIdEntity(String id) {
         return vehicleColorsRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Brand not found with id: " + id));
     }
 
-    public VehicleColorsDto saveBrand(VehicleColorsDto dto) {
+    public VehicleColorsDto saveColor(VehicleColorsDto dto) {
         VehicleColors vehicleColors = vehicleColorsMapper.toEntity(dto);
         return vehicleColorsMapper.toDto(vehicleColorsRepository.save(vehicleColors));
+    }
+
+    public VehicleColorsDto updateColor(String id, VehicleColorsDto dto) {
+        VehicleColors existing = vehicleColorsRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Color not found with id: " + id));
+
+        VehicleColors updatedVehicleColor = vehicleColorsMapper.toEntity(dto);
+        updatedVehicleColor.setId(existing.getId());
+
+        return vehicleColorsMapper.toDto(vehicleColorsRepository.save(existing));
+    }
+
+    public void deleteColor(String id) {
+        if (!vehicleColorsRepository.existsById(id)) {
+            throw new RuntimeException("Color not found with id: " + id);
+        }
+        vehicleColorsRepository.deleteById(id);
     }
 }

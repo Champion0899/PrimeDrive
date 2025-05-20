@@ -31,7 +31,7 @@ public class VehicleBrandsMapper {
         vehicleBrands.setName(dto.getName());
         vehicleBrands.setFounding(dto.getFounding());
         vehicleBrands.setLogo(dto.getLogo());
-        vehicleBrands.setHolding(vehicleHoldingsService.getVehicleHoldingsEntityById(dto.getHoldingId()));
+        vehicleBrands.setHolding(vehicleHoldingsService.getVehicleHoldingEntityById(dto.getHoldingId()));
         return vehicleBrands;
     }
 }
