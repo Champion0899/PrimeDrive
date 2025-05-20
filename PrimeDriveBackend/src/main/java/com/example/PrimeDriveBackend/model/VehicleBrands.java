@@ -23,6 +23,6 @@ public class VehicleBrands {
     private String logo;
 
     @ManyToOne
-    @JoinColumn(name = "holdingId", referencedColumnName = "id")
+    @JoinColumn(name = "foreign_key_vehicle_holding_id", referencedColumnName = "id")
     private VehicleHoldings holding;
 }

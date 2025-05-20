@@ -23,22 +23,22 @@ public class Vehicle {
     private String vehicleHistory;
 
     @ManyToOne
-    @JoinColumn(name = "vehicle_brands_id", referencedColumnName = "id")
+    @JoinColumn(name = "foreign_key_vehicle_brands_id", referencedColumnName = "id")
     private VehicleBrands brands;
 
     @ManyToOne
-    @JoinColumn(name = "vehicle_specs_id", referencedColumnName = "id")
+    @JoinColumn(name = "foreign_key_vehicle_specs_id", referencedColumnName = "id")
     private VehicleSpecs specs;
 
     @ManyToOne
-    @JoinColumn(name = "vehicle_types_id", referencedColumnName = "id")
+    @JoinColumn(name = "foreign_key_vehicle_types_id", referencedColumnName = "id")
     private VehicleTypes types;
 
     @ManyToOne
-    @JoinColumn(name = "vehicle_colors_id", referencedColumnName = "id")
+    @JoinColumn(name = "foreign_key_vehicle_colors_id", referencedColumnName = "id")
     private VehicleColors colors;
 
     @ManyToOne
-    @JoinColumn(name = "vehicle_seller_id", referencedColumnName = "id")
+    @JoinColumn(name = "foreign_key_vehicle_seller_id", referencedColumnName = "id")
     private Users users;
 }

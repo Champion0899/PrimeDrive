@@ -20,19 +20,20 @@ CREATE TABLE IF NOT EXISTS users (
     last_login_ip VARCHAR(45) NOT NULL
 ) ENGINE=InnoDB;
 
-CREATE TABLE IF NOT EXISTS vehicle_holding (
+CREATE TABLE IF NOT EXISTS vehicle_holdings (
     id VARCHAR(36) PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
     founding DATE NOT NULL,
-    logo VARCHAR(255) NOT NULL,
+    logo VARCHAR(255) NOT NULL
 ) ENGINE=InnoDB;
 
 CREATE TABLE IF NOT EXISTS vehicle_brands (
     id VARCHAR(36) PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
+    founding DATE NOT NULL,
     logo VARCHAR(255) NOT NULL,
-    holding_id VARCHAR(36) NOT NULL,
-    FOREIGN KEY (holding_id) REFERENCES holding(id)
+    foreign_key_vehicle_holding_id VARCHAR(36) NOT NULL,
+    FOREIGN KEY (foreign_key_vehicle_holding_id) REFERENCES vehicle_holdings(id)
 ) ENGINE=InnoDB;
 
 CREATE TABLE IF NOT EXISTS vehicle_colors (
@@ -43,7 +44,7 @@ CREATE TABLE IF NOT EXISTS vehicle_colors (
 
 CREATE TABLE IF NOT EXISTS vehicle_types (
     id VARCHAR(36) PRIMARY KEY,
-    type VARCHAR(255) NOT NULL,
+    type VARCHAR(255) NOT NULL
 ) ENGINE=InnoDB;
 
 CREATE TABLE IF NOT EXISTS vehicle_doors (
@@ -58,10 +59,10 @@ CREATE TABLE IF NOT EXISTS vehicle_seats (
 
 CREATE TABLE IF NOT EXISTS vehicle_engine (
     id VARCHAR(36) PRIMARY KEY,
-    engine VARCHAR(255) NOT NULL
+    engine_type VARCHAR(255) NOT NULL
 ) ENGINE=InnoDB;
 
-CREATE TABLE IF NOT EXISTS vehicle_fuel (
+CREATE TABLE IF NOT EXISTS vehicle_fuels (
     id VARCHAR(36) PRIMARY KEY,
     fuel_type VARCHAR(255) NOT NULL
 ) ENGINE=InnoDB;
@@ -80,24 +81,53 @@ CREATE TABLE IF NOT EXISTS vehicle_specs (
     consumption_hundred_in_x FLOAT NOT NULL,
     co_two_emission_in_g_per_km INT NOT NULL,
     cubic_capacity INT NOT NULL,
-    foreign_key_vehicle_doors_id VARCHAR(36) NOT NULL,
-    foreign_key_vehicle_seats_id VARCHAR(36) NOT NULL,
-    foreign_key_vehicle_engine_id VARCHAR(36) NOT NULL,
-    foreign_key_vehicle_fuel_id VARCHAR(36) NOT NULL,
-    foreign key (foreign_key_vehicle_doors_id) references vehicle_doors(id)
-    on update cascade 
-    on delete set null,
-    foreign key (foreign_key_vehicle_seats_id) references vehicle_seats(id)
-    on update cascade
-    on delete set null,
-    foreign key (foreign_key_vehicle_engine_id) references vehicle_engine(id),
-    on update cascade,
-    on delete set null,
-    foreign key (foreign_key_vehicle_fuel_id) references vehicle_fuel(id)
-    on update cascade
-    on delete set null
+    foreign_key_vehicle_doors_id VARCHAR(36),
+    foreign_key_vehicle_seats_id VARCHAR(36),
+    foreign_key_vehicle_engine_id VARCHAR(36),
+    foreign_key_vehicle_fuels_id VARCHAR(36),
+    FOREIGN KEY (foreign_key_vehicle_doors_id) REFERENCES vehicle_doors(id)
+    ON UPDATE cascade 
+    ON DELETE SET NULL,
+    FOREIGN KEY (foreign_key_vehicle_seats_id) REFERENCES vehicle_seats(id)
+    ON UPDATE cascade
+    ON DELETE SET NULL,
+    FOREIGN KEY (foreign_key_vehicle_engine_id) REFERENCES vehicle_engine(id)
+    ON UPDATE cascade
+    ON DELETE SET NULL,
+    FOREIGN KEY (foreign_key_vehicle_fuels_id) REFERENCES vehicle_fuels(id)
+    ON UPDATE cascade
+    ON DELETE SET NULL
 ) ENGINE=InnoDB;
 
-
+CREATE TABLE IF NOT EXISTS vehicle (
+    id VARCHAR(36) PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    price FLOAT NOT NULL,
+    year DATE NOT NULL,
+    image VARCHAR(255) NOT NULL,
+    mileage INT NOT NULL,
+    `condition` VARCHAR(255) NOT NULL,
+    vehicle_history VARCHAR(255) NOT NULL,
+    foreign_key_vehicle_brands_id VARCHAR(36),
+    foreign_key_vehicle_specs_id VARCHAR(36),
+    foreign_key_vehicle_types_id VARCHAR(36),
+    foreign_key_vehicle_colors_id VARCHAR(36),
+    foreign_key_vehicle_seller_id VARCHAR(36),
+    FOREIGN KEY (foreign_key_vehicle_brands_id) REFERENCES vehicle_brands(id)
+    ON UPDATE cascade
+    ON DELETE SET NULL,
+    FOREIGN KEY (foreign_key_vehicle_specs_id) REFERENCES vehicle_specs(id)
+    ON UPDATE cascade
+    ON DELETE SET NULL,
+    FOREIGN KEY (foreign_key_vehicle_types_id) REFERENCES vehicle_types(id)
+    ON UPDATE cascade
+    ON DELETE SET NULL,
+    FOREIGN KEY (foreign_key_vehicle_colors_id) REFERENCES vehicle_colors(id)
+    ON UPDATE cascade
+    ON DELETE SET NULL,
+    FOREIGN KEY (foreign_key_vehicle_seller_id) REFERENCES users(id)
+    ON UPDATE cascade
+    ON DELETE SET NULL
+) ENGINE=InnoDB;
 
 COMMIT;

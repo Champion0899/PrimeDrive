@@ -30,18 +30,18 @@ public class VehicleSpecs {
     private Double cubicCapacity;
 
     @ManyToOne
-    @JoinColumn(name = "vehicle_doors_id", referencedColumnName = "id")
+    @JoinColumn(name = "foreign_key_vehicle_doors_id", referencedColumnName = "id")
     private VehicleDoors doors;
 
     @ManyToOne
-    @JoinColumn(name = "vehicle_seats_id", referencedColumnName = "id")
+    @JoinColumn(name = "foreign_key_vehicle_seats_id", referencedColumnName = "id")
     private VehicleSeats seats;
 
     @ManyToOne
-    @JoinColumn(name = "vehicle_engine_id", referencedColumnName = "id")
+    @JoinColumn(name = "foreign_key_vehicle_engine_id", referencedColumnName = "id")
     private VehicleEngine engine;
 
     @ManyToOne
-    @JoinColumn(name = "vehicle_fuel_id", referencedColumnName = "id")
+    @JoinColumn(name = "foreign_key_vehicle_fuels_id", referencedColumnName = "id")
     private VehicleFuels fuels;
 }
