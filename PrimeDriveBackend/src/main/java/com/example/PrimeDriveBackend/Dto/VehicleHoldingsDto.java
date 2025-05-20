@@ -21,8 +21,8 @@ public class VehicleHoldingsDto {
     String name;
 
     @NotNull
-    @Schema(description = "Founding date of the vehicle holding", example = "2020-01-01")
-    Date founding;
+    @Schema(description = "Founding date of the vehicle holding", example = "2020")
+    Integer founding;
 
     @NotNull
     @Schema(description = "Logo of the vehicle holding", example = "https://example.com/logo.jpg")

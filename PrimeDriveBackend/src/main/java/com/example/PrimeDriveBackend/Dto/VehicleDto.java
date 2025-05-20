@@ -28,7 +28,7 @@ public class VehicleDto {
 
     @NotNull
     @Schema(description = "Year of the build", example = "2020")
-    private Date year;
+    private Integer year;
 
     @NotNull
     @Schema(description = "Image of the vehicle", example = "https://example.com/image.jpg")
@@ -36,7 +36,7 @@ public class VehicleDto {
 
     @NotNull
     @Schema(description = "Mileage of the vehicle", example = "30000")
-    private Number mileage;
+    private Integer mileage;
 
     @NotNull
     @Schema(description = "Condition of the vehicle", example = "new")

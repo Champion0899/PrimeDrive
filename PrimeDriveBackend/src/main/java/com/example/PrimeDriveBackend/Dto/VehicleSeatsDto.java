@@ -15,5 +15,5 @@ public class VehicleSeatsDto {
     private String id;
     @NotNull
     @Schema(description = "Number of seats", example = "5")
-    private Number quantity;
+    private Integer quantity;
 }

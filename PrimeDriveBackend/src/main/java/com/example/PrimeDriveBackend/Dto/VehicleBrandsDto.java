@@ -19,8 +19,8 @@ public class VehicleBrandsDto {
     @Schema(description = "Name of the vehicle brand", example = "BMW")
     private String name;
     @NotNull
-    @Schema(description = "Founding date of the vehicle brand", example = "2020-01-01")
-    private Date founding;
+    @Schema(description = "Founding date of the vehicle brand", example = "2020")
+    private Integer founding;
     @NotNull
     @Schema(description = "Logo of the vehicle brand", example = "https://example.com/logo.jpg")
     private String logo;

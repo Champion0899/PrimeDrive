@@ -11,8 +11,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class VehicleSeats {
-    
+
     @Id
     private String id;
-    private Number quantity;
+    private Integer quantity;
 }

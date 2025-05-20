@@ -1,7 +1,5 @@
 package com.example.PrimeDriveBackend.model;
 
-import java.sql.Date;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
@@ -16,6 +14,6 @@ public class VehicleHoldings {
     @Id
     private String id;
     private String name;
-    private Date founding;
+    private Integer founding;
     private String logo;
 }

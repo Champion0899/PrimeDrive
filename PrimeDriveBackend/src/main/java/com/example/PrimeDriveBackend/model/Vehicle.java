@@ -1,7 +1,5 @@
 package com.example.PrimeDriveBackend.model;
 
-import java.sql.Date;
-
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -16,9 +14,9 @@ public class Vehicle {
     private String id;
     private String name;
     private Double price;
-    private Date year;
+    private Integer year;
     private String image;
-    private Number mileage;
+    private Integer mileage;
     private String condition;
     private String vehicleHistory;
 

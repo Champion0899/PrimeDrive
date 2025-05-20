@@ -1,5 +1,6 @@
 package com.example.PrimeDriveBackend.model;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
@@ -16,17 +17,19 @@ public class VehicleSpecs {
 
     @Id
     private String id;
-    private Number powerKw;
-    private Number powerPs;
-    private Number lengthMillimeter;
-    private Number widthMillimeter;
-    private Number heightMillimeter;
-    private Number trunkInLiterMin;
-    private Number trunkInLiterMax;
+    private Integer powerKw;
+    private Integer powerPs;
+    private Integer lengthMillimeter;
+    private Integer widthMillimeter;
+    private Integer heightMillimeter;
+    private Integer trunkInLiterMin;
+    private Integer trunkInLiterMax;
     private Double zeroToHundredInSeconds;
-    private Number topSpeedInKmh;
+    private Integer topSpeedInKmh;
+    @Column(name = "consumption_hundred_in_x")
     private Double consumptionHundredInX;
-    private Number coTwoEmissionInGPerKm;
+    @Column(name = "co_two_emission_in_g_per_km")
+    private Integer coTwoEmissionInGPerKm;
     private Double cubicCapacity;
 
     @ManyToOne

@@ -15,37 +15,37 @@ public class VehicleSpecsDto {
     String id;
     @NotNull
     @Schema(description = "Power in kW", example = "150")
-    Number powerKw;
+    Integer powerKw;
     @NotNull
     @Schema(description = "Power in PS", example = "204")
-    Number powerPs;
+    Integer powerPs;
     @NotNull
     @Schema(description = "Length in millimeters", example = "4500")
-    Number lengthMillimeter;
+    Integer lengthMillimeter;
     @NotNull
     @Schema(description = "Width in millimeters", example = "1800")
-    Number widthMillimeter;
+    Integer widthMillimeter;
     @NotNull
     @Schema(description = "Height in millimeters", example = "1400")
-    Number heightMillimeter;
+    Integer heightMillimeter;
     @NotNull
     @Schema(description = "Minimum trunk volume in liters", example = "300")
-    Number trunkInLiterMin;
+    Integer trunkInLiterMin;
     @NotNull
     @Schema(description = "Maximum trunk volume in liters", example = "500")
-    Number trunkInLiterMax;
+    Integer trunkInLiterMax;
     @NotNull
     @Schema(description = "0-100 km/h time in seconds", example = "6.5")
     Double zeroToHundredInSeconds;
     @NotNull
     @Schema(description = "Top speed in km/h", example = "250")
-    Number topSpeedInKmh;
+    Integer topSpeedInKmh;
     @NotNull
     @Schema(description = "Consumption per 100 km in X", example = "7.5")
     Double consumptionHundredInX;
     @NotNull
     @Schema(description = "CO2 emission in g/km", example = "120")
-    Number coTwoEmissionInGPerKm;
+    Integer coTwoEmissionInGPerKm;
     @NotNull
     @Schema(description = "Cubic capacity in liters", example = "2.0")
     Double cubicCapacity;

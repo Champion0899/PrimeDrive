@@ -19,7 +19,7 @@ public class VehicleBrands {
     @Id
     private String id;
     private String name;
-    private Date founding;
+    private Integer founding;
     private String logo;
 
     @ManyToOne

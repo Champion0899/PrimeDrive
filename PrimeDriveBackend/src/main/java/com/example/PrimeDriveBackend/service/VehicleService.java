@@ -14,25 +14,25 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class VehicleService {
-private final VehicleRepository vehicleRepository;
-private final VehicleMapper vehicleMapper;
+    private final VehicleRepository vehicleRepository;
+    private final VehicleMapper vehicleMapper;
 
-public List<VehicleDto> getAllVehicles() {
-return vehicleRepository.findAll()
-.stream()
-.map(vehicleMapper::toDto)
-.collect(Collectors.toList());
-}
+    public List<VehicleDto> getAllVehicles() {
+        return vehicleRepository.findAll()
+                .stream()
+                .map(vehicleMapper::toDto)
+                .collect(Collectors.toList());
+    }
 
-public VehicleDto getVehicleById(String id) {
-return vehicleRepository.findById(id)
-.map(vehicleMapper::toDto)
-.orElseThrow(() -> new EntityNotFoundException("Vehicle not found with id: "
-+ id));
-}
+    public VehicleDto getVehicleById(String id) {
+        return vehicleRepository.findById(id)
+                .map(vehicleMapper::toDto)
+                .orElseThrow(() -> new EntityNotFoundException("Vehicle not found with id: "
+                        + id));
+    }
 
-public VehicleDto saveVehicle(VehicleDto dto) {
-Vehicle vehicle = vehicleMapper.toEntity(dto);
-return vehicleMapper.toDto(vehicleRepository.save(vehicle));
-}
+    public VehicleDto saveVehicle(VehicleDto dto) {
+        Vehicle vehicle = vehicleMapper.toEntity(dto);
+        return vehicleMapper.toDto(vehicleRepository.save(vehicle));
+    }
 }

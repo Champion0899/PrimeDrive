@@ -14,5 +14,5 @@ public class VehicleDoors {
 
     @Id
     private String id;
-    private Number quantity;
+    private Integer quantity;
 }
