@@ -201,7 +201,7 @@ public class AuthenticationController {
      * This endpoint is controlled by the 'swagger.setup.enabled' property.
      */
     @PostMapping("/swagger-login")
-    @Operation(summary = "Swagger login (JWT in body)", description = "Authenticates a user and returns a JWT in the response body for Swagger testing. Only available if swagger.setup.enabled=true.")
+    @Operation(summary = "Swagger login (JWT in body)", description = "Authenticates a user and returns a JWT in the response body for Swagger testing. Only available if swagger.setup.enabled=true. This endpoint should be disabled in production.")
     public ResponseEntity<?> swaggerLogin(@RequestBody LoginRequestDto request) {
         if (!swaggerSetupEnabled) {
             return ResponseEntity.status(403).body("Swagger login is disabled.");
