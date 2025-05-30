@@ -114,30 +114,22 @@ public class AuthenticationController {
      *
      * @param request  Login request containing username and password
      * @param response HttpServletResponse used to set the JWT cookie
-     * @return JSON response containing userId if authentication was successful;
+     * @return JSON response confirming login if authentication was successful;
      *         otherwise, 401 error
      */
     @PostMapping("/login")
     @CrossOrigin
-    @Operation(summary = "User login", description = "Authenticates a user and sets a JWT as HttpOnly cookie.")
+    @Operation(summary = "User login", description = "Authenticates a user and sets a JWT as HttpOnly cookie. Returns a JSON message object upon login.")
     public ResponseEntity<?> login(@RequestBody LoginRequestDto request, HttpServletResponse response) {
         boolean isAuthenticated = authenticationService.login(
                 request.getUsername(),
                 request.getPassword());
         if (isAuthenticated) {
-            Users user = userService
-                    .findByUsername(request.getUsername())
-                    .orElseThrow(() -> new RuntimeException("User not found"));
-            String userId = user.getId();
+            String userId = userService.findByUsername(request.getUsername())
+                    .orElseThrow(() -> new RuntimeException("User not found"))
+                    .getId();
             String token = jwtUtils.generateToken(userId);
 
-            /**
-             * The JWT is set as an HttpOnly, Secure cookie with a 7-day expiration.
-             * - HttpOnly: Prevents access via JavaScript (XSS protection)
-             * - Secure: Transmitted only over HTTPS
-             * - Path: "/" ensures it's available site-wide
-             * - Max-Age: 7 days in seconds
-             */
             String cookieHeader = ResponseCookie.from("jwt", token)
                     .httpOnly(true)
                     .secure(true)
@@ -148,12 +140,8 @@ public class AuthenticationController {
                     .toString();
             response.setHeader("Set-Cookie", cookieHeader);
 
-            UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(user, null,
-                    user.getAuthorities());
-            SecurityContextHolder.getContext().setAuthentication(authentication);
-
             Map<String, Object> responseBody = new HashMap<>();
-            responseBody.put("userId", userId);
+            responseBody.put("message", "Login successful");
             return ResponseEntity.ok(responseBody);
         } else {
             return ResponseEntity.status(401).body("Invalid credentials");
