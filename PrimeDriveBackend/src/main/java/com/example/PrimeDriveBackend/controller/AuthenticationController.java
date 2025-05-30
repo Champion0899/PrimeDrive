@@ -194,4 +194,31 @@ public class AuthenticationController {
                 request.getPhoneNumber(), lastLoginIp);
         return ResponseEntity.ok("Admin user registered successfully (Swagger)");
     }
+
+    /**
+     * Swagger-only login endpoint that returns JWT in body instead of cookie.
+     * Useful for Swagger testing tools that require direct token access.
+     * This endpoint is controlled by the 'swagger.setup.enabled' property.
+     */
+    @PostMapping("/swagger-login")
+    @Operation(summary = "Swagger login (JWT in body)", description = "Authenticates a user and returns a JWT in the response body for Swagger testing. Only available if swagger.setup.enabled=true.")
+    public ResponseEntity<?> swaggerLogin(@RequestBody LoginRequestDto request) {
+        if (!swaggerSetupEnabled) {
+            return ResponseEntity.status(403).body("Swagger login is disabled.");
+        }
+
+        boolean isAuthenticated = authenticationService.login(
+                request.getUsername(),
+                request.getPassword());
+        if (isAuthenticated) {
+            Users user = userService
+                    .findByUsername(request.getUsername())
+                    .orElseThrow(() -> new RuntimeException("User not found"));
+            String userId = user.getId();
+            String token = jwtUtils.generateToken(userId);
+            return ResponseEntity.ok(Map.of("userId", userId, "token", token));
+        } else {
+            return ResponseEntity.status(401).body("Invalid credentials");
+        }
+    }
 }
