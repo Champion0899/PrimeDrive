@@ -45,6 +45,8 @@ export class NavigationComponent implements OnInit {
   }
 
   private checkLoginStatus(): void {
-    this.isLoggedIn = this.authService.isAuthenticated();
+    this.authService.isAuthenticated().subscribe((loggedIn: boolean) => {
+      this.isLoggedIn = loggedIn;
+    });
   }
 }

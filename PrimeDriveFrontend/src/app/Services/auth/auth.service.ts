@@ -7,27 +7,36 @@ import { LoginResponse } from '../../Models/loginResponse.interface';
   providedIn: 'root',
 })
 export class AuthService {
-  private apiUrl = 'http://localhost:8080/api/authentication';
+  private apiUrl = 'https://localhost:8443/api/authentication';
 
   private httpClient = inject(HttpClient);
 
   public login(username: string, password: string): Observable<LoginResponse> {
-    return this.httpClient.post<LoginResponse>(`${this.apiUrl}/login`, {
-      username,
-      password,
+    return this.httpClient.post<LoginResponse>(
+      `${this.apiUrl}/login`,
+      {
+        username,
+        password,
+      },
+      {
+        withCredentials: true,
+      }
+    );
+  }
+
+  public logout(): Observable<void> {
+    return this.httpClient.post<void>(
+      `${this.apiUrl}/logout`,
+      {},
+      {
+        withCredentials: true,
+      }
+    );
+  }
+
+  public isAuthenticated(): Observable<boolean> {
+    return this.httpClient.get<boolean>(`${this.apiUrl}/check-session`, {
+      withCredentials: true,
     });
-  }
-
-  public logout(): void {
-    localStorage.removeItem('token');
-    localStorage.removeItem('userId');
-  }
-
-  public isAuthenticated(): boolean {
-    return !!localStorage.getItem('token');
-  }
-
-  public getToken(): string | null {
-    return localStorage.getItem('token');
   }
 }

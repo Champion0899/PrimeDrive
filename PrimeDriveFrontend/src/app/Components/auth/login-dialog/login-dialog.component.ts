@@ -29,9 +29,7 @@ export class LoginDialogComponent {
 
   protected login() {
     this.authService.login(this.username, this.password).subscribe({
-      next: (response) => {
-        localStorage.setItem('token', response.token);
-        localStorage.setItem('userId', response.userId.toString());
+      next: () => {
         this.dialogRef.close(true);
       },
       error: (error) => {
