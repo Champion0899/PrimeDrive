@@ -10,6 +10,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import com.example.PrimeDriveBackend.config.SecurityRules.AuthSecurityRules;
+import com.example.PrimeDriveBackend.config.SecurityRules.SwaggerSecurityRules;
 import com.example.PrimeDriveBackend.config.SecurityRules.VehicleSecurityRules;
 import com.example.PrimeDriveBackend.filter.JwtFilter;
 
@@ -43,6 +44,7 @@ public class SecurityConfig {
         http.csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
+        SwaggerSecurityRules.apply(http);
         AuthSecurityRules.apply(http);
         VehicleSecurityRules.apply(http);
 
