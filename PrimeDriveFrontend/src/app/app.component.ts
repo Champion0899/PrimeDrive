@@ -1,19 +1,14 @@
-import {Component} from '@angular/core';
-import {FahrzeugService} from './fahrzeug/fahrzeug.service';
-import {HttpClientModule} from '@angular/common/http';
-import {FahrzeugComponent} from './fahrzeug/fahrzeug.component';
-import {NgForOf} from '@angular/common';
-import {RouterOutlet} from '@angular/router';
+import { Component } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
+import { NavigationComponent } from './Components/navigation/navigation.component';
 
 @Component({
   selector: 'app-root',
-  imports: [HttpClientModule, FahrzeugComponent, NgForOf, RouterOutlet],
+  standalone: true,
+  imports: [RouterOutlet, NavigationComponent],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  styleUrl: './app.component.scss',
 })
 export class AppComponent {
-  title = 'PrimeDriveFrontend';
-
-
-  protected readonly FahrzeugService = FahrzeugService;
+  title = 'Prime Drive';
 }

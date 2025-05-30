@@ -1,0 +1,14 @@
+<nav>
+    <ul>
+        <li><a routerLink="/home" routerLinkActive="active">Home</a></li>
+        <li><a routerLink="/about" routerLinkActive="active">About</a></li>
+        <li><a routerLink="/contact" routerLinkActive="active">Contact</a></li>
+        <li><a routerLink="/services" routerLinkActive="active">Services</a></li>
+        @if (!isLoggedIn) {
+          <li><a (click)="openLoginDialog(); $event.preventDefault()">Login</a></li>
+          <li><a (click)="openRegisterDialog(); $event.preventDefault()">Register</a></li>
+        } @else {
+          <li><a (click)="logout(); $event.preventDefault()">Logout</a></li>
+        }
+    </ul>
+</nav>
