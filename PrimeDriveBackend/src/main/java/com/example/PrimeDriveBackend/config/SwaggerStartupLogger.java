@@ -18,6 +18,6 @@ public class SwaggerStartupLogger {
      */
     @EventListener(ApplicationReadyEvent.class)
     public void logSwaggerUrl() {
-        System.out.println("📘 Swagger UI available at: http://localhost:8080/swagger-ui/index.html");
+        System.out.println("📘 Swagger UI available at: https://localhost:8443/swagger-ui/index.html");
     }
 }

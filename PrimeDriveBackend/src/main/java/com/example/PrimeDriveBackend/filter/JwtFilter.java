@@ -64,12 +64,29 @@ public class JwtFilter extends OncePerRequestFilter {
             jwt = authHeader.substring(7);
             try {
                 id = jwtUtil.extractUserId(jwt);
-                System.out.println("✅ JWT valid, extracted ID: " + id);
+                System.out.println("✅ JWT from header valid, extracted ID: " + id);
             } catch (Exception e) {
-                System.out.println("❌ Invalid JWT: " + e.getMessage());
+                System.out.println("❌ Invalid JWT from header: " + e.getMessage());
             }
         } else {
-            System.out.println("❌ No Bearer token found");
+            var cookies = request.getCookies();
+            if (cookies != null) {
+                for (jakarta.servlet.http.Cookie cookie : cookies) {
+                    if ("jwt".equals(cookie.getName())) {
+                        jwt = cookie.getValue();
+                        System.out.println("🍪 JWT Cookie found: " + jwt);
+                        try {
+                            id = jwtUtil.extractUserId(jwt);
+                            System.out.println("✅ JWT from cookie valid, extracted ID: " + id);
+                        } catch (Exception e) {
+                            System.out.println("❌ Invalid JWT from cookie: " + e.getMessage());
+                        }
+                        break;
+                    }
+                }
+            } else {
+                System.out.println("⚠️ No cookies found in request");
+            }
         }
 
         if (id != null && SecurityContextHolder.getContext().getAuthentication() == null) {

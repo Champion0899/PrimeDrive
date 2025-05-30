@@ -8,6 +8,7 @@ public class AuthSecurityRules {
                 .requestMatchers(
                         "/api/authentication/login",
                         "/api/authentication/register",
+                        "/api/authentication/check-session",
                         "/api/authentication/swagger-login",
                         "/api/authentication/swagger-register")
                 .permitAll());

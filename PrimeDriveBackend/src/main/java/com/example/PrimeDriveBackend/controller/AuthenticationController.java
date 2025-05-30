@@ -22,11 +22,19 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.HashMap;
 import java.util.Map;
+import org.springframework.http.ResponseCookie;
+import java.time.Duration;
 
 import org.springframework.http.ResponseEntity;
+
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 
 /**
  * REST controller providing endpoints for user registration and login.
@@ -95,11 +103,19 @@ public class AuthenticationController {
     }
 
     /**
-     * Endpoint to authenticate a user and return a JWT token if successful.
+     * Endpoint to authenticate a user and set up a secure server-side session.
+     *
+     * On successful login:
+     * - Generates a JWT token
+     * - Stores the token as a secure, HttpOnly cookie
+     * - Initializes the Spring SecurityContext with the authenticated user
+     *
+     * This enables session-based authentication for further requests.
      *
      * @param request  Login request containing username and password
-     * @param response HttpServletResponse to set the JWT cookie
-     * @return userId if authenticated, or 401 error otherwise
+     * @param response HttpServletResponse used to set the JWT cookie
+     * @return JSON response containing userId if authentication was successful;
+     *         otherwise, 401 error
      */
     @PostMapping("/login")
     @CrossOrigin
@@ -122,12 +138,19 @@ public class AuthenticationController {
              * - Path: "/" ensures it's available site-wide
              * - Max-Age: 7 days in seconds
              */
-            Cookie cookie = new Cookie("jwt", token);
-            cookie.setHttpOnly(true);
-            cookie.setSecure(true);
-            cookie.setPath("/");
-            cookie.setMaxAge(7 * 24 * 60 * 60); // 7 Days
-            response.addCookie(cookie);
+            String cookieHeader = ResponseCookie.from("jwt", token)
+                    .httpOnly(true)
+                    .secure(true)
+                    .path("/")
+                    .sameSite("None")
+                    .maxAge(Duration.ofDays(7))
+                    .build()
+                    .toString();
+            response.setHeader("Set-Cookie", cookieHeader);
+
+            UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(user, null,
+                    user.getAuthorities());
+            SecurityContextHolder.getContext().setAuthentication(authentication);
 
             Map<String, Object> responseBody = new HashMap<>();
             responseBody.put("userId", userId);
@@ -220,5 +243,24 @@ public class AuthenticationController {
         } else {
             return ResponseEntity.status(401).body("Invalid credentials");
         }
+    }
+
+    /**
+     * Endpoint to check if the user is authenticated via session.
+     * 
+     * This can be used by the frontend to determine login state.
+     * It checks if a valid authentication object exists in the security context.
+     *
+     * @param request The incoming HTTP request (not used but required for
+     *                signature)
+     * @return true if authenticated, false otherwise
+     */
+    @GetMapping("/check-session")
+    @Operation(summary = "Check session authentication", description = "Returns true if the user is authenticated via session. Useful for frontend login state checks.")
+    public ResponseEntity<Boolean> checkSession(HttpServletRequest request) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        boolean isAuthenticated = authentication != null && authentication.isAuthenticated()
+                && !(authentication instanceof AnonymousAuthenticationToken);
+        return ResponseEntity.ok(isAuthenticated);
     }
 }
