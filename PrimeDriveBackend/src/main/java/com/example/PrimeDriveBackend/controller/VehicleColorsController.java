@@ -28,7 +28,6 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/api/vehicle_colors")
 @RequiredArgsConstructor
 @Tag(name = "Vehicle Colors", description = "Endpoints for managing vehicle colors")
-@SecurityRequirement(name = "bearer")
 public class VehicleColorsController {
     private final VehicleColorsService vehicleColorsService;
 
@@ -46,6 +45,7 @@ public class VehicleColorsController {
 
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
+    @SecurityRequirement(name = "bearer")
     @Operation(summary = "Create a new vehicle color", description = "Creates a new vehicle color with the provided details. Access: ADMIN only.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Vehicle color created successfully"),
@@ -57,6 +57,7 @@ public class VehicleColorsController {
 
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
+    @SecurityRequirement(name = "bearer")
     @Operation(summary = "Update a vehicle color", description = "Updates an existing vehicle color by ID. Access: ADMIN only.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Vehicle color updated successfully"),
@@ -68,6 +69,7 @@ public class VehicleColorsController {
 
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
+    @SecurityRequirement(name = "bearer")
     @Operation(summary = "Delete a vehicle color", description = "Deletes a vehicle color by its ID. Access: ADMIN only.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Vehicle color deleted successfully"),

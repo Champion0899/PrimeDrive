@@ -28,37 +28,28 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/api/vehicle_fuels")
 @RequiredArgsConstructor
 @Tag(name = "Vehicle Fuels", description = "Endpoints for managing vehicle fuels")
-@SecurityRequirement(name = "bearer")
 public class VehicleFuelsController {
     private final VehicleFuelsService vehicleFuelsService;
 
     @GetMapping
-    @Operation(
-        summary = "Get all vehicle fuel types",
-        description = "Retrieves a list of all vehicle fuel types. Access: All authenticated roles."
-    )
+    @Operation(summary = "Get all vehicle fuel types", description = "Retrieves a list of all vehicle fuel types. Access: All authenticated roles.")
     public List<VehicleFuelsDto> listAll() {
         return vehicleFuelsService.getFuelTypes();
     }
 
     @GetMapping("/{id}")
-    @Operation(
-        summary = "Get vehicle fuel by ID",
-        description = "Retrieves a vehicle fuel by its ID. Access: All authenticated roles."
-    )
+    @Operation(summary = "Get vehicle fuel by ID", description = "Retrieves a vehicle fuel by its ID. Access: All authenticated roles.")
     public VehicleFuelsDto getById(@PathVariable String id) {
         return vehicleFuelsService.getFuelsById(id);
     }
 
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
-    @Operation(
-        summary = "Create a new vehicle fuel",
-        description = "Creates a new vehicle fuel with the provided details. Access: ADMIN only."
-    )
+    @SecurityRequirement(name = "bearer")
+    @Operation(summary = "Create a new vehicle fuel", description = "Creates a new vehicle fuel with the provided details. Access: ADMIN only.")
     @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "Vehicle fuel created successfully"),
-        @ApiResponse(responseCode = "403", description = "Access denied – only ADMIN allowed")
+            @ApiResponse(responseCode = "200", description = "Vehicle fuel created successfully"),
+            @ApiResponse(responseCode = "403", description = "Access denied – only ADMIN allowed")
     })
     public VehicleFuelsDto create(@RequestBody VehicleFuelsDto dto) {
         return vehicleFuelsService.saveFuels(dto);
@@ -66,13 +57,11 @@ public class VehicleFuelsController {
 
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
-    @Operation(
-        summary = "Update a vehicle fuel",
-        description = "Updates the details of an existing vehicle fuel. Access: ADMIN only."
-    )
+    @SecurityRequirement(name = "bearer")
+    @Operation(summary = "Update a vehicle fuel", description = "Updates the details of an existing vehicle fuel. Access: ADMIN only.")
     @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "Vehicle fuel updated successfully"),
-        @ApiResponse(responseCode = "403", description = "Access denied – only ADMIN allowed")
+            @ApiResponse(responseCode = "200", description = "Vehicle fuel updated successfully"),
+            @ApiResponse(responseCode = "403", description = "Access denied – only ADMIN allowed")
     })
     public VehicleFuelsDto update(@PathVariable String id, @RequestBody VehicleFuelsDto dto) {
         dto.setId(id);
@@ -81,13 +70,11 @@ public class VehicleFuelsController {
 
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
-    @Operation(
-        summary = "Delete a vehicle fuel",
-        description = "Deletes a vehicle fuel by its ID. Access: ADMIN only."
-    )
+    @SecurityRequirement(name = "bearer")
+    @Operation(summary = "Delete a vehicle fuel", description = "Deletes a vehicle fuel by its ID. Access: ADMIN only.")
     @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "Vehicle fuel deleted successfully"),
-        @ApiResponse(responseCode = "403", description = "Access denied – only ADMIN allowed")
+            @ApiResponse(responseCode = "200", description = "Vehicle fuel deleted successfully"),
+            @ApiResponse(responseCode = "403", description = "Access denied – only ADMIN allowed")
     })
     public void delete(@PathVariable String id) {
         vehicleFuelsService.deleteFuels(id);

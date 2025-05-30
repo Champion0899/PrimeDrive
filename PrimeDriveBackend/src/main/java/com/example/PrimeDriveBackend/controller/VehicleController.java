@@ -20,7 +20,6 @@ import java.util.List;
 @RequestMapping("/api/vehicle")
 @RequiredArgsConstructor
 @Tag(name = "Vehicle", description = "Endpoints for managing vehicles")
-@SecurityRequirement(name = "bearer")
 public class VehicleController {
     private final VehicleService vehicleService;
 
@@ -38,6 +37,7 @@ public class VehicleController {
 
     @PostMapping
     @PreAuthorize("hasAnyRole('SELLER', 'ADMIN')")
+    @SecurityRequirement(name = "bearer")
     @Operation(summary = "Create a new vehicle", description = "Creates a new vehicle with the provided details. Access: SELLER or ADMIN.")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "Vehicle created successfully"),
@@ -49,6 +49,7 @@ public class VehicleController {
 
     @PutMapping("/{id}")
     @PreAuthorize("hasAnyRole('SELLER', 'ADMIN')")
+    @SecurityRequirement(name = "bearer")
     @Operation(summary = "Update vehicle by ID", description = "Updates an existing vehicle with the provided details. Access: SELLER or ADMIN.")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "Vehicle updated successfully"),
@@ -60,6 +61,7 @@ public class VehicleController {
 
     @DeleteMapping("/{id}")
     @PreAuthorize("hasAnyRole('SELLER', 'ADMIN')")
+    @SecurityRequirement(name = "bearer")
     @Operation(summary = "Delete vehicle by ID", description = "Deletes a vehicle by its ID. Access: SELLER or ADMIN.")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "Vehicle deleted successfully"),

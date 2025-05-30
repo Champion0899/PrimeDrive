@@ -29,7 +29,6 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/api/vehicle_types")
 @RequiredArgsConstructor
 @Tag(name = "Vehicle Types", description = "Endpoints for managing vehicle types")
-@SecurityRequirement(name = "bearer")
 public class VehicleTypesController {
     private final VehicleTypesService vehicleTypesService;
 
@@ -47,6 +46,7 @@ public class VehicleTypesController {
 
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
+    @SecurityRequirement(name = "bearer")
     @Operation(summary = "Create a new vehicle type", description = "Creates a new vehicle type with the provided details. Access: ADMIN only.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Vehicle type created successfully"),
@@ -58,6 +58,7 @@ public class VehicleTypesController {
 
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
+    @SecurityRequirement(name = "bearer")
     @Operation(summary = "Update vehicle type", description = "Updates the vehicle type with the given ID. Access: ADMIN only.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Vehicle type updated successfully"),
@@ -70,6 +71,7 @@ public class VehicleTypesController {
 
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
+    @SecurityRequirement(name = "bearer")
     @Operation(summary = "Delete vehicle type", description = "Deletes the vehicle type with the specified ID. Access: ADMIN only.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Vehicle type deleted successfully"),

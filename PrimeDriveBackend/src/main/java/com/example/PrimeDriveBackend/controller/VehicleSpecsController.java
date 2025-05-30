@@ -28,7 +28,6 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/api/vehicle_specs")
 @RequiredArgsConstructor
 @Tag(name = "Vehicle Specs", description = "Endpoints for managing vehicle specs")
-@SecurityRequirement(name = "bearer")
 public class VehicleSpecsController {
     private final VehicleSpecsService vehicleSpecsService;
 
@@ -46,6 +45,7 @@ public class VehicleSpecsController {
 
     @PostMapping
     @PreAuthorize("hasAnyRole('SELLER', 'ADMIN')")
+    @SecurityRequirement(name = "bearer")
     @Operation(summary = "Create a new vehicle specs", description = "Creates a new vehicle specs with the provided details. Access: SELLER or ADMIN.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Vehicle specs created successfully."),
@@ -57,6 +57,7 @@ public class VehicleSpecsController {
 
     @PutMapping("/{id}")
     @PreAuthorize("hasAnyRole('SELLER', 'ADMIN')")
+    @SecurityRequirement(name = "bearer")
     @Operation(summary = "Update vehicle specs", description = "Updates the vehicle specs with the provided ID. Access: SELLER or ADMIN.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Vehicle specs updated successfully."),
@@ -68,6 +69,7 @@ public class VehicleSpecsController {
 
     @DeleteMapping("/{id}")
     @PreAuthorize("hasAnyRole('SELLER', 'ADMIN')")
+    @SecurityRequirement(name = "bearer")
     @Operation(summary = "Delete vehicle specs", description = "Deletes the vehicle specs with the provided ID. Access: SELLER or ADMIN.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Vehicle specs deleted successfully."),

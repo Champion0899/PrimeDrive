@@ -28,7 +28,6 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/api/vehicle_brands")
 @RequiredArgsConstructor
 @Tag(name = "Vehicle Brands", description = "Endpoints for managing vehicle brands")
-@SecurityRequirement(name = "bearer")
 public class VehicleBrandsController {
     private final VehicleBrandsService vehicleBrandsService;
 
@@ -46,10 +45,11 @@ public class VehicleBrandsController {
 
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
+    @SecurityRequirement(name = "bearer")
     @Operation(summary = "Create a new vehicle brand", description = "Creates a new vehicle brand with the provided details. Access: ADMIN only.")
     @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "Vehicle brand created successfully."),
-        @ApiResponse(responseCode = "403", description = "Access denied – only ADMIN allowed")
+            @ApiResponse(responseCode = "200", description = "Vehicle brand created successfully."),
+            @ApiResponse(responseCode = "403", description = "Access denied – only ADMIN allowed")
     })
     public VehicleBrandsDto create(@RequestBody VehicleBrandsDto dto) {
         return vehicleBrandsService.saveBrand(dto);
@@ -57,10 +57,11 @@ public class VehicleBrandsController {
 
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
+    @SecurityRequirement(name = "bearer")
     @Operation(summary = "Update vehicle brand by ID", description = "Updates a vehicle brand with the provided ID and details. Access: ADMIN only.")
     @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "Vehicle brand updated successfully."),
-        @ApiResponse(responseCode = "403", description = "Access denied – only ADMIN allowed")
+            @ApiResponse(responseCode = "200", description = "Vehicle brand updated successfully."),
+            @ApiResponse(responseCode = "403", description = "Access denied – only ADMIN allowed")
     })
     public VehicleBrandsDto update(@PathVariable String id, @RequestBody VehicleBrandsDto dto) {
         return vehicleBrandsService.updateBrand(id, dto);
@@ -68,10 +69,11 @@ public class VehicleBrandsController {
 
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
+    @SecurityRequirement(name = "bearer")
     @Operation(summary = "Delete vehicle brand by ID", description = "Deletes a vehicle brand by its ID. Access: ADMIN only.")
     @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "Vehicle brand deleted successfully."),
-        @ApiResponse(responseCode = "403", description = "Access denied – only ADMIN allowed")
+            @ApiResponse(responseCode = "200", description = "Vehicle brand deleted successfully."),
+            @ApiResponse(responseCode = "403", description = "Access denied – only ADMIN allowed")
     })
     public void delete(@PathVariable String id) {
         vehicleBrandsService.deleteBrand(id);

@@ -28,7 +28,6 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/api/vehicle_engine")
 @RequiredArgsConstructor
 @Tag(name = "Vehicle Engine", description = "Endpoints for managing vehicle engine")
-@SecurityRequirement(name = "bearer")
 public class VehicleEngineController {
     private final VehicleEngineService vehicleEngineService;
 
@@ -46,6 +45,7 @@ public class VehicleEngineController {
 
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
+    @SecurityRequirement(name = "bearer")
     @Operation(summary = "Create a new vehicle engine", description = "Creates a new vehicle engine with the provided details. Access: ADMIN only.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Vehicle engine created successfully"),
@@ -57,6 +57,7 @@ public class VehicleEngineController {
 
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
+    @SecurityRequirement(name = "bearer")
     @Operation(summary = "Update a vehicle engine", description = "Updates an existing vehicle engine by ID. Access: ADMIN only.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Vehicle engine updated successfully"),
@@ -68,6 +69,7 @@ public class VehicleEngineController {
 
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
+    @SecurityRequirement(name = "bearer")
     @Operation(summary = "Delete a vehicle engine", description = "Deletes a vehicle engine by its ID. Access: ADMIN only.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Vehicle engine deleted successfully"),

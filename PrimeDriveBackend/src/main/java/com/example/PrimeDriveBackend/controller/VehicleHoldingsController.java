@@ -30,7 +30,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 @RequestMapping("/api/vehicle_holdings")
 @RequiredArgsConstructor
 @Tag(name = "Vehicle Holdings", description = "Endpoints for managing vehicle holdings")
-@SecurityRequirement(name = "bearer")
 public class VehicleHoldingsController {
     private final VehicleHoldingsService vehicleHoldingsService;
 
@@ -48,10 +47,11 @@ public class VehicleHoldingsController {
 
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
+    @SecurityRequirement(name = "bearer")
     @Operation(summary = "Create a new vehicle holding", description = "Creates a new vehicle holdings with the provided details. Access: ADMIN only.")
     @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "Vehicle holding created successfully"),
-        @ApiResponse(responseCode = "403", description = "Access denied – only ADMIN allowed")
+            @ApiResponse(responseCode = "200", description = "Vehicle holding created successfully"),
+            @ApiResponse(responseCode = "403", description = "Access denied – only ADMIN allowed")
     })
     public VehicleHoldingsDto create(@RequestBody VehicleHoldingsDto dto) {
         return vehicleHoldingsService.saveHolding(dto);
@@ -59,10 +59,11 @@ public class VehicleHoldingsController {
 
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
+    @SecurityRequirement(name = "bearer")
     @Operation(summary = "Update vehicle holding", description = "Updates an existing vehicle holding. Access: ADMIN only.")
     @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "Vehicle holding updated successfully"),
-        @ApiResponse(responseCode = "403", description = "Access denied – only ADMIN allowed")
+            @ApiResponse(responseCode = "200", description = "Vehicle holding updated successfully"),
+            @ApiResponse(responseCode = "403", description = "Access denied – only ADMIN allowed")
     })
     public ResponseEntity<VehicleHoldingsDto> update(@PathVariable String id, @RequestBody VehicleHoldingsDto dto) {
         dto.setId(id);
@@ -72,10 +73,11 @@ public class VehicleHoldingsController {
 
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
+    @SecurityRequirement(name = "bearer")
     @Operation(summary = "Delete vehicle holding", description = "Deletes a vehicle holding by its ID. Access: ADMIN only.")
     @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "Vehicle holding deleted successfully"),
-        @ApiResponse(responseCode = "403", description = "Access denied – only ADMIN allowed")
+            @ApiResponse(responseCode = "200", description = "Vehicle holding deleted successfully"),
+            @ApiResponse(responseCode = "403", description = "Access denied – only ADMIN allowed")
     })
     public ResponseEntity<Void> delete(@PathVariable String id) {
         vehicleHoldingsService.deleteHolding(id);
