@@ -3,6 +3,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { LoginDialogComponent } from '../auth/login-dialog/login-dialog.component';
 import { RegisterDialogComponent } from '../auth/register-dialog/register-dialog.component';
 import { AuthService } from '../../Services/auth/auth.service';
+import { UsersService } from '../../Services/users/users.service';
+import { User } from '../../Models/vehicles/user.interface';
 
 @Component({
   selector: 'app-navigation',
@@ -12,8 +14,10 @@ import { AuthService } from '../../Services/auth/auth.service';
 })
 export class NavigationComponent implements OnInit {
   protected isLoggedIn: boolean = false;
+  protected isAdmin: boolean = false;
   private dialog = inject(MatDialog);
   private authService = inject(AuthService);
+  private readonly usersService: UsersService = inject(UsersService);
 
   public ngOnInit(): void {
     this.checkLoginStatus();
@@ -47,6 +51,11 @@ export class NavigationComponent implements OnInit {
   private checkLoginStatus(): void {
     this.authService.isAuthenticated().subscribe((loggedIn: boolean) => {
       this.isLoggedIn = loggedIn;
+      if (loggedIn) {
+        this.usersService.getCurrentUser().subscribe((user: User) => {
+          this.isAdmin = user.role === 'ADMIN';
+        });
+      }
     });
   }
 }

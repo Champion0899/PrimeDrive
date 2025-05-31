@@ -17,6 +17,10 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
+import org.springframework.security.core.Authentication;
+
+import org.springframework.security.oauth2.jwt.Jwt;
 
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
@@ -38,6 +42,19 @@ public class UsersController {
     @Operation(summary = "Get user by ID", description = "Returns a single user by their ID. Access: All authenticated roles.")
     public UserSafeDto getUserById(@PathVariable String id) {
         return userService.getUserByIdSafe(id);
+    }
+
+    @GetMapping("/current")
+    @Operation(summary = "Get current user", description = "Returns the currently authenticated user. Access: All authenticated roles.")
+    @SecurityRequirement(name = "bearer")
+    public UserSafeDto getCurrentUser(Authentication authentication) {
+        if (authentication == null || !authentication.isAuthenticated()
+                || !(authentication.getPrincipal() instanceof Jwt jwt)) {
+            throw new IllegalStateException("JWT authentication expected but not found");
+        }
+
+        String userId = jwt.getSubject();
+        return userService.getUserByIdSafe(userId);
     }
 
     @PostMapping

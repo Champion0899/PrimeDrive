@@ -6,6 +6,7 @@ public class UserSecurityRules {
     public static void apply(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(auth -> auth
                 .requestMatchers("/api/users/{id}").permitAll()
+                .requestMatchers("/api/users/current").authenticated()
                 .requestMatchers("/api/users/**").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN", "ROLE_SELLER"));
     }
 }

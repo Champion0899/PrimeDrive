@@ -8,6 +8,9 @@
           <li><a (click)="openLoginDialog(); $event.preventDefault()">Login</a></li>
           <li><a (click)="openRegisterDialog(); $event.preventDefault()">Register</a></li>
         } @else {
+          @if (isAdmin) {
+            <li><a routerLink="/admin" routerLinkActive="active">Admin</a></li>
+          }
           <li><a (click)="logout(); $event.preventDefault()">Logout</a></li>
         }
     </ul>

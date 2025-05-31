@@ -19,7 +19,8 @@ import jakarta.servlet.http.HttpServletResponse;
 
 /**
  * Filter for processing JWT authentication headers in incoming HTTP requests.
- * Verifies the presence and validity of a JWT token and, upon successful validation,
+ * Verifies the presence and validity of a JWT token and, upon successful
+ * validation,
  * sets the authentication in the Spring Security Context.
  *
  * Author: Fatlum Epiroti
@@ -35,7 +36,7 @@ public class JwtFilter extends OncePerRequestFilter {
     /**
      * Constructor for initializing the filter with the required services.
      *
-     * @param jwtUtil Utility class for extracting and validating JWT tokens
+     * @param jwtUtil     Utility class for extracting and validating JWT tokens
      * @param userService Service for retrieving user information by extracted ID
      */
     public JwtFilter(JwtUtil jwtUtil, UserService userService) {
@@ -44,48 +45,55 @@ public class JwtFilter extends OncePerRequestFilter {
     }
 
     /**
-     * Processes the HTTP request, checks for a valid JWT in the Authorization header,
-     * and sets the user authentication in the Spring Security Context upon successful validation.
+     * Processes the HTTP request, checks for a valid JWT in the Authorization
+     * header,
+     * and sets the user authentication in the Spring Security Context upon
+     * successful validation.
      *
-     * @param request The incoming HTTP request
-     * @param response The HTTP response
+     * @param request     The incoming HTTP request
+     * @param response    The HTTP response
      * @param filterChain The filter chain to forward the request
      * @throws ServletException In case of servlet-specific errors
-     * @throws IOException In case of I/O errors
+     * @throws IOException      In case of I/O errors
      */
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+    protected void doFilterInternal(@org.springframework.lang.NonNull HttpServletRequest request,
+            @org.springframework.lang.NonNull HttpServletResponse response,
+            @org.springframework.lang.NonNull FilterChain filterChain)
             throws ServletException, IOException {
         String authHeader = request.getHeader("Authorization");
-        String id = null;
         String jwt = null;
+        String id = null;
 
+        // 1. Try Authorization Header first (used by Swagger etc.)
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
             jwt = authHeader.substring(7);
-            try {
-                id = jwtUtil.extractUserId(jwt);
-                System.out.println("✅ JWT from header valid, extracted ID: " + id);
-            } catch (Exception e) {
-                System.out.println("❌ Invalid JWT from header: " + e.getMessage());
-            }
-        } else {
+            System.out.println("🔐 Bearer token found in Authorization header");
+        }
+
+        // 2. If no header token found, try cookies (used by frontend)
+        if (jwt == null) {
             var cookies = request.getCookies();
             if (cookies != null) {
                 for (jakarta.servlet.http.Cookie cookie : cookies) {
                     if ("jwt".equals(cookie.getName())) {
                         jwt = cookie.getValue();
                         System.out.println("🍪 JWT Cookie found: " + jwt);
-                        try {
-                            id = jwtUtil.extractUserId(jwt);
-                            System.out.println("✅ JWT from cookie valid, extracted ID: " + id);
-                        } catch (Exception e) {
-                            System.out.println("❌ Invalid JWT from cookie: " + e.getMessage());
-                        }
                         break;
                     }
                 }
             } else {
                 System.out.println("⚠️ No cookies found in request");
+            }
+        }
+
+        // 3. Validate token and extract user ID
+        if (jwt != null) {
+            try {
+                id = jwtUtil.extractUserId(jwt);
+                System.out.println("✅ Valid JWT, extracted ID: " + id);
+            } catch (Exception e) {
+                System.out.println("❌ Invalid JWT: " + e.getMessage());
             }
         }
 
@@ -95,7 +103,7 @@ public class JwtFilter extends OncePerRequestFilter {
             if (userDetails.isPresent() && jwtUtil.validateToken(jwt, userDetails.get())) {
                 System.out.println("✅ Token validated, setting authentication");
                 UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
-                        userDetails.get(), null, userDetails.get().getAuthorities());
+                        userDetails.get().getId().toString(), null, userDetails.get().getAuthorities());
                 SecurityContextHolder.getContext().setAuthentication(authToken);
             } else {
                 System.out.println("❌ Token validation failed");
