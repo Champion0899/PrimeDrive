@@ -1,14 +1,13 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { LoginResponse } from '../../Models/loginResponse.interface';
+import { LoginResponse } from '../../Models/auth/loginResponse.interface';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
   private apiUrl = 'https://localhost:8443/api/authentication';
-
   private httpClient = inject(HttpClient);
 
   public login(username: string, password: string): Observable<LoginResponse> {
