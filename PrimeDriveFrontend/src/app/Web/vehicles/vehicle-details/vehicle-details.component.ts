@@ -4,6 +4,8 @@ import { ActivatedRoute } from '@angular/router';
 
 import { HttpErrorResponse } from '@angular/common/http';
 import { MatCardModule } from '@angular/material/card';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
 import { forkJoin, map, switchMap } from 'rxjs';
 import { VehicleWithFullDetails } from '../../../Models/vehicles/vehicleWithFullDetails';
@@ -17,7 +19,7 @@ import { User } from '../../../Models/vehicles/user.interface';
 @Component({
   selector: 'app-vehicle-details',
   standalone: true,
-  imports: [MatCardModule, CommonModule],
+  imports: [MatCardModule, CommonModule, MatExpansionModule, MatIconModule],
   templateUrl: './vehicle-details.component.html',
   styleUrl: './vehicle-details.component.scss',
 })

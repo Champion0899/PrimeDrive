@@ -1,0 +1,19 @@
+mat-expansion-panel {
+  transition: all 0.3s ease-in-out;
+  overflow: hidden;
+}
+
+mat-expansion-panel-header {
+  cursor: pointer;
+  min-height: 3rem !important;
+  height: 3rem !important;
+  align-items: center;
+
+  .mat-expansion-indicator::after {
+    transition: transform 0.2s ease;
+  }
+}
+
+mat-expansion-panel-body p {
+  margin: 0.25rem 0;
+}
