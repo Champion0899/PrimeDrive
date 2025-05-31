@@ -11,6 +11,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 import com.example.PrimeDriveBackend.config.SecurityRules.AuthSecurityRules;
 import com.example.PrimeDriveBackend.config.SecurityRules.SwaggerSecurityRules;
+import com.example.PrimeDriveBackend.config.SecurityRules.UserSecurityRules;
 import com.example.PrimeDriveBackend.config.SecurityRules.VehicleSecurityRules;
 import com.example.PrimeDriveBackend.filter.JwtFilter;
 
@@ -42,12 +43,16 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(csrf -> csrf.disable())
-                .cors(cors -> {})
+                .cors(cors -> {
+                })
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
         SwaggerSecurityRules.apply(http);
         AuthSecurityRules.apply(http);
         VehicleSecurityRules.apply(http);
+        UserSecurityRules.apply(http);
+
+        http.authorizeHttpRequests(auth -> auth.anyRequest().authenticated());
 
         http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();

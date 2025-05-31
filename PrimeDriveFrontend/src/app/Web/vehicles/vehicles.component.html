@@ -1,9 +1,9 @@
 <div class="vehicle-container">
   @for (vehicle of vehicles; track vehicle.id) {
-    <mat-card class="vehicle-card">
+    <mat-card class="vehicle-card" (click)="goToVehicleDetails(vehicle.id)">
       <mat-card-header>
-        <mat-card-title>{{ vehicle.name }}</mat-card-title>
-        <mat-card-subtitle>{{ vehicle.year }} • {{ vehicle.condition }}</mat-card-subtitle>
+        <mat-card-title>{{ vehicle.brand.name}} {{ vehicle.name }}</mat-card-title>
+        <mat-card-subtitle>{{ vehicle.year }} • {{ vehicle.condition }} • {{vehicle.type.type}}</mat-card-subtitle>
       </mat-card-header>
       <img mat-card-image [src]="vehicle.image" alt="{{ vehicle.name }}" />
       <mat-card-content>

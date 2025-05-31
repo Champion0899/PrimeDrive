@@ -1,0 +1,14 @@
+@if (vehicle) {
+  <mat-card>
+  <mat-card-header>
+    <mat-card-title>{{ vehicle.brand.name}} {{ vehicle.name }}</mat-card-title>
+    <mat-card-subtitle>{{ vehicle.year }} • {{ vehicle.condition }} • {{vehicle.type.type}}</mat-card-subtitle>
+  </mat-card-header>
+  <img mat-card-image [src]="vehicle.image" alt="{{ vehicle.name }}" />
+  <mat-card-content>
+    <p><strong>Preis:</strong> {{ vehicle.price | currency:'CHF' }}</p>
+    <p><strong>Kilometer:</strong> {{ vehicle.mileage }} km</p>
+    <p><strong>Historie:</strong> {{ vehicle.vehicleHistory }}</p>
+  </mat-card-content>
+  </mat-card>
+}

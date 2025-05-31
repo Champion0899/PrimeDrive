@@ -1,8 +1,12 @@
 package com.example.PrimeDriveBackend.Mapper;
 
+import org.springframework.stereotype.Component;
+
 import com.example.PrimeDriveBackend.Dto.UserDto;
+import com.example.PrimeDriveBackend.Dto.UserSafeDto;
 import com.example.PrimeDriveBackend.model.Users;
 
+@Component
 public class UserMapper {
 
     public UserDto toDto(Users users) {
@@ -42,4 +46,23 @@ public class UserMapper {
         users.setModifiedDate(dto.getModifiedDate());
         return users;
     }
+
+    public UserSafeDto toSafeDto(Users users) {
+        UserSafeDto dto = new UserSafeDto();
+        dto.setId(users.getId());
+        dto.setUsername(users.getUsername());
+        dto.setEMail(users.getEMail());
+        dto.setRole(users.getRole());
+        dto.setAddress(users.getAddress());
+        dto.setZipCode(users.getZipCode());
+        dto.setCity(users.getCity());
+        dto.setCountry(users.getCountry());
+        dto.setPhoneNumber(users.getPhoneNumber());
+        dto.setCreatedUser(users.getCreatedUser());
+        dto.setCreatedDate(users.getCreatedDate());
+        dto.setModifiedUser(users.getModifiedUser());
+        dto.setModifiedDate(users.getModifiedDate());
+        return dto;
+    }
+
 }
