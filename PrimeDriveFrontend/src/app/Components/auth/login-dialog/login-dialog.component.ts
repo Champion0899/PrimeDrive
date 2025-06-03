@@ -6,6 +6,17 @@ import { MatButtonModule } from '@angular/material/button';
 import { AuthService } from '../../../Services/auth/auth.service';
 import { FormsModule } from '@angular/forms';
 
+/**
+ * Component for rendering a login dialog with username and password inputs.
+ * Utilizes Angular Material for styling and layout.
+ *
+ * When submitted, credentials are sent to the AuthService for authentication.
+ * On success, the dialog is closed and emits a success flag.
+ *
+ * Author: Fatlum Epiroti
+ * Version: 1.0.0
+ * Date: 2025-06-03
+ */
 @Component({
   selector: 'app-login-dialog',
   standalone: true,
@@ -24,9 +35,16 @@ export class LoginDialogComponent {
   private authService = inject(AuthService);
   private dialogRef = inject(MatDialogRef<LoginDialogComponent>);
 
+  /** Holds the input username from the user. */
   protected username: string = '';
+  /** Holds the input password from the user. */
   protected password: string = '';
 
+  /**
+   * Handles user login action.
+   * Sends username and password to the AuthService and closes the dialog on success.
+   * Logs errors to the console on failure.
+   */
   protected login() {
     this.authService.login(this.username, this.password).subscribe({
       next: () => {

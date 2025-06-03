@@ -6,7 +6,8 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "docs": "npx compodoc -p tsconfig.app.json -d docs --theme angular"
   },
   "private": true,
   "dependencies": {

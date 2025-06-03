@@ -1,3 +1,12 @@
+/*
+ * Root TypeScript configuration for the Angular workspace.
+ * Defines strict compiler options and Angular template checks for robust code quality.
+ * This file applies to the entire project and is extended by sub-configs like tsconfig.app.json.
+ *
+ * Author: Fatlum Epiroti, Jamie Schüpbach & Lorin Baumann
+ * Version: 1.0.0
+ * Date: 2025-06-03
+ */
 /* To learn more about this file see: https://angular.io/config/tsconfig. */
 {
   "compileOnSave": false,

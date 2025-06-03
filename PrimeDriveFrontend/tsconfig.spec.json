@@ -1,3 +1,12 @@
+/*
+ * TypeScript configuration for the Angular testing environment.
+ * Extends the base tsconfig and sets up the compiler for Jasmine test specs.
+ * Includes all test and declaration files under the `src` directory.
+ *
+ * Author: Fatlum Epiroti, Jamie Schüpbach & Lorin Baumann
+ * Version: 1.0.0
+ * Date: 2025-06-03
+ */
 /* To learn more about this file see: https://angular.io/config/tsconfig. */
 {
   "extends": "./tsconfig.json",

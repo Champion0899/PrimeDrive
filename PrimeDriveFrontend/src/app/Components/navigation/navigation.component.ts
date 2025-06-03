@@ -6,6 +6,15 @@ import { AuthService } from '../../Services/auth/auth.service';
 import { UsersService } from '../../Services/users/users.service';
 import { User } from '../../Models/vehicles/user.interface';
 
+/**
+ * NavigationComponent handles the application's top navigation bar.
+ * Provides login, logout, and registration dialogs.
+ * Also checks and reflects the authentication and admin status of the user.
+ *
+ * Author: Fatlum Epiroti
+ * Version: 1.0.0
+ * Date: 2025-06-03
+ */
 @Component({
   selector: 'app-navigation',
   standalone: true,
@@ -13,16 +22,20 @@ import { User } from '../../Models/vehicles/user.interface';
   styleUrl: './navigation.component.scss',
 })
 export class NavigationComponent implements OnInit {
+  /** Indicates if the user is currently logged in. */
   protected isLoggedIn: boolean = false;
+  /** Indicates if the current user has admin privileges. */
   protected isAdmin: boolean = false;
   private dialog = inject(MatDialog);
   private authService = inject(AuthService);
   private readonly usersService: UsersService = inject(UsersService);
 
+  /** Lifecycle hook that runs on component initialization. Checks login status. */
   public ngOnInit(): void {
     this.checkLoginStatus();
   }
 
+  /** Opens the login dialog and checks login status after it's closed. */
   public openLoginDialog() {
     const dialogRef = this.dialog.open(LoginDialogComponent, {
       width: '400px',
@@ -36,6 +49,7 @@ export class NavigationComponent implements OnInit {
     });
   }
 
+  /** Opens the registration dialog. */
   public openRegisterDialog() {
     this.dialog.open(RegisterDialogComponent, {
       width: '400px',
@@ -43,11 +57,13 @@ export class NavigationComponent implements OnInit {
     });
   }
 
+  /** Logs the user out and updates the local login state. */
   public logout() {
     this.authService.logout();
     this.isLoggedIn = false;
   }
 
+  /** Checks the current authentication state and updates admin status if logged in. */
   private checkLoginStatus(): void {
     this.authService.isAuthenticated().subscribe((loggedIn: boolean) => {
       this.isLoggedIn = loggedIn;
