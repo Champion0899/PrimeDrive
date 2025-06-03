@@ -59,6 +59,19 @@ export class VehiclesService {
   }
 
   /**
+   * Retrieves a list of all vehicle holdings.
+   * @returns Observable of Holding array.
+   */
+  public getHoldingById(id: string): Observable<Brand[]> {
+    return this.httpClient.get<Brand[]>(
+      `${this.apiUrl}/vehicle_holdings/${id}`,
+      {
+        withCredentials: true,
+      }
+    );
+  }
+
+  /**
    * Retrieves the vehicle type details by type ID.
    * @param id - The UUID of the vehicle type.
    * @returns Observable of the VehicleType.

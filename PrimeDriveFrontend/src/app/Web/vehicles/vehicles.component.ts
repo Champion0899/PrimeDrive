@@ -3,20 +3,61 @@ import { CommonModule } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Vehicle } from '../../Models/vehicles/vehicle.interface';
 import { MatCardModule } from '@angular/material/card';
+import { MatFormFieldModule, MatLabel } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
 import { Router } from '@angular/router';
 import { forkJoin, map, switchMap } from 'rxjs';
 import { VehicleWithLessDetails } from '../../Models/vehicles/vehicleWithLessDetails';
 import { VehiclesService } from '../../Services/vehicles/vehicles.service';
+import { FormsModule } from '@angular/forms';
+import { MatInput } from '@angular/material/input';
+import { MatIcon } from '@angular/material/icon';
 
 @Component({
   selector: 'app-vehicles',
   standalone: true,
-  imports: [MatCardModule, CommonModule],
+  imports: [
+    MatCardModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    CommonModule,
+    FormsModule,
+    MatInput,
+    MatLabel,
+    MatIcon,
+  ],
   templateUrl: './vehicles.component.html',
   styleUrl: './vehicles.component.scss',
 })
 export class VehiclesComponent implements OnInit {
+  public filtersExpanded: boolean = true;
   public vehicles: VehicleWithLessDetails[] = [];
+  public filters = {
+    brand: 'All',
+    type: 'All',
+    year: null as number | null,
+    maxPrice: null as number | null,
+    maxMileage: null as number | null,
+    condition: 'All',
+    holding: 'All',
+    color: 'All',
+    engine: 'All',
+    fuel: 'All',
+    seats: 'All' as number | string,
+    doors: 'All' as number | string,
+  };
+
+  public uniqueBrands: string[] = [];
+  public uniqueTypes: string[] = [];
+  public uniqueConditions: string[] = [];
+
+  public uniqueHoldings: string[] = [];
+  public uniqueColors: string[] = [];
+  public uniqueEngines: string[] = [];
+  public uniqueFuels: string[] = [];
+  public uniqueSeats: (number | string)[] = [];
+  public uniqueDoors: (number | string)[] = [];
+
   private vehiclesService = inject(VehiclesService);
   private router = inject(Router);
 
@@ -34,17 +75,53 @@ export class VehiclesComponent implements OnInit {
       .pipe(
         switchMap((vehicles: Vehicle[]) => {
           const detailedVehicles$ = vehicles.map((vehicle: Vehicle) =>
-            forkJoin({
-              brand: this.vehiclesService.getBrandById(vehicle.brandsId),
-              type: this.vehiclesService.getTypeById(vehicle.typesId),
-            }).pipe(
-              map(
-                (details) =>
-                  ({
-                    ...vehicle,
-                    brand: details.brand,
-                    type: details.type,
-                  } as unknown as VehicleWithLessDetails)
+            this.vehiclesService.getBrandById(vehicle.brandsId).pipe(
+              switchMap((brand) =>
+                forkJoin({
+                  type: this.vehiclesService.getTypeById(vehicle.typesId),
+                  color: this.vehiclesService.getColorById(vehicle.colorsId),
+                  specs: this.vehiclesService
+                    .getSpecsById(vehicle.specsId)
+                    .pipe(
+                      switchMap((specs) =>
+                        forkJoin({
+                          doors: this.vehiclesService.getDoorsById(
+                            specs.doorsId
+                          ),
+                          engine: this.vehiclesService.getEngineById(
+                            specs.engineId
+                          ),
+                          fuels: this.vehiclesService.getFuelById(
+                            specs.fuelsId
+                          ),
+                          seats: this.vehiclesService.getSeatsById(
+                            specs.seatsId
+                          ),
+                        }).pipe(
+                          map((details) => ({
+                            ...specs,
+                            doors: details.doors,
+                            engine: details.engine,
+                            fuels: details.fuels,
+                            seats: details.seats,
+                          }))
+                        )
+                      )
+                    ),
+                  holding: this.vehiclesService.getHoldingById(brand.holdingId),
+                }).pipe(
+                  map(
+                    (details) =>
+                      ({
+                        ...vehicle,
+                        brand: brand,
+                        type: details.type,
+                        color: details.color,
+                        specs: details.specs,
+                        holding: details.holding,
+                      } as unknown as VehicleWithLessDetails)
+                  )
+                )
               )
             )
           );
@@ -54,10 +131,143 @@ export class VehiclesComponent implements OnInit {
       .subscribe({
         next: (vehicles: VehicleWithLessDetails[]) => {
           this.vehicles = vehicles;
+          this.uniqueBrands = [
+            'All',
+            ...new Set(vehicles.map((v) => v.brand?.name).filter(Boolean)),
+          ];
+          this.uniqueTypes = [
+            'All',
+            ...new Set(vehicles.map((v) => v.type?.type).filter(Boolean)),
+          ];
+          this.uniqueConditions = [
+            'All',
+            ...new Set(vehicles.map((v) => v.condition).filter(Boolean)),
+          ];
+
+          this.uniqueHoldings = [
+            'All',
+            ...new Set(vehicles.map((v) => v.holding?.name).filter(Boolean)),
+          ];
+          this.uniqueColors = [
+            'All',
+            ...new Set(vehicles.map((v) => v.color?.name).filter(Boolean)),
+          ];
+          this.uniqueEngines = [
+            'All',
+            ...new Set(
+              vehicles.map((v) => v.specs?.engine?.engineType).filter(Boolean)
+            ),
+          ];
+          this.uniqueFuels = [
+            'All',
+            ...new Set(
+              vehicles.map((v) => v.specs?.fuel?.fuelType).filter(Boolean)
+            ),
+          ];
+          this.uniqueSeats = [
+            'All',
+            ...new Set(
+              vehicles.map((v) => v.specs?.seats?.quantity).filter(Boolean)
+            ),
+          ];
+          this.uniqueDoors = [
+            'All',
+            ...new Set(
+              vehicles.map((v) => v.specs?.doors?.quantity).filter(Boolean)
+            ),
+          ];
+          console.log('Vehicles fetched successfully:', this.vehicles);
         },
         error: (error: HttpErrorResponse) => {
           console.error('Error fetching vehicles:', error.message);
         },
       });
+  }
+
+  public getFilteredVehicles(): VehicleWithLessDetails[] {
+    return this.vehicles.filter((v) => {
+      return (
+        (this.filters.brand === 'All' ||
+          v.brand?.name === this.filters.brand) &&
+        (this.filters.type === 'All' || v.type?.type === this.filters.type) &&
+        (!this.filters.year || v.year >= this.filters.year) &&
+        (!this.filters.maxPrice || v.price <= this.filters.maxPrice) &&
+        (!this.filters.maxMileage || v.mileage <= this.filters.maxMileage) &&
+        (this.filters.condition === 'All' ||
+          v.condition === this.filters.condition) &&
+        (this.filters.holding === 'All' ||
+          v.holding?.name === this.filters.holding) &&
+        (this.filters.color === 'All' ||
+          v.color?.name === this.filters.color) &&
+        (this.filters.engine === 'All' ||
+          v.specs?.engine?.engineType === this.filters.engine) &&
+        (this.filters.fuel === 'All' ||
+          v.specs?.fuel?.fuelType === this.filters.fuel) &&
+        (this.filters.seats === 'All' ||
+          v.specs?.seats?.quantity === this.filters.seats) &&
+        (this.filters.doors === 'All' ||
+          v.specs?.doors?.quantity === this.filters.doors)
+      );
+    });
+  }
+
+  public resetFilters(): void {
+    this.filters = {
+      brand: 'All',
+      type: 'All',
+      year: null,
+      maxPrice: null,
+      maxMileage: null,
+      condition: 'All',
+      holding: 'All',
+      color: 'All',
+      engine: 'All',
+      fuel: 'All',
+      seats: 'All',
+      doors: 'All',
+    };
+  }
+
+  public updateFilterOptions(): void {
+    const filtered = this.getFilteredVehicles();
+
+    this.uniqueBrands = [
+      'All',
+      ...new Set(filtered.map((v) => v.brand?.name).filter(Boolean)),
+    ];
+    this.uniqueTypes = [
+      'All',
+      ...new Set(filtered.map((v) => v.type?.type).filter(Boolean)),
+    ];
+    this.uniqueConditions = [
+      'All',
+      ...new Set(filtered.map((v) => v.condition).filter(Boolean)),
+    ];
+    this.uniqueHoldings = [
+      'All',
+      ...new Set(filtered.map((v) => v.holding?.name).filter(Boolean)),
+    ];
+    this.uniqueColors = [
+      'All',
+      ...new Set(filtered.map((v) => v.color?.name).filter(Boolean)),
+    ];
+    this.uniqueEngines = [
+      'All',
+      ...new Set(
+        filtered.map((v) => v.specs?.engine?.engineType).filter(Boolean)
+      ),
+    ];
+    this.uniqueFuels = [
+      'All',
+      ...new Set(filtered.map((v) => v.specs?.fuel?.fuelType).filter(Boolean)),
+    ];
+    this.uniqueSeats = [
+      'All',
+      ...new Set(filtered.map((v) => v.specs?.seats?.quantity).filter(Boolean)),
+    ];
+    this.uniqueDoors = [
+      'All',
+      ...new Set(filtered.map((v) => v.specs?.doors?.quantity).filter(Boolean)),
+    ];
   }
 }

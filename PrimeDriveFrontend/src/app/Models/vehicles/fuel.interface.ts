@@ -8,5 +8,5 @@
  */
 export interface Fuel {
   id: string;
-  fuelType: number;
+  fuelType: string;
 }

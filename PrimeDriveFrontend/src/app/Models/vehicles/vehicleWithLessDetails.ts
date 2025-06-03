@@ -1,4 +1,8 @@
 import { Brand } from './brand.interface';
+import { Color } from './color.interface';
+import { Holding } from './holding.interfac';
+import { Specs } from './specs.interface';
+import { SpecsWithDetails } from './specsWithDetails.interface';
 import { Type } from './type.interface';
 import { Vehicle } from './vehicle.interface';
 
@@ -13,4 +17,7 @@ import { Vehicle } from './vehicle.interface';
 export interface VehicleWithLessDetails extends Vehicle {
   brand: Brand;
   type: Type;
+  holding: Holding;
+  color: Color;
+  specs: SpecsWithDetails;
 }
