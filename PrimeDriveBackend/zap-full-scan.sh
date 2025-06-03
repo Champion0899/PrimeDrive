@@ -1,3 +1,13 @@
+#!/bin/bash
+#
+# -----------------------------------------------------------------------------
+# Script: zap-full-scan.sh
+# Purpose: Executes a full OWASP ZAP API scan with bearer token authentication.
+# Usage: ./zap-full-scan.sh
+# Author: Fatlum Epiroti
+# Version: 1.0
+# Date: 2025-06-03
+# -----------------------------------------------------------------------------
 read -s -p "Enter Bearer Token: " token
 echo
 set -x

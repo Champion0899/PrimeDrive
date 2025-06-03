@@ -1,3 +1,14 @@
+#!/bin/bash
+#
+# -----------------------------------------------------------------------------
+# Script: zap-api-scan.sh
+# Purpose: Executes an automated OWASP ZAP API scan using a bearer token for authentication.
+# Usage: ./zap-api-scan.sh
+# Author: Fatlum Epiroti
+# Version: 1.0
+# Date: 2025-06-03
+# -----------------------------------------------------------------------------
+
 read -s -p "Enter Bearer Token: " token
 echo
 set -x
