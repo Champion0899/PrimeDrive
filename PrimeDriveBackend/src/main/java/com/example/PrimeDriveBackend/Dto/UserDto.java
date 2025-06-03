@@ -1,3 +1,14 @@
+/**
+ * Data Transfer Object (DTO) representing a full user entity.
+ *
+ * This DTO is used to transfer user data between layers, especially when displaying
+ * or updating user-related information. Includes identity, credentials, audit,
+ * contact, and login-related fields.
+ *
+ * Author: Fatlum Epiroti
+ * Version: 1.0
+ * Date: 2025-06-03
+ */
 package com.example.PrimeDriveBackend.Dto;
 
 import java.sql.Date;

@@ -23,6 +23,17 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 
+/**
+ * REST controller providing endpoints to manage vehicle specifications.
+ *
+ * This controller supports creating, retrieving, updating, and deleting vehicle specification entries.
+ * Only users with SELLER or ADMIN roles are permitted to modify or delete records.
+ * All authenticated users may access retrieval endpoints.
+ *
+ * Author: Fatlum Epiroti
+ * Version: 1.0
+ * Date: 2025-06-03
+ */
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/api/vehicle_specs")
@@ -31,18 +42,39 @@ import lombok.RequiredArgsConstructor;
 public class VehicleSpecsController {
     private final VehicleSpecsService vehicleSpecsService;
 
+    /**
+     * Endpoint to retrieve all vehicle specifications.
+     *
+     * Accessible to all authenticated users.
+     *
+     * @return List of VehicleSpecsDto objects
+     */
     @GetMapping
     @Operation(summary = "Get all vehicle specs", description = "Retrieves a list of all vehicle specs. Access: All authenticated roles.")
     public List<VehicleSpecsDto> listAll() {
         return vehicleSpecsService.getAllSpecs();
     }
 
+    /**
+     * Endpoint to retrieve vehicle specifications by ID.
+     *
+     * @param id Unique identifier of the specification entry
+     * @return VehicleSpecsDto containing the requested specification
+     */
     @GetMapping("/{id}")
     @Operation(summary = "Get vehicle specs by ID", description = "Retrieves a vehicle specs by its ID. Access: All authenticated roles.")
     public VehicleSpecsDto getById(@PathVariable String id) {
         return vehicleSpecsService.getSpecsById(id);
     }
 
+    /**
+     * Endpoint to create a new vehicle specification.
+     *
+     * Only accessible to SELLER or ADMIN users.
+     *
+     * @param dto VehicleSpecsDto containing the specification data to be created
+     * @return VehicleSpecsDto representing the created specification
+     */
     @PostMapping
     @PreAuthorize("hasAnyRole('SELLER', 'ADMIN')")
     @SecurityRequirement(name = "bearer")
@@ -55,6 +87,15 @@ public class VehicleSpecsController {
         return vehicleSpecsService.saveSpecs(dto);
     }
 
+    /**
+     * Endpoint to update an existing vehicle specification.
+     *
+     * Only accessible to SELLER or ADMIN users.
+     *
+     * @param id Unique identifier of the specification to update
+     * @param dto Updated specification data
+     * @return VehicleSpecsDto representing the updated specification
+     */
     @PutMapping("/{id}")
     @PreAuthorize("hasAnyRole('SELLER', 'ADMIN')")
     @SecurityRequirement(name = "bearer")
@@ -67,6 +108,13 @@ public class VehicleSpecsController {
         return vehicleSpecsService.updateSpecs(id, dto);
     }
 
+    /**
+     * Endpoint to delete a vehicle specification by ID.
+     *
+     * Only accessible to SELLER or ADMIN users.
+     *
+     * @param id Unique identifier of the specification to delete
+     */
     @DeleteMapping("/{id}")
     @PreAuthorize("hasAnyRole('SELLER', 'ADMIN')")
     @SecurityRequirement(name = "bearer")

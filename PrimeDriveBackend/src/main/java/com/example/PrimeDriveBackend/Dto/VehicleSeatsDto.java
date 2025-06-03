@@ -9,10 +9,25 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+/**
+ * Data Transfer Object (DTO) representing the seating configuration of a
+ * vehicle.
+ *
+ * This class is used to encapsulate details about the number of seats in a
+ * vehicle,
+ * typically used for classification, user interface display, or vehicle search
+ * filters.
+ *
+ * Author: Fatlum Epiroti
+ * Version: 1.0
+ * Date: 2025-06-03
+ */
 public class VehicleSeatsDto {
+    /** The unique identifier for the seat configuration. */
     @NotNull
     @Schema(description = "Id of the seats", example = "48d183d9-5658-4488-984e-8801967850e9")
     private String id;
+    /** The number of seats available in the vehicle. */
     @NotNull
     @Schema(description = "Number of seats", example = "5")
     private Integer quantity;

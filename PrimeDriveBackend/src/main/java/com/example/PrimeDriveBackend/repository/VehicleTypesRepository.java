@@ -1,6 +1,5 @@
 package com.example.PrimeDriveBackend.repository;
 
-import java.lang.foreign.Linker.Option;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;

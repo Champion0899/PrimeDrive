@@ -23,6 +23,18 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 
+/**
+ * REST controller providing endpoints to manage vehicle seat configurations.
+ *
+ * This controller handles creation, retrieval, updating, and deletion of
+ * vehicle seat records.
+ * Only users with ADMIN role are permitted to modify or delete entries.
+ * All authenticated users can retrieve seat information.
+ *
+ * Author: Fatlum Epiroti
+ * Version: 1.0
+ * Date: 2025-06-03
+ */
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/api/vehicle_seats")
@@ -31,18 +43,39 @@ import lombok.RequiredArgsConstructor;
 public class VehicleSeatsController {
     private final VehicleSeatsService vehicleSeatsService;
 
+    /**
+     * Endpoint to retrieve all vehicle seat configurations.
+     *
+     * Accessible to all authenticated users.
+     *
+     * @return List of VehicleSeatsDto objects
+     */
     @GetMapping
     @Operation(summary = "Get all vehicle seats", description = "Retrieves a list of all vehicle seats. Access: All authenticated roles.")
     public List<VehicleSeatsDto> listAll() {
         return vehicleSeatsService.getAllSeats();
     }
 
+    /**
+     * Endpoint to retrieve a vehicle seat configuration by ID.
+     *
+     * @param id Unique identifier of the seat configuration
+     * @return VehicleSeatsDto with the requested configuration
+     */
     @GetMapping("/{id}")
     @Operation(summary = "Get vehicle seats by ID", description = "Retrieves a vehicle seats by its ID. Access: All authenticated roles.")
     public VehicleSeatsDto getById(@PathVariable String id) {
         return vehicleSeatsService.getSeatsById(id);
     }
 
+    /**
+     * Endpoint to create a new vehicle seat configuration.
+     *
+     * Only accessible to users with ADMIN role.
+     *
+     * @param dto VehicleSeatsDto containing the configuration to create
+     * @return VehicleSeatsDto representing the newly created entry
+     */
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
     @SecurityRequirement(name = "bearer")
@@ -55,6 +88,15 @@ public class VehicleSeatsController {
         return vehicleSeatsService.saveSeats(dto);
     }
 
+    /**
+     * Endpoint to update an existing vehicle seat configuration.
+     *
+     * Only accessible to ADMIN users.
+     *
+     * @param id  Unique identifier of the seat to update
+     * @param dto Updated seat data
+     * @return VehicleSeatsDto with updated information
+     */
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     @SecurityRequirement(name = "bearer")
@@ -68,6 +110,13 @@ public class VehicleSeatsController {
         return vehicleSeatsService.updateSeats(id, dto);
     }
 
+    /**
+     * Endpoint to delete a vehicle seat configuration by ID.
+     *
+     * Only accessible to ADMIN users.
+     *
+     * @param id Unique identifier of the seat to delete
+     */
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     @SecurityRequirement(name = "bearer")

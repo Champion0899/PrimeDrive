@@ -14,6 +14,16 @@ import com.example.PrimeDriveBackend.service.VehicleEngineService;
 import com.example.PrimeDriveBackend.service.VehicleFuelsService;
 import com.example.PrimeDriveBackend.service.VehicleSeatsService;
 
+/**
+ * Mapper class for converting between VehicleSpecs entities and their DTO representations.
+ *
+ * This mapper handles the transformation of complex vehicle specification objects to DTOs and back.
+ * It resolves related entities like doors, seats, engine, and fuels using their respective services.
+ *
+ * Author: Fatlum Epiroti
+ * Version: 1.0
+ * Date: 2025-06-03
+ */
 @Component
 public class VehicleSpecsMapper {
 
@@ -33,6 +43,12 @@ public class VehicleSpecsMapper {
                 this.vehicleFuelsService = vehicleFuelService;
         }
 
+        /**
+         * Converts a VehicleSpecs entity to a VehicleSpecsDto.
+         *
+         * @param vehicleSpecs The VehicleSpecs entity containing detailed specifications.
+         * @return A DTO representing the vehicle specifications.
+         */
         public VehicleSpecsDto toDto(VehicleSpecs vehicleSpecs) {
                 VehicleSpecsDto dto = new VehicleSpecsDto();
                 dto.setId(vehicleSpecs.getId());
@@ -56,6 +72,16 @@ public class VehicleSpecsMapper {
                 return dto;
         }
 
+        /**
+         * Converts a VehicleSpecsDto to a VehicleSpecs entity.
+         *
+         * Resolves related entities using VehicleDoorsService, VehicleSeatsService,
+         * VehicleEngineService, and VehicleFuelsService.
+         *
+         * @param dto The DTO containing vehicle specification data.
+         * @return A VehicleSpecs entity with resolved references.
+         * @throws RuntimeException if any related entity is not found.
+         */
         public VehicleSpecs toEntity(VehicleSpecsDto dto) {
                 VehicleSpecs vehicleSpecs = new VehicleSpecs();
                 vehicleSpecs.setId(dto.getId());

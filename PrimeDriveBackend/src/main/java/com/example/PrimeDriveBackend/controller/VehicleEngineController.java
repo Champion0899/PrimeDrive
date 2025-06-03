@@ -1,3 +1,15 @@
+
+/**
+ * REST controller providing endpoints to manage vehicle engine configurations.
+ *
+ * This controller handles creation, retrieval, updating, and deletion of vehicle engine entries.
+ * Only users with ADMIN role are allowed to perform modifications, while all authenticated users
+ * can access retrieval endpoints.
+ *
+ * Author: Fatlum Epiroti
+ * Version: 1.0
+ * Date: 2025-06-03
+ */
 package com.example.PrimeDriveBackend.controller;
 
 import java.util.List;
@@ -31,18 +43,39 @@ import lombok.RequiredArgsConstructor;
 public class VehicleEngineController {
     private final VehicleEngineService vehicleEngineService;
 
+    /**
+     * Endpoint to retrieve all vehicle engine configurations.
+     *
+     * Accessible by all authenticated users.
+     *
+     * @return List of VehicleEngineDto objects
+     */
     @GetMapping
     @Operation(summary = "Get all vehicle engines", description = "Retrieves a list of all vehicle engines. Access: All authenticated roles.")
     public List<VehicleEngineDto> listAll() {
         return vehicleEngineService.getAllEngines();
     }
 
+    /**
+     * Endpoint to retrieve a specific vehicle engine configuration by ID.
+     *
+     * @param id Unique identifier of the vehicle engine
+     * @return VehicleEngineDto with the requested engine configuration
+     */
     @GetMapping("/{id}")
     @Operation(summary = "Get vehicle engine by ID", description = "Retrieves a vehicle engine by its ID. Access: All authenticated roles.")
     public VehicleEngineDto getById(@PathVariable String id) {
         return vehicleEngineService.getEngineById(id);
     }
 
+    /**
+     * Endpoint to create a new vehicle engine configuration.
+     *
+     * Only accessible by users with ADMIN role.
+     *
+     * @param dto VehicleEngineDto containing the configuration to create
+     * @return VehicleEngineDto representing the created engine
+     */
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
     @SecurityRequirement(name = "bearer")
@@ -55,6 +88,15 @@ public class VehicleEngineController {
         return vehicleEngineService.saveEngine(dto);
     }
 
+    /**
+     * Endpoint to update an existing vehicle engine configuration.
+     *
+     * Only accessible by ADMIN users.
+     *
+     * @param id  Unique identifier of the engine to update
+     * @param dto Updated engine configuration
+     * @return VehicleEngineDto representing the updated engine
+     */
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     @SecurityRequirement(name = "bearer")
@@ -67,6 +109,13 @@ public class VehicleEngineController {
         return vehicleEngineService.updateEngine(id, dto);
     }
 
+    /**
+     * Endpoint to delete a vehicle engine configuration by ID.
+     *
+     * Only accessible by ADMIN users.
+     *
+     * @param id Unique identifier of the engine to delete
+     */
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     @SecurityRequirement(name = "bearer")

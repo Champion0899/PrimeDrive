@@ -23,6 +23,18 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 
+/**
+ * REST controller providing endpoints to manage vehicle door configurations.
+ *
+ * This controller allows creation, retrieval, updating, and deletion of vehicle
+ * door entries.
+ * Only users with ADMIN role are permitted to create, update or delete records.
+ * All authenticated users may retrieve data.
+ *
+ * Author: Fatlum Epiroti
+ * Version: 1.0
+ * Date: 2025-06-03
+ */
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/api/vehicle_doors")
@@ -31,18 +43,39 @@ import lombok.RequiredArgsConstructor;
 public class VehicleDoorsController {
     private final VehicleDoorsService vehicleDoorsService;
 
+    /**
+     * Endpoint to retrieve all vehicle door configurations.
+     *
+     * Accessible to all authenticated users.
+     *
+     * @return List of VehicleDoorsDto objects
+     */
     @GetMapping
     @Operation(summary = "Get all vehicle doors", description = "Retrieves a list of all vehicle doors. Access: All authenticated roles.")
     public List<VehicleDoorsDto> listAll() {
         return vehicleDoorsService.getAllDoors();
     }
 
+    /**
+     * Endpoint to retrieve a specific vehicle door configuration by ID.
+     *
+     * @param id Unique identifier of the vehicle door configuration
+     * @return VehicleDoorsDto with the requested configuration
+     */
     @GetMapping("/{id}")
     @Operation(summary = "Get vehicle doors by ID", description = "Retrieves a vehicle doors by its ID. Access: All authenticated roles.")
     public VehicleDoorsDto getById(@PathVariable String id) {
         return vehicleDoorsService.getDoorsById(id);
     }
 
+    /**
+     * Endpoint to create a new vehicle door configuration.
+     *
+     * Only accessible by users with ADMIN role.
+     *
+     * @param dto VehicleDoorsDto containing the configuration to create
+     * @return VehicleDoorsDto representing the created configuration
+     */
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
     @SecurityRequirement(name = "bearer")
@@ -55,6 +88,15 @@ public class VehicleDoorsController {
         return vehicleDoorsService.saveDoors(dto);
     }
 
+    /**
+     * Endpoint to update an existing vehicle door configuration.
+     *
+     * Only accessible by ADMIN users.
+     *
+     * @param id  Unique identifier of the configuration to update
+     * @param dto Updated data for the configuration
+     * @return VehicleDoorsDto representing the updated configuration
+     */
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     @SecurityRequirement(name = "bearer")
@@ -68,6 +110,13 @@ public class VehicleDoorsController {
         return vehicleDoorsService.updateDoors(id, dto);
     }
 
+    /**
+     * Endpoint to delete a vehicle door configuration by ID.
+     *
+     * Only accessible by ADMIN users.
+     *
+     * @param id Unique identifier of the configuration to delete
+     */
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     @SecurityRequirement(name = "bearer")

@@ -1,5 +1,17 @@
 package com.example.PrimeDriveBackend.controller;
 
+/**
+ * REST controller providing endpoints to manage vehicle fuel types.
+ *
+ * This controller handles the creation, retrieval, updating, and deletion of fuel type records.
+ * Only users with ADMIN role may create, update or delete fuel entries.
+ * All authenticated users may access retrieval endpoints.
+ *
+ * Author: Fatlum Epiroti
+ * Version: 1.0
+ * Date: 2025-06-03
+ */
+
 import java.util.List;
 
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -33,12 +45,25 @@ public class VehicleFuelsController {
 
     @GetMapping
     @Operation(summary = "Get all vehicle fuel types", description = "Retrieves a list of all vehicle fuel types. Access: All authenticated roles.")
+    /**
+     * Endpoint to retrieve all vehicle fuel types.
+     *
+     * Accessible to all authenticated users.
+     *
+     * @return List of VehicleFuelsDto objects
+     */
     public List<VehicleFuelsDto> listAll() {
         return vehicleFuelsService.getFuelTypes();
     }
 
     @GetMapping("/{id}")
     @Operation(summary = "Get vehicle fuel by ID", description = "Retrieves a vehicle fuel by its ID. Access: All authenticated roles.")
+    /**
+     * Endpoint to retrieve a specific vehicle fuel type by ID.
+     *
+     * @param id Unique identifier of the fuel type
+     * @return VehicleFuelsDto representing the fuel type
+     */
     public VehicleFuelsDto getById(@PathVariable String id) {
         return vehicleFuelsService.getFuelsById(id);
     }
@@ -51,6 +76,14 @@ public class VehicleFuelsController {
             @ApiResponse(responseCode = "200", description = "Vehicle fuel created successfully"),
             @ApiResponse(responseCode = "403", description = "Access denied – only ADMIN allowed")
     })
+    /**
+     * Endpoint to create a new vehicle fuel type.
+     *
+     * Only accessible to ADMIN users.
+     *
+     * @param dto VehicleFuelsDto containing the fuel data to be created
+     * @return VehicleFuelsDto representing the created fuel type
+     */
     public VehicleFuelsDto create(@RequestBody VehicleFuelsDto dto) {
         return vehicleFuelsService.saveFuels(dto);
     }
@@ -63,6 +96,15 @@ public class VehicleFuelsController {
             @ApiResponse(responseCode = "200", description = "Vehicle fuel updated successfully"),
             @ApiResponse(responseCode = "403", description = "Access denied – only ADMIN allowed")
     })
+    /**
+     * Endpoint to update an existing vehicle fuel type.
+     *
+     * Only accessible to ADMIN users.
+     *
+     * @param id Unique identifier of the fuel type to update
+     * @param dto Updated fuel data
+     * @return VehicleFuelsDto representing the updated fuel type
+     */
     public VehicleFuelsDto update(@PathVariable String id, @RequestBody VehicleFuelsDto dto) {
         dto.setId(id);
         return vehicleFuelsService.updateFuels(id, dto);
@@ -76,6 +118,13 @@ public class VehicleFuelsController {
             @ApiResponse(responseCode = "200", description = "Vehicle fuel deleted successfully"),
             @ApiResponse(responseCode = "403", description = "Access denied – only ADMIN allowed")
     })
+    /**
+     * Endpoint to delete a vehicle fuel type by ID.
+     *
+     * Only accessible to ADMIN users.
+     *
+     * @param id Unique identifier of the fuel type to delete
+     */
     public void delete(@PathVariable String id) {
         vehicleFuelsService.deleteFuels(id);
     }

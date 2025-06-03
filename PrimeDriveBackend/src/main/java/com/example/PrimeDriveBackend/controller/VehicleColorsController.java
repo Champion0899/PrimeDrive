@@ -28,21 +28,58 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/api/vehicle_colors")
 @RequiredArgsConstructor
 @Tag(name = "Vehicle Colors", description = "Endpoints for managing vehicle colors")
+/**
+ * REST controller providing endpoints to manage vehicle colors.
+ *
+ * This controller allows for creating, updating, retrieving and deleting
+ * vehicle color entries. Only administrators have access to create, update, and
+ * delete operations.
+ *
+ * Author: Fatlum Epiroti
+ * Version: 1.0
+ * Date: 2025-06-03
+ */
 public class VehicleColorsController {
     private final VehicleColorsService vehicleColorsService;
 
+    /**
+     * Endpoint to retrieve all available vehicle colors.
+     *
+     * This endpoint is accessible to all authenticated users and returns
+     * a list of registered vehicle colors.
+     *
+     * @return List of VehicleColorsDto objects
+     */
     @GetMapping
     @Operation(summary = "Get all vehicle colors", description = "Retrieves a list of all vehicle colors. Access: All authenticated roles.")
     public List<VehicleColorsDto> listAll() {
         return vehicleColorsService.getAllColors();
     }
 
+    /**
+     * Endpoint to retrieve a vehicle color by its unique ID.
+     *
+     * Accessible to all authenticated users. Returns the color data for the
+     * specified ID.
+     *
+     * @param id Unique identifier of the vehicle color to retrieve
+     * @return VehicleColorsDto object representing the color
+     */
     @GetMapping("/{id}")
     @Operation(summary = "Get vehicle color by ID", description = "Retrieves a vehicle color by its ID. Access: All authenticated roles.")
     public VehicleColorsDto getById(@PathVariable String id) {
         return vehicleColorsService.getColorById(id);
     }
 
+    /**
+     * Endpoint for administrators to create a new vehicle color.
+     *
+     * Only accessible by users with ADMIN role. Accepts a VehicleColorsDto with
+     * color data.
+     *
+     * @param dto VehicleColorsDto containing the details of the color to be created
+     * @return VehicleColorsDto representing the newly created color
+     */
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
     @SecurityRequirement(name = "bearer")
@@ -55,6 +92,16 @@ public class VehicleColorsController {
         return vehicleColorsService.saveColor(dto);
     }
 
+    /**
+     * Endpoint for administrators to update an existing vehicle color by ID.
+     *
+     * Accepts the ID of the color and a DTO with updated data. Only ADMIN access
+     * allowed.
+     *
+     * @param id  Unique identifier of the color to update
+     * @param dto VehicleColorsDto with the updated color information
+     * @return VehicleColorsDto representing the updated color
+     */
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     @SecurityRequirement(name = "bearer")
@@ -67,6 +114,13 @@ public class VehicleColorsController {
         return vehicleColorsService.updateColor(id, dto);
     }
 
+    /**
+     * Endpoint to delete a vehicle color by its ID.
+     *
+     * This action is restricted to ADMIN users. Deletes the color permanently.
+     *
+     * @param id Unique identifier of the color to delete
+     */
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     @SecurityRequirement(name = "bearer")

@@ -20,6 +20,21 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 
+/**
+ * Main Spring Security configuration for the PrimeDrive application.
+ *
+ * This class sets up security filters, session management, CORS/CSRF policies,
+ * password encoding, JWT authentication, and applies custom route-based
+ * security rules.
+ *
+ * It integrates specific security rule classes for Swagger, Authentication,
+ * Vehicles, and Users,
+ * and enforces stateless JWT-based security throughout the application.
+ *
+ * @author Fatlum Epiroti
+ * @version 1.0
+ * @since 2025-06-03
+ */
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
@@ -40,6 +55,20 @@ public class SecurityConfig {
         return config.getAuthenticationManager();
     }
 
+    /**
+     * Configures the application's main security filter chain.
+     *
+     * - Disables CSRF (since the app is stateless)
+     * - Enables CORS
+     * - Applies stateless session management
+     * - Applies specific security rules for Swagger, authentication, vehicles, and
+     * users
+     * - Adds JWT filter before the UsernamePasswordAuthenticationFilter
+     *
+     * @param http the HttpSecurity object used for configuring security settings
+     * @return the configured SecurityFilterChain
+     * @throws Exception if any security configuration fails
+     */
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(csrf -> csrf.disable())

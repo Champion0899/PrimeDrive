@@ -6,9 +6,25 @@ import com.example.PrimeDriveBackend.Dto.UserDto;
 import com.example.PrimeDriveBackend.Dto.UserSafeDto;
 import com.example.PrimeDriveBackend.model.Users;
 
+/**
+ * Mapper class for converting between User entities and their DTO representations.
+ *
+ * Provides methods for mapping full user data (UserDto), safe public user data (UserSafeDto),
+ * and transforming incoming DTOs back into entity form (Users).
+ *
+ * Author: Fatlum Epiroti
+ * Version: 1.0
+ * Date: 2025-06-03
+ */
 @Component
 public class UserMapper {
 
+    /**
+     * Converts a User entity to a full UserDto containing all fields, including sensitive ones.
+     *
+     * @param users The User entity to convert.
+     * @return A UserDto with all user data.
+     */
     public UserDto toDto(Users users) {
         UserDto dto = new UserDto();
         dto.setId(users.getId());
@@ -28,6 +44,12 @@ public class UserMapper {
         return dto;
     }
 
+    /**
+     * Converts a UserDto back to a User entity.
+     *
+     * @param dto The UserDto to convert.
+     * @return A Users entity based on the provided DTO.
+     */
     public Users toEntity(UserDto dto) {
         Users users = new Users();
         users.setId(dto.getId());
@@ -47,6 +69,12 @@ public class UserMapper {
         return users;
     }
 
+    /**
+     * Converts a User entity to a UserSafeDto, omitting sensitive information like password.
+     *
+     * @param users The User entity to convert.
+     * @return A UserSafeDto with only safe, non-sensitive fields.
+     */
     public UserSafeDto toSafeDto(Users users) {
         UserSafeDto dto = new UserSafeDto();
         dto.setId(users.getId());

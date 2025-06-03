@@ -24,6 +24,17 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 
+/**
+ * REST controller providing endpoints to manage vehicle types.
+ *
+ * This controller allows for creation, retrieval, updating, and deletion of vehicle type records.
+ * Only users with ADMIN role are permitted to create, update, or delete entries.
+ * All authenticated users can retrieve vehicle types.
+ *
+ * Author: Fatlum Epiroti
+ * Version: 1.0
+ * Date: 2025-06-03
+ */
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/api/vehicle_types")
@@ -32,18 +43,39 @@ import lombok.RequiredArgsConstructor;
 public class VehicleTypesController {
     private final VehicleTypesService vehicleTypesService;
 
+    /**
+     * Endpoint to retrieve all vehicle types.
+     *
+     * Accessible to all authenticated users.
+     *
+     * @return List of VehicleTypesDto objects
+     */
     @GetMapping
     @Operation(summary = "Get all vehicle types", description = "Retrieves a list of all vehicle types. Access: All authenticated roles.")
     public List<VehicleTypesDto> listAll() {
         return vehicleTypesService.getAllTypes();
     }
 
+    /**
+     * Endpoint to retrieve a vehicle type by its unique ID.
+     *
+     * @param id Unique identifier of the vehicle type
+     * @return VehicleTypesDto representing the requested type
+     */
     @GetMapping("/{id}")
     @Operation(summary = "Get vehicle type by ID", description = "Retrieves a vehicle type by its ID. Access: All authenticated roles.")
     public VehicleTypesDto getById(@PathVariable String id) {
         return vehicleTypesService.getTypeById(id);
     }
 
+    /**
+     * Endpoint to create a new vehicle type.
+     *
+     * Only accessible to ADMIN users.
+     *
+     * @param dto VehicleTypesDto containing the vehicle type data to create
+     * @return VehicleTypesDto representing the created vehicle type
+     */
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
     @SecurityRequirement(name = "bearer")
@@ -56,6 +88,15 @@ public class VehicleTypesController {
         return vehicleTypesService.saveType(dto);
     }
 
+    /**
+     * Endpoint to update an existing vehicle type.
+     *
+     * Only accessible to ADMIN users.
+     *
+     * @param id Unique identifier of the type to update
+     * @param dto Updated vehicle type data
+     * @return VehicleTypesDto representing the updated type
+     */
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     @SecurityRequirement(name = "bearer")
@@ -69,6 +110,14 @@ public class VehicleTypesController {
         return vehicleTypesService.updateType(id, dto);
     }
 
+    /**
+     * Endpoint to delete a vehicle type by ID.
+     *
+     * Only accessible to ADMIN users.
+     *
+     * @param id Unique identifier of the type to delete
+     * @return HTTP 204 if deletion was successful
+     */
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     @SecurityRequirement(name = "bearer")

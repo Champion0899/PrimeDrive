@@ -9,12 +9,19 @@ import com.example.PrimeDriveBackend.model.VehicleSpecs;
 import com.example.PrimeDriveBackend.model.VehicleTypes;
 import com.example.PrimeDriveBackend.service.*;
 
-import org.bouncycastle.crypto.RuntimeCryptoException;
 import org.springframework.stereotype.Component;
 
-import java.math.BigDecimal;
-
 @Component
+/**
+ * Mapper class for converting between Vehicle entities and their DTO representations.
+ *
+ * Transforms full vehicle information to DTOs for transport and reverses the transformation
+ * for persistence. Resolves all associated references using related service classes.
+ *
+ * Author: Fatlum Epiroti
+ * Version: 1.0
+ * Date: 2025-06-03
+ */
 public class VehicleMapper {
 
     private final UserService userService;
@@ -35,6 +42,12 @@ public class VehicleMapper {
         this.vehicleColorsService = vehicleColorsService;
     }
 
+    /**
+     * Converts a Vehicle entity to a VehicleDto.
+     *
+     * @param vehicle The Vehicle entity to convert.
+     * @return A DTO containing vehicle data with IDs of related entities.
+     */
     public VehicleDto toDto(Vehicle vehicle) {
         VehicleDto dto = new VehicleDto();
         dto.setId(vehicle.getId());
@@ -53,6 +66,15 @@ public class VehicleMapper {
         return dto;
     }
 
+    /**
+     * Converts a VehicleDto to a Vehicle entity.
+     *
+     * Resolves all related entities (brands, types, specs, colors, users) using services.
+     *
+     * @param dto The VehicleDto containing vehicle data.
+     * @return A fully constructed Vehicle entity.
+     * @throws RuntimeException if any referenced entity cannot be found.
+     */
     public Vehicle toEntity(VehicleDto dto) {
         Vehicle vehicle = new Vehicle();
         vehicle.setId(dto.getId());

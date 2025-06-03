@@ -15,6 +15,17 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * REST controller providing endpoints to manage vehicles.
+ *
+ * This controller offers functionality to create, update, retrieve and delete
+ * vehicle records. Only users with SELLER or ADMIN roles are authorized for
+ * modifications. All authenticated users may retrieve vehicle data.
+ *
+ * Author: Fatlum Epiroti
+ * Version: 1.0
+ * Date: 2025-06-03
+ */
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/api/vehicle")
@@ -23,18 +34,41 @@ import java.util.List;
 public class VehicleController {
     private final VehicleService vehicleService;
 
+    /**
+     * Endpoint to retrieve all vehicles.
+     *
+     * Accessible by all authenticated users. Returns a list of all registered vehicles.
+     *
+     * @return List of VehicleDto objects representing vehicles
+     */
     @GetMapping
     @Operation(summary = "Get all vehicles", description = "Retrieves a list of all vehicles. Access: All authenticated roles.")
     public List<VehicleDto> listAll() {
         return vehicleService.getAllVehicles();
     }
 
+    /**
+     * Endpoint to retrieve a vehicle by its unique ID.
+     *
+     * Accessible by all authenticated users.
+     *
+     * @param id Unique identifier of the vehicle
+     * @return VehicleDto object representing the vehicle
+     */
     @GetMapping("/{id}")
     @Operation(summary = "Get vehicle by ID", description = "Retrieves a vehicle by its ID. Access: All authenticated roles.")
     public VehicleDto getById(@PathVariable String id) {
         return vehicleService.getVehicleById(id);
     }
 
+    /**
+     * Endpoint for SELLER or ADMIN users to create a new vehicle.
+     *
+     * Accepts a VehicleDto object with vehicle details and returns the created vehicle.
+     *
+     * @param dto VehicleDto containing the new vehicle's data
+     * @return VehicleDto representing the newly created vehicle
+     */
     @PostMapping
     @PreAuthorize("hasAnyRole('SELLER', 'ADMIN')")
     @SecurityRequirement(name = "bearer")
@@ -47,6 +81,15 @@ public class VehicleController {
         return vehicleService.saveVehicle(dto);
     }
 
+    /**
+     * Endpoint for SELLER or ADMIN users to update an existing vehicle.
+     *
+     * Accepts the vehicle ID and a VehicleDto with updated data.
+     *
+     * @param id Unique identifier of the vehicle to update
+     * @param dto Updated vehicle data
+     * @return VehicleDto representing the updated vehicle
+     */
     @PutMapping("/{id}")
     @PreAuthorize("hasAnyRole('SELLER', 'ADMIN')")
     @SecurityRequirement(name = "bearer")
@@ -59,6 +102,13 @@ public class VehicleController {
         return vehicleService.updateVehicle(id, dto);
     }
 
+    /**
+     * Endpoint for SELLER or ADMIN users to delete a vehicle by ID.
+     *
+     * Permanently deletes the vehicle with the given ID.
+     *
+     * @param id Unique identifier of the vehicle to delete
+     */
     @DeleteMapping("/{id}")
     @PreAuthorize("hasAnyRole('SELLER', 'ADMIN')")
     @SecurityRequirement(name = "bearer")
