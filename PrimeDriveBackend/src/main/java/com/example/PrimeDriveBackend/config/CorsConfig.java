@@ -31,7 +31,7 @@ public class CorsConfig implements WebMvcConfigurer {
     public void addCorsMappings(@org.springframework.lang.NonNull CorsRegistry registry) {
         registry.addMapping("/**")
                 .allowedOrigins("http://localhost:4200")
-                .allowedMethods("*")
+                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                 .allowedHeaders("*")
                 .allowCredentials(true);
     }

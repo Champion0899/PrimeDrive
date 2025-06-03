@@ -17,3 +17,26 @@ mat-card-image {
   object-fit: cover;
   height: 10rem;
 }
+
+.vehicle-filters {
+  position: sticky;
+  top: 3.25rem;
+  z-index: 999;
+  background: white;
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  padding-bottom: 1rem;
+}
+
+.clickable-header {
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.filter-fields {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
