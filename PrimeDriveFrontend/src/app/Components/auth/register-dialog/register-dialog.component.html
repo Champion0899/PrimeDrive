@@ -1,1 +1,58 @@
-<p>register-dialog works!</p>
+<form (ngSubmit)="register()" #registerForm="ngForm">
+    <mat-dialog-content>
+    <mat-form-field appearance="fill">
+        <mat-label>Username</mat-label>
+        <input matInput type="text" name="username" [(ngModel)]="username" required placeholder="Gib deinen usernamen ein" title="Username">
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+        <mat-label>Password</mat-label>
+        <input matInput type="password" name="password" [(ngModel)]="password" required placeholder="Gib deinen password ein" title="Password">
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+        <mat-label>Bestätige Password</mat-label>
+        <input matInput type="password" name="confirmPassword" [(ngModel)]="confirmPassword" required placeholder="Bestätige dein password" title="Bestätige Password">
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+        <mat-label>E-Mail</mat-label>
+        <input matInput type="text" name="email" [(ngModel)]="email" required placeholder="Gib eine e-mail adresse ein" title="E-Mail">
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+        <mat-label>Geburtstag</mat-label>
+        <input matInput type="date" name="birthdate" [(ngModel)]="confirmPassword" required placeholder="Gib dein Geburtstag ein" title="Birthdate">
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+        <mat-label>Adresse</mat-label>
+        <input matInput type="text" name="address" [(ngModel)]="address" required placeholder="Gib deine addresse ein" title="Address">
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+        <mat-label>Postleitzahl</mat-label>
+        <input matInput type="text" name="zipCode" [(ngModel)]="zipCode" required placeholder="Gib deine Postleitzahl ein" title="Zip Code">
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+        <mat-label>Stadt</mat-label>
+        <input matInput type="text" name="city" [(ngModel)]="city" required placeholder="Gib deine Stadt ein" title="City">
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+        <mat-label>Land</mat-label>
+        <input matInput type="text" name="country" [(ngModel)]="country" required placeholder="Gib dein Land ein" title="Country">
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+        <mat-label>Telephone/Natel</mat-label>
+        <input matInput type="txt" name="phoneNumber" [(ngModel)]="phoneNumber" required placeholder="Gib deine Telephone/Natel nummer ein" title="Phone number">
+    </mat-form-field>
+    </mat-dialog-content>
+
+    <mat-dialog-actions align="end">
+        <button mat-button mat-dialog-close type="button">Cancel</button>
+        <button mat-raised-button color="primary" type="submit">Register</button>
+    </mat-dialog-actions>
+</form>
