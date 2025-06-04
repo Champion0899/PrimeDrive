@@ -18,6 +18,7 @@ import { AdminGuard } from './Guards/admin.guard';
  * Date: 2025-06-03
  */
 export const routes: Routes = [
+
   {
     path: '',
     redirectTo: 'vehicles',
@@ -36,4 +37,20 @@ export const routes: Routes = [
     component: AdminComponent,
     canActivate: [AdminGuard],
   },
+  {
+    path: 'home',
+    component: VehiclesComponent,
+  },
+  {
+    path: 'about',
+    component: VehiclesComponent,
+  },
+  {
+    path: 'contact',
+    component: VehiclesComponent,
+  },
+  {
+    path: 'services',
+    component: VehiclesComponent,
+  }
 ];

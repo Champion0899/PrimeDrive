@@ -5,6 +5,7 @@ import { RegisterDialogComponent } from '../auth/register-dialog/register-dialog
 import { AuthService } from '../../Services/auth/auth.service';
 import { UsersService } from '../../Services/users/users.service';
 import { User } from '../../Models/vehicles/user.interface';
+import { RouterModule } from '@angular/router';
 
 /**
  * NavigationComponent handles the application's top navigation bar.
@@ -17,6 +18,11 @@ import { User } from '../../Models/vehicles/user.interface';
  */
 @Component({
   selector: 'app-navigation',
+  imports: [
+    LoginDialogComponent,
+    RegisterDialogComponent,
+    RouterModule
+  ],
   standalone: true,
   templateUrl: './navigation.component.html',
   styleUrl: './navigation.component.scss',
