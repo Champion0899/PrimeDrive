@@ -20,17 +20,19 @@
         </mat-panel-title>
       </mat-expansion-panel-header>
 
-      <div *ngIf="vehicle.specs">
-        <p><strong>Leistung (kW):</strong> {{ vehicle.specs.powerKw }}</p>
-        <p><strong>Leistung (PS):</strong> {{ vehicle.specs.powerPs }}</p>
-        <p><strong>0–100 km/h:</strong> {{ vehicle.specs.zeroToHundredInSeconds }} s</p>
-        <p><strong>Höchstgeschwindigkeit:</strong> {{ vehicle.specs.topSpeedInKmH }} km/h</p>
-        <p><strong>Verbrauch:</strong> {{ vehicle.specs.consumptionHundredInX }} l/100km</p>
-        <p><strong>CO₂-Emissionen:</strong> {{ vehicle.specs.coTwoEmissionsInGPerKm }} g/km</p>
-        <p><strong>Kofferraum (min–max):</strong> {{ vehicle.specs.trunkInLiterMin }}–{{ vehicle.specs.trunkInLiterMax }} l</p>
-        <p><strong>Hubraum:</strong> {{ vehicle.specs.cubicCapacity }} cm³</p>
-        <p><strong>Masse (L×B×H):</strong> {{ vehicle.specs.lengthMillimeters }} × {{ vehicle.specs.widthMillimeters }} × {{ vehicle.specs.heightMillimeters }} mm</p>
-      </div>
+      @if (vehicle.specs) {
+        <div>
+          <p><strong>Leistung (kW):</strong> {{ vehicle.specs.powerKw }}</p>
+          <p><strong>Leistung (PS):</strong> {{ vehicle.specs.powerPs }}</p>
+          <p><strong>0–100 km/h:</strong> {{ vehicle.specs.zeroToHundredInSeconds }} s</p>
+          <p><strong>Höchstgeschwindigkeit:</strong> {{ vehicle.specs.topSpeedInKmH }} km/h</p>
+          <p><strong>Verbrauch:</strong> {{ vehicle.specs.consumptionHundredInX }} l/100km</p>
+          <p><strong>CO₂-Emissionen:</strong> {{ vehicle.specs.coTwoEmissionsInGPerKm }} g/km</p>
+          <p><strong>Kofferraum (min–max):</strong> {{ vehicle.specs.trunkInLiterMin }}–{{ vehicle.specs.trunkInLiterMax }} l</p>
+          <p><strong>Hubraum:</strong> {{ vehicle.specs.cubicCapacity }} cm³</p>
+          <p><strong>Masse (L×B×H):</strong> {{ vehicle.specs.lengthMillimeters }} × {{ vehicle.specs.widthMillimeters }} × {{ vehicle.specs.heightMillimeters }} mm</p>
+        </div>
+      }
     </mat-expansion-panel>
   </mat-accordion>
   </mat-card>

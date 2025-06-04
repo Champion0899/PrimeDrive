@@ -1,9 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild, AfterViewChecked } from '@angular/core';
 import { inject } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, NgModel } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
-import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatError, MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { AuthService } from '../../../Services/auth/auth.service';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -22,11 +22,16 @@ import { HttpErrorResponse } from '@angular/common/http';
     MatButtonModule,
     MatFormFieldModule,
     FormsModule,
+    MatError
   ],
   templateUrl: './register-dialog.component.html',
   styleUrl: './register-dialog.component.scss',
 })
-export class RegisterDialogComponent {
+export class RegisterDialogComponent implements AfterViewChecked {
+  @ViewChild('passwordModel') passwordModel!: NgModel;
+  @ViewChild('confirmPasswordModel') confirmPasswordModel!: NgModel;
+  @ViewChild('zipCodeModel') zipCodeModel!: NgModel;
+  @ViewChild('phoneNumberModel') phoneNumberModel!: NgModel;
   /** @public Username for registration */
   public username: string = '';
   /** @public Password for registration */
@@ -92,5 +97,43 @@ export class RegisterDialogComponent {
         }
       },
     });
+  }
+
+  ngAfterViewChecked(): void {
+    if (
+      this.confirmPasswordModel &&
+      this.passwordModel &&
+      this.confirmPasswordModel.valid &&
+      this.password !== this.confirmPassword
+    ) {
+      this.confirmPasswordModel.control.setErrors({ mismatch: true });
+    } else if (this.confirmPasswordModel?.errors?.['mismatch']) {
+      this.confirmPasswordModel.control.setErrors(null);
+      this.confirmPasswordModel.control.updateValueAndValidity({ onlySelf: true });
+    }
+
+    // Manual validation for zip code
+    if (
+      this.zipCodeModel &&
+      this.zipCodeModel.valid &&
+      !/^\d{4}$/.test(this.zipCode)
+    ) {
+      this.zipCodeModel.control.setErrors({ invalidZip: true });
+    } else if (this.zipCodeModel?.errors?.['invalidZip']) {
+      this.zipCodeModel.control.setErrors(null);
+      this.zipCodeModel.control.updateValueAndValidity({ onlySelf: true });
+    }
+
+    // Manual validation for phone number: must start with 0, exactly 10 digits, e.g. 0781234567, no letters
+    if (
+      this.phoneNumberModel &&
+      this.phoneNumberModel.valid &&
+      !/^0\d{9}$/.test(this.phoneNumber)
+    ) {
+      this.phoneNumberModel.control.setErrors({ invalidPhone: true });
+    } else if (this.phoneNumberModel?.errors?.['invalidPhone']) {
+      this.phoneNumberModel.control.setErrors(null);
+      this.phoneNumberModel.control.updateValueAndValidity({ onlySelf: true });
+    }
   }
 }

@@ -3,34 +3,43 @@
     <mat-card-title>Filteroptionen</mat-card-title>
     <mat-icon>{{ filtersExpanded ? 'expand_less' : 'expand_more' }}</mat-icon>
   </mat-card-header>
-  <mat-card-content *ngIf="filtersExpanded">
+  @if (filtersExpanded) {
+    <mat-card-content>
     <div class="filter-fields">
       
       <mat-form-field appearance="fill">
         <mat-label>Holding</mat-label>
         <mat-select [(ngModel)]="filters.holding" (ngModelChange)="updateFilterOptions()">
-          <mat-option *ngFor="let holding of uniqueHoldings" [value]="holding">{{ holding }}</mat-option>
+          @for (holding of uniqueHoldings; track holding) {
+            <mat-option [value]="holding">{{ holding }}</mat-option>
+          }
         </mat-select>
       </mat-form-field>
 
       <mat-form-field appearance="fill">
         <mat-label>Marke</mat-label>
         <mat-select [(ngModel)]="filters.brand" (ngModelChange)="updateFilterOptions()">
-          <mat-option *ngFor="let brand of uniqueBrands" [value]="brand">{{ brand }}</mat-option>
+          @for (brand of uniqueBrands; track brand) {
+            <mat-option [value]="brand">{{ brand }}</mat-option>
+          }
         </mat-select>
       </mat-form-field>
 
       <mat-form-field appearance="fill">
         <mat-label>Fahrzeugtyp</mat-label>
         <mat-select [(ngModel)]="filters.type" (ngModelChange)="updateFilterOptions()">
-          <mat-option *ngFor="let type of uniqueTypes" [value]="type">{{ type }}</mat-option>
+          @for (type of uniqueTypes; track type) {
+            <mat-option [value]="type">{{ type }}</mat-option>
+          }
         </mat-select>
       </mat-form-field>
 
       <mat-form-field appearance="fill">
         <mat-label>Zustand</mat-label>
         <mat-select [(ngModel)]="filters.condition" (ngModelChange)="updateFilterOptions()">
-          <mat-option *ngFor="let condition of uniqueConditions" [value]="condition">{{ condition }}</mat-option>
+          @for (condition of uniqueConditions; track condition) {
+            <mat-option [value]="condition">{{ condition }}</mat-option>
+          }
         </mat-select>
       </mat-form-field>
 
@@ -52,35 +61,45 @@
       <mat-form-field appearance="fill">
         <mat-label>Farbe</mat-label>
         <mat-select [(ngModel)]="filters.color" (ngModelChange)="updateFilterOptions()">
-          <mat-option *ngFor="let color of uniqueColors" [value]="color">{{ color }}</mat-option>
+          @for (color of uniqueColors; track color) {
+            <mat-option [value]="color">{{ color }}</mat-option>
+          }
         </mat-select>
       </mat-form-field>
 
       <mat-form-field appearance="fill">
         <mat-label>Motor</mat-label>
         <mat-select [(ngModel)]="filters.engine" (ngModelChange)="updateFilterOptions()">
-          <mat-option *ngFor="let engine of uniqueEngines" [value]="engine">{{ engine }}</mat-option>
+          @for (engine of uniqueEngines; track engine) {
+            <mat-option [value]="engine">{{ engine }}</mat-option>
+          }
         </mat-select>
       </mat-form-field>
 
       <mat-form-field appearance="fill">
         <mat-label>Kraftstoff</mat-label>
         <mat-select [(ngModel)]="filters.fuel" (ngModelChange)="updateFilterOptions()">
-          <mat-option *ngFor="let fuel of uniqueFuels" [value]="fuel">{{ fuel }}</mat-option>
+          @for (fuel of uniqueFuels; track fuel) {
+            <mat-option [value]="fuel">{{ fuel }}</mat-option>
+          }
         </mat-select>
       </mat-form-field>
 
       <mat-form-field appearance="fill">
         <mat-label>Sitze</mat-label>
         <mat-select [(ngModel)]="filters.seats" (ngModelChange)="updateFilterOptions()">
-          <mat-option *ngFor="let seat of uniqueSeats" [value]="seat">{{ seat }}</mat-option>
+          @for (seat of uniqueSeats; track seat) {
+            <mat-option [value]="seat">{{ seat }}</mat-option>
+          }
         </mat-select>
       </mat-form-field>
 
       <mat-form-field appearance="fill">
         <mat-label>Türen</mat-label>
         <mat-select [(ngModel)]="filters.doors" (ngModelChange)="updateFilterOptions()">
-          <mat-option *ngFor="let door of uniqueDoors" [value]="door">{{ door }}</mat-option>
+          @for (door of uniqueDoors; track door) {
+            <mat-option [value]="door">{{ door }}</mat-option>
+          }
         </mat-select>
       </mat-form-field>
 
@@ -88,7 +107,8 @@
         <button mat-stroked-button color="primary" (click)="resetFilters()">Filter zurücksetzen</button>
       </div>
     </div>
-  </mat-card-content>
+    </mat-card-content>
+  }
 </mat-card>
 <div class="vehicle-container">
   @for (vehicle of getFilteredVehicles(); track vehicle.id) {
