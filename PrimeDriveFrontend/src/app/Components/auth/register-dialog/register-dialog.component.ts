@@ -23,6 +23,8 @@ export class RegisterDialogComponent {
   public username: string = '';
   public password: string = '';
   public confirmPassword: string = '';
+  public firstName: string = '';
+  public lastName: string = '';
   public email: string = '';
   public birthdate: string = '';
   public address: string = '';
@@ -30,7 +32,6 @@ export class RegisterDialogComponent {
   public city: string = '';
   public country: string = '';
   public phoneNumber: string = '';
-  private role: string = 'user';
 
   public register() {}
 }

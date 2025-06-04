@@ -32,6 +32,9 @@ public class UserMapper {
         dto.setPassword(users.getPassword());
         dto.setEMail(users.getEMail());
         dto.setRole(users.getRole());
+        dto.setFirstName(users.getFirstName());
+        dto.setLastName(users.getLastName());
+        dto.setBirthdate(users.getBirthdate());
         dto.setAddress(users.getAddress());
         dto.setZipCode(users.getZipCode());
         dto.setCity(users.getCity());
@@ -57,6 +60,9 @@ public class UserMapper {
         users.setPassword(dto.getPassword());
         users.setEMail(dto.getEMail());
         users.setRole(dto.getRole());
+        users.setBirthdate(dto.getBirthdate());
+        users.setFirstName(dto.getFirstName());
+        users.setLastName(dto.getLastName());
         users.setAddress(dto.getAddress());
         users.setZipCode(dto.getZipCode());
         users.setCity(dto.getCity());
@@ -81,6 +87,9 @@ public class UserMapper {
         dto.setUsername(users.getUsername());
         dto.setEMail(users.getEMail());
         dto.setRole(users.getRole());
+        dto.setFirstName(users.getFirstName());
+        dto.setLastName(users.getLastName());
+        dto.setBirthdate(users.getBirthdate());
         dto.setAddress(users.getAddress());
         dto.setZipCode(users.getZipCode());
         dto.setCity(users.getCity());

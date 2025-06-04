@@ -52,6 +52,16 @@ public class UserSafeDto {
     @Schema(description = "Birth date of the user", example = "12.12.2012")
     private Date birthdate;
 
+    /** The user's first name. */
+    @NotNull
+    @Schema(description = "First name of the user", example = "Tim")
+    private String firstName;
+
+    /** The user's last name. */
+    @NotNull
+    @Schema(description = "Last name of the user", example = "Tester")
+    private String lastName;
+
     /** The street address of the user. */
     @NotNull
     @Schema(description = "Address of the user", example = "Jurastrasse 15")

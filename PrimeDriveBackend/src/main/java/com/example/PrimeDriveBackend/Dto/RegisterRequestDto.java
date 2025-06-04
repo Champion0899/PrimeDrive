@@ -11,8 +11,10 @@ import io.swagger.v3.oas.annotations.media.Schema;
 /**
  * Data Transfer Object (DTO) representing a registration request.
  *
- * This class includes all required fields for user registration, such as credentials,
- * contact information, and personal details. It is used in the /register and /swagger-register
+ * This class includes all required fields for user registration, such as
+ * credentials,
+ * contact information, and personal details. It is used in the /register and
+ * /swagger-register
  * endpoints for creating new user accounts.
  *
  * Author: Fatlum Epiroti
@@ -46,6 +48,16 @@ public class RegisterRequestDto {
     @NotNull
     @Schema(description = "Email address of the user", example = "user@example.com", required = true)
     private String eMail;
+
+    /** The first name of the user. */
+    @NotNull
+    @Schema(description = "First name of the user", example = "John", required = true)
+    private String firstName;
+
+    /** The last name of the user. */
+    @NotNull
+    @Schema(description = "Last name of the user", example = "Doe", required = true)
+    private String lastName;
 
     /** The street address of the user. */
     @NotNull
@@ -111,6 +123,22 @@ public class RegisterRequestDto {
 
     public void setEmail(String eMail) {
         this.eMail = eMail;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public String getAddress() {

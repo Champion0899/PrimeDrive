@@ -7,6 +7,8 @@ CREATE TABLE IF NOT EXISTS users (
     role VARCHAR(100) NOT NULL,
     e_mail VARCHAR(255) UNIQUE NOT NULL,
     birthdate DATE NOT NULL,
+    first_name VARCHAR(100) NOT NULL,
+    last_name VARCHAR(100) NOT NULL,
     address VARCHAR(255) NOT NULL,
     zip_code VARCHAR(20) NOT NULL,
     city VARCHAR(100) NOT NULL,

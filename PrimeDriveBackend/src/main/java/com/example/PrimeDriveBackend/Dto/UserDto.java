@@ -36,6 +36,14 @@ public class UserDto {
     private String password;
 
     @NotNull
+    @Schema(description = "First name of the user", example = "Tim")
+    private String firstName;
+
+    @NotNull
+    @Schema(description = "Last name of the user", example = "Tester")
+    private String lastName;
+
+    @NotNull
     @Schema(description = "Role of the user", example = "ADMIN")
     private String role;
 

@@ -48,6 +48,12 @@ public class Users {
     @Column(nullable = false)
     private String password;
 
+    @Column(nullable = false)
+    private String firstName;
+
+    @Column(nullable = false)
+    private String lastName;
+
     /** Role of the user (e.g., USER, ADMIN). */
     @Column(nullable = false)
     private String role;

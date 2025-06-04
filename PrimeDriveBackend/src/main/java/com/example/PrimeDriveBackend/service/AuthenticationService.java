@@ -32,6 +32,8 @@ public class AuthenticationService {
      * @param role        The assigned role (e.g. BUYER, SELLER)
      * @param email       The user's email address
      * @param birthdate   The user's date of birth
+     * @param firstName   The user's first name
+     * @param lastName    The user's last name
      * @param address     The user's address
      * @param zipCode     The user's ZIP/postal code
      * @param city        The user's city
@@ -46,6 +48,8 @@ public class AuthenticationService {
             String role,
             String email,
             Date birthdate,
+            String firstName,
+            String lastName,
             String address,
             String zipCode,
             String city,
@@ -62,6 +66,8 @@ public class AuthenticationService {
         user.setRole(role);
         user.setEMail(email);
         user.setBirthdate(birthdate);
+        user.setFirstName(firstName);
+        user.setLastName(lastName);
         user.setAddress(address);
         user.setZipCode(zipCode);
         user.setCity(city);

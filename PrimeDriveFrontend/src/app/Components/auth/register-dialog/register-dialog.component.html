@@ -16,6 +16,16 @@
     </mat-form-field>
 
     <mat-form-field appearance="fill">
+        <mat-label>Vorname</mat-label>
+        <input matInput type="text" name="firstName" [(ngModel)]="firstName" required placeholder="Gib deinen Vornamen ein" title="First Name">
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+        <mat-label>Nachname</mat-label>
+        <input matInput type="text" name="lastName" [(ngModel)]="lastName" required placeholder="Gib deinen Nachnamen ein" title="Last Name">
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
         <mat-label>E-Mail</mat-label>
         <input matInput type="text" name="email" [(ngModel)]="email" required placeholder="Gib eine e-mail adresse ein" title="E-Mail">
     </mat-form-field>

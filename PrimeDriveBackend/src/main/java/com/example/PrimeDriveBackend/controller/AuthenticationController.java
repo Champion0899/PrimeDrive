@@ -82,22 +82,22 @@ public class AuthenticationController {
     @CrossOrigin
     @Operation(summary = "Register a new user", description = "Registers a new user with the provided credentials. ADMIN role is forbidden here. Use /swagger-register only for initial setup.")
     public ResponseEntity<?> registerUser(HttpServletRequest httpRequest, @RequestBody RegisterRequestDto request) {
-        if ("ADMIN".equalsIgnoreCase(request.getRole())) {
-            return ResponseEntity.status(403).body("Admin registration is not allowed through this endpoint.");
-        }
-
+        // role is enforced as USER regardless of incoming request
         String lastLoginIp = requestInfoService.getClientIp(httpRequest);
         authenticationService.registerUser(
                 request.getUsername(),
                 request.getPassword(),
-                request.getRole(),
+                "USER",
                 request.getEmail(),
                 request.getBirthdate(),
+                request.getFirstName(),
+                request.getLastName(),
                 request.getAddress(),
                 request.getZipCode(),
                 request.getCity(),
                 request.getCountry(),
-                request.getPhoneNumber(), lastLoginIp);
+                request.getPhoneNumber(),
+                lastLoginIp);
         return ResponseEntity.ok("User registered successfully");
     }
 
@@ -217,6 +217,8 @@ public class AuthenticationController {
                 request.getRole(),
                 request.getEmail(),
                 request.getBirthdate(),
+                request.getFirstName(),
+                request.getLastName(),
                 request.getAddress(),
                 request.getZipCode(),
                 request.getCity(),
