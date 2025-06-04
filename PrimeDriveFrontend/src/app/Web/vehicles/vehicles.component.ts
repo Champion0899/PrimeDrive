@@ -240,9 +240,19 @@ export class VehiclesComponent implements OnInit {
           .filter(Boolean)
       ),
     ];
+    let typeSource = filtered;
+
+    if (this.filters.brand === 'All' && this.filters.holding === 'All') {
+      typeSource = allVehicles;
+    } else if (this.filters.brand === 'All' && this.filters.holding !== 'All') {
+      typeSource = this.vehicles.filter(
+        (v) => v.holding?.name === this.filters.holding
+      );
+    }
+
     this.uniqueTypes = [
       'All',
-      ...new Set(filtered.map((v) => v.type?.type).filter(Boolean)),
+      ...new Set(typeSource.map((v) => v.type?.type).filter(Boolean)),
     ];
     this.uniqueConditions = [
       'All',
