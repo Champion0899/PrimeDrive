@@ -98,7 +98,7 @@ public class AuthenticationController {
                 request.getCountry(),
                 request.getPhoneNumber(),
                 lastLoginIp);
-        return ResponseEntity.ok("User registered successfully");
+        return ResponseEntity.ok(Map.of("message", "User registered successfully"));
     }
 
     /**

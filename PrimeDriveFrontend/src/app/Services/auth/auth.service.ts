@@ -52,6 +52,17 @@ export class AuthService {
   }
 
   /**
+   * Sends a registration request to the backend with user details.
+   * @param registerDto - An object containing user registration fields.
+   * @returns Observable indicating completion or failure.
+   */
+  public register(registerDto: any): Observable<any> {
+    return this.httpClient.post<any>(`${this.apiUrl}/register`, registerDto, {
+      withCredentials: true,
+    });
+  }
+
+  /**
    * Checks if the user is currently authenticated by verifying the session on the backend.
    * @returns Observable with a boolean indicating authentication status.
    */
