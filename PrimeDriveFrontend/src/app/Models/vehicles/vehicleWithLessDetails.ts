@@ -1,6 +1,6 @@
 import { Brand } from './brand.interface';
 import { Color } from './color.interface';
-import { Holding } from './holding.interfac';
+import { Holding } from './holding.interface';
 import { Specs } from './specs.interface';
 import { SpecsWithDetails } from './specsWithDetails.interface';
 import { Type } from './type.interface';

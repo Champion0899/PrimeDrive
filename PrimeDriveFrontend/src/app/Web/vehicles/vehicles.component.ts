@@ -12,6 +12,7 @@ import { VehiclesService } from '../../Services/vehicles/vehicles.service';
 import { FormsModule } from '@angular/forms';
 import { MatInput } from '@angular/material/input';
 import { MatIcon } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-vehicles',
@@ -25,6 +26,7 @@ import { MatIcon } from '@angular/material/icon';
     MatInput,
     MatLabel,
     MatIcon,
+    MatButtonModule
   ],
   templateUrl: './vehicles.component.html',
   styleUrl: './vehicles.component.scss',

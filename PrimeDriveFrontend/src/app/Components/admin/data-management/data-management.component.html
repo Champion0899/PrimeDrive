@@ -1,0 +1,420 @@
+<mat-tab-group>
+    <mat-tab label="Brands">
+        <section style="margin-top: 20px;">
+        <h4>Brand verwalten</h4>
+        <mat-form-field appearance="fill">
+            <mat-label>ID suchen</mat-label>
+            <input matInput [(ngModel)]="searchedBrandId" name="brandSearchId" placeholder="ID der Brand" title="Brand ID suchen">
+        </mat-form-field>
+        <button mat-raised-button color="primary" (click)="fetchBrandById()">Suchen</button>
+        @if (selectedBrand) {
+            <div>
+            <mat-form-field appearance="fill">
+                <mat-label>Name</mat-label>
+                <input matInput [(ngModel)]="selectedBrand.name" name="brandName" placeholder="Name der Brand" title="Name der Brand">
+            </mat-form-field>
+            <mat-form-field appearance="fill">
+                <mat-label>Holding ID</mat-label>
+                <input matInput [(ngModel)]="selectedBrand.holdingId" name="brandHoldingId" placeholder="Holding ID" title="Holding ID der Brand">
+            </mat-form-field>
+            <mat-form-field appearance="fill">
+                <mat-label>Gründung</mat-label>
+                <input matInput [(ngModel)]="selectedBrand.founding" type="number" name="brandFounding" placeholder="Gründungsjahr" title="Gründungsjahr der Brand">
+            </mat-form-field>
+            <mat-form-field appearance="fill">
+                <mat-label>Logo</mat-label>
+                <input matInput [(ngModel)]="selectedBrand.logo" name="brandLogo" placeholder="Logo-URL" title="Logo-URL der Brand">
+            </mat-form-field>
+            <button mat-raised-button color="accent" (click)="updateBrand()">Aktualisieren</button>
+            <button mat-raised-button color="warn" (click)="deleteBrand()">Löschen</button>
+            </div>
+        }
+        </section>
+        <form>
+            <mat-form-field appearance="fill">
+                <mat-label>Name</mat-label>
+                <input matInput placeholder="z. B. BMW">
+            </mat-form-field>
+
+            <mat-form-field appearance="fill">
+                <mat-label>Holding ID</mat-label>
+                <input matInput placeholder="UUID der Holding">
+            </mat-form-field>
+
+            <mat-form-field appearance="fill">
+                <mat-label>Gründungsjahr</mat-label>
+                <input matInput type="number" placeholder="1920">
+            </mat-form-field>
+
+            <mat-form-field appearance="fill">
+                <mat-label>Logo-URL</mat-label>
+                <input matInput placeholder="https://...">
+            </mat-form-field>
+
+            <button mat-raised-button color="primary">Brand erstellen</button>
+        </form>
+
+        <table mat-table [dataSource]="[]" class="mat-elevation-z8">
+        <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef>Name</th>
+            <td mat-cell *matCellDef="let element">{{element.name}}</td>
+        </ng-container>
+        <ng-container matColumnDef="holdingId">
+            <th mat-header-cell *matHeaderCellDef>Holding ID</th>
+            <td mat-cell *matCellDef="let element">{{element.holdingId}}</td>
+        </ng-container>
+        <ng-container matColumnDef="founding">
+            <th mat-header-cell *matHeaderCellDef>Gründung</th>
+            <td mat-cell *matCellDef="let element">{{element.founding}}</td>
+        </ng-container>
+        <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef>Aktionen</th>
+            <td mat-cell *matCellDef="let element">
+            <button mat-button color="accent">Bearbeiten</button>
+            <button mat-button color="warn">Löschen</button>
+            </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="['name', 'holdingId', 'founding', 'actions']"></tr>
+        <tr mat-row *matRowDef="let row; columns: ['name', 'holdingId', 'founding', 'actions'];"></tr>
+        </table>
+    </mat-tab>
+
+    <mat-tab label="Color">
+        <section style="margin-top: 20px;">
+        <h4>Color verwalten</h4>
+        <mat-form-field appearance="fill">
+            <mat-label>ID suchen</mat-label>
+            <input matInput [(ngModel)]="searchedColorId" name="colorSearchId" placeholder="ID der Color" title="Color ID suchen">
+        </mat-form-field>
+        <button mat-raised-button color="primary" (click)="fetchColorById()">Suchen</button>
+        @if (selectedColor) {
+            <div>
+            <mat-form-field appearance="fill">
+                <mat-label>Name</mat-label>
+                <input matInput [(ngModel)]="selectedColor.name" name="colorName" placeholder="Name der Color" title="Name der Color">
+            </mat-form-field>
+            <mat-form-field appearance="fill">
+                <mat-label>Hex-Code</mat-label>
+                <input matInput [(ngModel)]="selectedColor.hexCode" name="colorHex" placeholder="Hex-Code" title="Hex-Code der Color">
+            </mat-form-field>
+            <button mat-raised-button color="accent" (click)="updateColor()">Aktualisieren</button>
+            <button mat-raised-button color="warn" (click)="deleteColor()">Löschen</button>
+            </div>
+        }
+        </section>
+        <form>
+        <mat-form-field appearance="fill">
+            <mat-label>Name</mat-label>
+            <input matInput placeholder="z. B. Rot">
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+            <mat-label>Hex-Code</mat-label>
+            <input matInput placeholder="#FF0000">
+        </mat-form-field>
+        <button mat-raised-button color="primary">Color erstellen</button>
+        </form>
+        <table mat-table [dataSource]="[]" class="mat-elevation-z8">
+        <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef>Name</th>
+            <td mat-cell *matCellDef="let element">{{element.name}}</td>
+        </ng-container>
+        <ng-container matColumnDef="hex">
+            <th mat-header-cell *matHeaderCellDef>Hex-Code</th>
+            <td mat-cell *matCellDef="let element">{{element.hex}}</td>
+        </ng-container>
+        <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef>Aktionen</th>
+            <td mat-cell *matCellDef="let element">
+            <button mat-button color="accent">Bearbeiten</button>
+            <button mat-button color="warn">Löschen</button>
+            </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="['name', 'hex', 'actions']"></tr>
+        <tr mat-row *matRowDef="let row; columns: ['name', 'hex', 'actions'];"></tr>
+        </table>
+    </mat-tab>
+
+    <mat-tab label="Doors">
+        <section style="margin-top: 20px;">
+        <h4>Doors verwalten</h4>
+        <mat-form-field appearance="fill">
+            <mat-label>ID suchen</mat-label>
+            <input matInput [(ngModel)]="searchedDoorsId" name="doorsSearchId" placeholder="ID der Doors" title="Doors ID suchen">
+        </mat-form-field>
+        <button mat-raised-button color="primary" (click)="fetchDoorsById()">Suchen</button>
+        @if (selectedDoors) {
+            <div>
+            <mat-form-field appearance="fill">
+                <mat-label>Anzahl</mat-label>
+                <input matInput [(ngModel)]="selectedDoors.quantity" type="number" name="doorsCount" placeholder="Anzahl der Türen" title="Anzahl der Türen">
+            </mat-form-field>
+            <button mat-raised-button color="accent" (click)="updateDoors()">Aktualisieren</button>
+            <button mat-raised-button color="warn" (click)="deleteDoors()">Löschen</button>
+            </div>
+        }
+        </section>
+        <form>
+        <mat-form-field appearance="fill">
+            <mat-label>Anzahl</mat-label>
+            <input matInput type="number" placeholder="4">
+        </mat-form-field>
+        <button mat-raised-button color="primary">Doors erstellen</button>
+        </form>
+        <table mat-table [dataSource]="[]" class="mat-elevation-z8">
+        <ng-container matColumnDef="count">
+            <th mat-header-cell *matHeaderCellDef>Anzahl</th>
+            <td mat-cell *matCellDef="let element">{{element.count}}</td>
+        </ng-container>
+        <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef>Aktionen</th>
+            <td mat-cell *matCellDef="let element">
+            <button mat-button color="accent">Bearbeiten</button>
+            <button mat-button color="warn">Löschen</button>
+            </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="['count', 'actions']"></tr>
+        <tr mat-row *matRowDef="let row; columns: ['count', 'actions'];"></tr>
+        </table>
+    </mat-tab>
+
+    <mat-tab label="Engine">
+        <section style="margin-top: 20px;">
+        <h4>Engine verwalten</h4>
+        <mat-form-field appearance="fill">
+            <mat-label>ID suchen</mat-label>
+            <input matInput [(ngModel)]="searchedEngineId" name="engineSearchId" placeholder="ID der Engine" title="Engine ID suchen">
+        </mat-form-field>
+        <button mat-raised-button color="primary" (click)="fetchEngineById()">Suchen</button>
+        @if (selectedEngine) {
+            <div>
+            <mat-form-field appearance="fill">
+                <mat-label>Engine Type</mat-label>
+                <input matInput [(ngModel)]="selectedEngine.engineType" type="number" name="engineType" placeholder="Engine Type" title="Engine Type">
+            </mat-form-field>
+            <button mat-raised-button color="accent" (click)="updateEngine()">Aktualisieren</button>
+            <button mat-raised-button color="warn" (click)="deleteEngine()">Löschen</button>
+            </div>
+        }
+        </section>
+        <form>
+        <mat-form-field appearance="fill">
+            <mat-label>Leistung (PS)</mat-label>
+            <input matInput type="number" placeholder="150">
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+            <mat-label>Hubraum (ccm)</mat-label>
+            <input matInput type="number" placeholder="2000">
+        </mat-form-field>
+        <button mat-raised-button color="primary">Engine erstellen</button>
+        </form>
+        <table mat-table [dataSource]="[]" class="mat-elevation-z8">
+        <ng-container matColumnDef="power">
+            <th mat-header-cell *matHeaderCellDef>Leistung (PS)</th>
+            <td mat-cell *matCellDef="let element">{{element.power}}</td>
+        </ng-container>
+        <ng-container matColumnDef="capacity">
+            <th mat-header-cell *matHeaderCellDef>Hubraum (ccm)</th>
+            <td mat-cell *matCellDef="let element">{{element.capacity}}</td>
+        </ng-container>
+        <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef>Aktionen</th>
+            <td mat-cell *matCellDef="let element">
+            <button mat-button color="accent">Bearbeiten</button>
+            <button mat-button color="warn">Löschen</button>
+            </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="['power', 'capacity', 'actions']"></tr>
+        <tr mat-row *matRowDef="let row; columns: ['power', 'capacity', 'actions'];"></tr>
+        </table>
+    </mat-tab>
+
+    <mat-tab label="Fuel">
+        <section style="margin-top: 20px;">
+        <h4>Fuel verwalten</h4>
+        <mat-form-field appearance="fill">
+            <mat-label>ID suchen</mat-label>
+            <input matInput [(ngModel)]="searchedFuelId" name="fuelSearchId" placeholder="ID des Fuel" title="Fuel ID suchen">
+        </mat-form-field>
+        <button mat-raised-button color="primary" (click)="fetchFuelById()">Suchen</button>
+        @if (selectedFuel) {
+            <div>
+            <mat-form-field appearance="fill">
+                <mat-label>Name</mat-label>
+                <input matInput [(ngModel)]="selectedFuel.fuelType" name="fuelName" placeholder="Name des Kraftstoffs" title="Name des Kraftstoffs">
+            </mat-form-field>
+            <button mat-raised-button color="accent" (click)="updateFuel()">Aktualisieren</button>
+            <button mat-raised-button color="warn" (click)="deleteFuel()">Löschen</button>
+            </div>
+        }
+        </section>
+        <form>
+        <mat-form-field appearance="fill">
+            <mat-label>Name</mat-label>
+            <input matInput placeholder="z. B. Benzin">
+        </mat-form-field>
+        <button mat-raised-button color="primary">Fuel erstellen</button>
+        </form>
+        <table mat-table [dataSource]="[]" class="mat-elevation-z8">
+        <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef>Name</th>
+            <td mat-cell *matCellDef="let element">{{element.name}}</td>
+        </ng-container>
+        <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef>Aktionen</th>
+            <td mat-cell *matCellDef="let element">
+            <button mat-button color="accent">Bearbeiten</button>
+            <button mat-button color="warn">Löschen</button>
+            </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="['name', 'actions']"></tr>
+        @for (row of []; track row) {
+            <tr mat-row *matRowDef="let row; columns: ['name', 'actions'];"></tr>
+        }
+        </table>
+    </mat-tab>
+
+    <mat-tab label="Holding">
+        <section style="margin-top: 20px;">
+        <h4>Holding verwalten</h4>
+        <mat-form-field appearance="fill">
+            <mat-label>ID suchen</mat-label>
+            <input matInput [(ngModel)]="searchedHoldingId" name="holdingSearchId" placeholder="ID der Holding" title="Holding ID suchen">
+        </mat-form-field>
+        <button mat-raised-button color="primary" (click)="fetchHoldingById()">Suchen</button>
+        @if (selectedHolding) {
+            <div>
+            <mat-form-field appearance="fill">
+                <mat-label>Name</mat-label>
+                <input matInput [(ngModel)]="selectedHolding.name" name="holdingName" placeholder="Name der Holding" title="Name der Holding">
+            </mat-form-field>
+            <mat-form-field appearance="fill">
+                <mat-label>Gründung</mat-label>
+                <input matInput [(ngModel)]="selectedHolding.founding" type="number" name="holdingFounding" placeholder="Gründungsjahr" title="Gründungsjahr der Holding">
+            </mat-form-field>
+            <button mat-raised-button color="accent" (click)="updateHolding()">Aktualisieren</button>
+            <button mat-raised-button color="warn" (click)="deleteHolding()">Löschen</button>
+            </div>
+        }
+        </section>
+        <form>
+        <mat-form-field appearance="fill">
+            <mat-label>Name</mat-label>
+            <input matInput placeholder="z. B. Volkswagen AG">
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+            <mat-label>Gründungsjahr</mat-label>
+            <input matInput type="number" placeholder="1937">
+        </mat-form-field>
+        <button mat-raised-button color="primary">Holding erstellen</button>
+        </form>
+        <table mat-table [dataSource]="[]" class="mat-elevation-z8">
+        <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef>Name</th>
+            <td mat-cell *matCellDef="let element">{{element.name}}</td>
+        </ng-container>
+        <ng-container matColumnDef="founding">
+            <th mat-header-cell *matHeaderCellDef>Gründung</th>
+            <td mat-cell *matCellDef="let element">{{element.founding}}</td>
+        </ng-container>
+        <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef>Aktionen</th>
+            <td mat-cell *matCellDef="let element">
+            <button mat-button color="accent">Bearbeiten</button>
+            <button mat-button color="warn">Löschen</button>
+            </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="['name', 'founding', 'actions']"></tr>
+        <tr mat-row *matRowDef="let row; columns: ['name', 'founding', 'actions'];"></tr>
+        </table>
+    </mat-tab>
+
+    <mat-tab label="Seats">
+        <section style="margin-top: 20px;">
+        <h4>Seats verwalten</h4>
+        <mat-form-field appearance="fill">
+            <mat-label>ID suchen</mat-label>
+            <input matInput [(ngModel)]="searchedSeatsId" name="seatsSearchId" placeholder="ID der Seats" title="Seats ID suchen">
+        </mat-form-field>
+        <button mat-raised-button color="primary" (click)="fetchSeatsById()">Suchen</button>
+        @if (selectedSeats) {
+            <div>
+            <mat-form-field appearance="fill">
+                <mat-label>Anzahl</mat-label>
+                <input matInput [(ngModel)]="selectedSeats.quantity" type="number" name="seatsCount" placeholder="Anzahl der Sitze" title="Anzahl der Sitze">
+            </mat-form-field>
+            <button mat-raised-button color="accent" (click)="updateSeats()">Aktualisieren</button>
+            <button mat-raised-button color="warn" (click)="deleteSeats()">Löschen</button>
+            </div>
+        }
+        </section>
+        <form>
+        <mat-form-field appearance="fill">
+            <mat-label>Anzahl</mat-label>
+            <input matInput type="number" placeholder="5">
+        </mat-form-field>
+        <button mat-raised-button color="primary">Seats erstellen</button>
+        </form>
+        <table mat-table [dataSource]="[]" class="mat-elevation-z8">
+        <ng-container matColumnDef="count">
+            <th mat-header-cell *matHeaderCellDef>Anzahl</th>
+            <td mat-cell *matCellDef="let element">{{element.count}}</td>
+        </ng-container>
+        <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef>Aktionen</th>
+            <td mat-cell *matCellDef="let element">
+            <button mat-button color="accent">Bearbeiten</button>
+            <button mat-button color="warn">Löschen</button>
+            </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="['count', 'actions']"></tr>
+        @for (row of []; track row) {
+            <tr mat-row *matRowDef="let row; columns: ['count', 'actions'];"></tr>
+        }
+        </table>
+    </mat-tab>
+
+    <mat-tab label="Type">
+        <section style="margin-top: 20px;">
+        <h4>Type verwalten</h4>
+        <mat-form-field appearance="fill">
+            <mat-label>ID suchen</mat-label>
+            <input matInput [(ngModel)]="searchedTypeId" name="typeSearchId" placeholder="ID des Typs" title="Type ID suchen">
+        </mat-form-field>
+        <button mat-raised-button color="primary" (click)="fetchTypeById()">Suchen</button>
+        @if (selectedType) {
+            <div>
+            <mat-form-field appearance="fill">
+                <mat-label>Name</mat-label>
+                <input matInput [(ngModel)]="selectedType.type" name="typeName" placeholder="Name des Typs" title="Name des Typs">
+            </mat-form-field>
+            <button mat-raised-button color="accent" (click)="updateType()">Aktualisieren</button>
+            <button mat-raised-button color="warn" (click)="deleteType()">Löschen</button>
+            </div>
+        }
+        </section>
+        <form>
+        <mat-form-field appearance="fill">
+            <mat-label>Name</mat-label>
+            <input matInput placeholder="z. B. Limousine">
+        </mat-form-field>
+        <button mat-raised-button color="primary">Type erstellen</button>
+        </form>
+        <table mat-table  class="mat-elevation-z8">
+        <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef>Name</th>
+            <td mat-cell *matCellDef="let element">{{element.name}}</td>
+        </ng-container>
+        <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef>Aktionen</th>
+            <td mat-cell *matCellDef="let element">
+            <button mat-button color="accent">Bearbeiten</button>
+            <button mat-button color="warn">Löschen</button>
+            </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="['name', 'actions']"></tr>
+        @for (row of []; track row) {
+            <tr mat-row *matRowDef="let row; columns: ['name', 'actions'];"></tr>
+        }
+        </table>
+    </mat-tab>
+</mat-tab-group>
