@@ -11,6 +11,7 @@ import { Fuel } from '../../Models/vehicles/fuel.interface';
 import { Doors } from '../../Models/vehicles/doors.interface';
 import { Seats } from '../../Models/vehicles/seats.interface';
 import { User } from '../../Models/vehicles/user.interface';
+import { Holding } from '../../Models/vehicles/holding.interface';
 
 /**
  * Service for accessing vehicle-related data from the backend API.
@@ -146,8 +147,8 @@ export class VehiclesService {
    * Retrieves a list of all vehicle holdings.
    * @returns Observable of Holding array.
    */
-  public getHoldingById(id: string): Observable<Brand[]> {
-    return this.httpClient.get<Brand[]>(
+  public getHoldingById(id: string): Observable<Holding[]> {
+    return this.httpClient.get<Holding[]>(
       `${this.apiUrl}/vehicle_holdings/${id}`,
       {
         withCredentials: true,
@@ -159,8 +160,8 @@ export class VehiclesService {
    * Retrieves a list of all vehicle holdings.
    * @returns Observable of Brand array.
    */
-  public getHoldings(): Observable<Brand[]> {
-    return this.httpClient.get<Brand[]>(`${this.apiUrl}/vehicle_holdings`, {
+  public getHoldings(): Observable<Holding[]> {
+    return this.httpClient.get<Holding[]>(`${this.apiUrl}/vehicle_holdings`, {
       withCredentials: true,
     });
   }
@@ -170,8 +171,8 @@ export class VehiclesService {
    * @param holding - The holding data to be created.
    * @returns Observable of the created Holding.
    */
-  public createHolding(holding: Brand): Observable<Brand> {
-    return this.httpClient.post<Brand>(
+  public createHolding(holding: Holding): Observable<Holding> {
+    return this.httpClient.post<Holding>(
       `${this.apiUrl}/vehicle_holdings`,
       holding,
       {
@@ -185,8 +186,8 @@ export class VehiclesService {
    * @param holding - The holding data to be updated.
    * @returns Observable of the updated Holding.
    */
-  public updateHolding(holding: Brand): Observable<Brand> {
-    return this.httpClient.put<Brand>(
+  public updateHolding(holding: Holding): Observable<Holding> {
+    return this.httpClient.put<Holding>(
       `${this.apiUrl}/vehicle_holdings/${holding.id}`,
       holding,
       {

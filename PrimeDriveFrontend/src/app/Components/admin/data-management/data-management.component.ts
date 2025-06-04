@@ -13,6 +13,7 @@ import { Holding } from '../../../Models/vehicles/holding.interface';
 import { Seats } from '../../../Models/vehicles/seats.interface';
 import { Type } from '../../../Models/vehicles/type.interface';
 import { FormsModule } from '@angular/forms';
+import { VehiclesService } from '../../../Services/vehicles/vehicles.service';
 
 @Component({
   selector: 'app-data-management',
@@ -23,163 +24,297 @@ import { FormsModule } from '@angular/forms';
     MatInputModule,
     FormsModule,
     MatTableModule,
-    MatButtonModule
+    MatButtonModule,
   ],
+  providers: [VehiclesService],
   templateUrl: './data-management.component.html',
-  styleUrl: './data-management.component.scss'
+  styleUrl: './data-management.component.scss',
 })
 export class DataManagementComponent {
   public dataSource = [];
 
   public colors: Color[] = [];
   public selectedColor: Color | null = null;
-  public searchedColorId: string = '';
-  fetchColorById(): void {
-    const found = this.colors.find(c => c.id === this.searchedColorId);
-    this.selectedColor = found ? { ...found } : null;
+  public searchedColorName: string = '';
+
+  constructor(private vehiclesService: VehiclesService) {
+    this.loadAllColors();
+    this.loadAllDoors();
+    this.loadAllEngines();
+    this.loadAllFuels();
+    this.loadAllHoldings();
+    this.loadAllSeats();
+    this.loadAllTypes();
+    this.loadAllBrands();
+  }
+
+  fetchColorByName(): void {
+    this.selectedColor =
+      this.colors.find((color) =>
+        color.name.toLowerCase().includes(this.searchedColorName.toLowerCase())
+      ) ?? null;
   }
   updateColor(): void {
     if (!this.selectedColor) return;
-    const index = this.colors.findIndex(c => c.id === this.selectedColor!.id);
-    if (index !== -1) this.colors[index] = { ...this.selectedColor };
-    this.selectedColor = null;
+    this.vehiclesService.updateColor(this.selectedColor).subscribe(() => {
+      this.selectedColor = null;
+      this.loadAllColors();
+    });
   }
-  deleteColor(): void {
-    if (!this.selectedColor) return;
-    this.colors = this.colors.filter(c => c.id !== this.selectedColor!.id);
-    this.selectedColor = null;
+  selectColor(item: Color): void {
+    this.selectedColor = { ...item };
+  }
+  deleteColor(id?: string): void {
+    const colorId = id ?? this.selectedColor?.id;
+    if (!colorId) return;
+    this.vehiclesService.deleteColor(colorId).subscribe(() => {
+      this.selectedColor = null;
+      this.loadAllColors();
+    });
+  }
+  loadAllColors(): void {
+    this.vehiclesService.getColors().subscribe((data: Color[]) => {
+      this.colors = data;
+    });
   }
 
   public doors: Doors[] = [];
   public selectedDoors: Doors | null = null;
-  public searchedDoorsId: string = '';
-  fetchDoorsById(): void {
-    const found = this.doors.find(d => d.id === this.searchedDoorsId);
-    this.selectedDoors = found ? { ...found } : null;
+  public searchedDoorsName: string = '';
+
+  fetchDoorsByName(): void {
+    this.selectedDoors =
+      this.doors.find((doors) =>
+        doors.quantity.toString().toLowerCase().includes(this.searchedDoorsName.toLowerCase())
+      ) ?? null;
   }
   updateDoors(): void {
     if (!this.selectedDoors) return;
-    const index = this.doors.findIndex(d => d.id === this.selectedDoors!.id);
-    if (index !== -1) this.doors[index] = { ...this.selectedDoors };
-    this.selectedDoors = null;
+    this.vehiclesService.updateDoors(this.selectedDoors).subscribe(() => {
+      this.selectedDoors = null;
+      this.loadAllDoors();
+    });
   }
-  deleteDoors(): void {
-    if (!this.selectedDoors) return;
-    this.doors = this.doors.filter(d => d.id !== this.selectedDoors!.id);
-    this.selectedDoors = null;
+  selectDoors(item: Doors): void {
+    this.selectedDoors = { ...item };
+  }
+  deleteDoors(id?: string): void {
+    const doorsId = id ?? this.selectedDoors?.id;
+    if (!doorsId) return;
+    this.vehiclesService.deleteDoors(doorsId).subscribe(() => {
+      this.selectedDoors = null;
+      this.loadAllDoors();
+    });
+  }
+  loadAllDoors(): void {
+    this.vehiclesService.getDoors().subscribe((data: Doors[]) => {
+      this.doors = data;
+    });
   }
 
   public engines: Engine[] = [];
   public selectedEngine: Engine | null = null;
-  public searchedEngineId: string = '';
-  fetchEngineById(): void {
-    const found = this.engines.find(e => e.id === this.searchedEngineId);
-    this.selectedEngine = found ? { ...found } : null;
+  public searchedEngineName: string = '';
+
+  fetchEngineByName(): void {
+    this.selectedEngine =
+      this.engines.find((engine) =>
+        engine.engineType.toLowerCase().includes(this.searchedEngineName.toLowerCase())
+      ) ?? null;
   }
   updateEngine(): void {
     if (!this.selectedEngine) return;
-    const index = this.engines.findIndex(e => e.id === this.selectedEngine!.id);
-    if (index !== -1) this.engines[index] = { ...this.selectedEngine };
-    this.selectedEngine = null;
+    this.vehiclesService.updateEngine(this.selectedEngine).subscribe(() => {
+      this.selectedEngine = null;
+      this.loadAllEngines();
+    });
   }
-  deleteEngine(): void {
-    if (!this.selectedEngine) return;
-    this.engines = this.engines.filter(e => e.id !== this.selectedEngine!.id);
-    this.selectedEngine = null;
+  selectEngine(item: Engine): void {
+    this.selectedEngine = { ...item };
+  }
+  deleteEngine(id?: string): void {
+    const engineId = id ?? this.selectedEngine?.id;
+    if (!engineId) return;
+    this.vehiclesService.deleteEngine(engineId).subscribe(() => {
+      this.selectedEngine = null;
+      this.loadAllEngines();
+    });
+  }
+  loadAllEngines(): void {
+    this.vehiclesService.getEngines().subscribe((data: Engine[]) => {
+      this.engines = data;
+    });
   }
 
   public fuels: Fuel[] = [];
   public selectedFuel: Fuel | null = null;
-  public searchedFuelId: string = '';
-  fetchFuelById(): void {
-    const found = this.fuels.find(f => f.id === this.searchedFuelId);
-    this.selectedFuel = found ? { ...found } : null;
+  public searchedFuelName: string = '';
+
+  fetchFuelByName(): void {
+    this.selectedFuel =
+      this.fuels.find((fuel) =>
+        fuel.fuelType.toLowerCase().includes(this.searchedFuelName.toLowerCase())
+      ) ?? null;
   }
   updateFuel(): void {
     if (!this.selectedFuel) return;
-    const index = this.fuels.findIndex(f => f.id === this.selectedFuel!.id);
-    if (index !== -1) this.fuels[index] = { ...this.selectedFuel };
-    this.selectedFuel = null;
+    this.vehiclesService.updateFuel(this.selectedFuel).subscribe(() => {
+      this.selectedFuel = null;
+      this.loadAllFuels();
+    });
   }
-  deleteFuel(): void {
-    if (!this.selectedFuel) return;
-    this.fuels = this.fuels.filter(f => f.id !== this.selectedFuel!.id);
-    this.selectedFuel = null;
+  selectFuel(item: Fuel): void {
+    this.selectedFuel = { ...item };
+  }
+  deleteFuel(id?: string): void {
+    const fuelId = id ?? this.selectedFuel?.id;
+    if (!fuelId) return;
+    this.vehiclesService.deleteFuel(fuelId).subscribe(() => {
+      this.selectedFuel = null;
+      this.loadAllFuels();
+    });
+  }
+  loadAllFuels(): void {
+    this.vehiclesService.getFuels().subscribe((data: Fuel[]) => {
+      this.fuels = data;
+    });
   }
 
   public holdings: Holding[] = [];
   public selectedHolding: Holding | null = null;
-  public searchedHoldingId: string = '';
-  fetchHoldingById(): void {
-    const found = this.holdings.find(h => h.id === this.searchedHoldingId);
-    this.selectedHolding = found ? { ...found } : null;
+  public searchedHoldingName: string = '';
+
+  fetchHoldingByName(): void {
+    this.selectedHolding =
+      this.holdings.find((holding) =>
+        holding.name.toLowerCase().includes(this.searchedHoldingName.toLowerCase())
+      ) ?? null;
   }
   updateHolding(): void {
     if (!this.selectedHolding) return;
-    const index = this.holdings.findIndex(h => h.id === this.selectedHolding!.id);
-    if (index !== -1) this.holdings[index] = { ...this.selectedHolding };
-    this.selectedHolding = null;
+    this.vehiclesService.updateHolding(this.selectedHolding).subscribe(() => {
+      this.selectedHolding = null;
+      this.loadAllHoldings();
+    });
   }
-  deleteHolding(): void {
-    if (!this.selectedHolding) return;
-    this.holdings = this.holdings.filter(h => h.id !== this.selectedHolding!.id);
-    this.selectedHolding = null;
+  selectHolding(item: Holding): void {
+    this.selectedHolding = { ...item };
+  }
+  deleteHolding(id?: string): void {
+    const holdingId = id ?? this.selectedHolding?.id;
+    if (!holdingId) return;
+    this.vehiclesService
+      .deleteHolding(holdingId)
+      .subscribe(() => {
+        this.selectedHolding = null;
+        this.loadAllHoldings();
+      });
+  }
+  loadAllHoldings(): void {
+    this.vehiclesService.getHoldings().subscribe((data: Holding[]) => {
+      this.holdings = data;
+    });
   }
 
   public seats: Seats[] = [];
   public selectedSeats: Seats | null = null;
-  public searchedSeatsId: string = '';
-  fetchSeatsById(): void {
-    const found = this.seats.find(s => s.id === this.searchedSeatsId);
-    this.selectedSeats = found ? { ...found } : null;
+  public searchedSeatsName: string = '';
+
+  fetchSeatsByName(): void {
+    this.selectedSeats =
+      this.seats.find((seats) =>
+        seats.quantity.toString().toLowerCase().includes(this.searchedSeatsName.toLowerCase())
+      ) ?? null;
   }
   updateSeats(): void {
     if (!this.selectedSeats) return;
-    const index = this.seats.findIndex(s => s.id === this.selectedSeats!.id);
-    if (index !== -1) this.seats[index] = { ...this.selectedSeats };
-    this.selectedSeats = null;
+    this.vehiclesService.updateSeats(this.selectedSeats).subscribe(() => {
+      this.selectedSeats = null;
+      this.loadAllSeats();
+    });
   }
-  deleteSeats(): void {
-    if (!this.selectedSeats) return;
-    this.seats = this.seats.filter(s => s.id !== this.selectedSeats!.id);
-    this.selectedSeats = null;
+  selectSeats(item: Seats): void {
+    this.selectedSeats = { ...item };
+  }
+  deleteSeats(id?: string): void {
+    const seatsId = id ?? this.selectedSeats?.id;
+    if (!seatsId) return;
+    this.vehiclesService.deleteSeats(seatsId).subscribe(() => {
+      this.selectedSeats = null;
+      this.loadAllSeats();
+    });
+  }
+  loadAllSeats(): void {
+    this.vehiclesService.getSeats().subscribe((data: Seats[]) => {
+      this.seats = data;
+    });
   }
 
   public types: Type[] = [];
   public selectedType: Type | null = null;
-  public searchedTypeId: string = '';
-  fetchTypeById(): void {
-    const found = this.types.find(t => t.id === this.searchedTypeId);
-    this.selectedType = found ? { ...found } : null;
+  public searchedTypeName: string = '';
+
+  fetchTypeByName(): void {
+    this.selectedType =
+      this.types.find((type) =>
+        type.type.toLowerCase().includes(this.searchedTypeName.toLowerCase())
+      ) ?? null;
   }
   updateType(): void {
     if (!this.selectedType) return;
-    const index = this.types.findIndex(t => t.id === this.selectedType!.id);
-    if (index !== -1) this.types[index] = { ...this.selectedType };
-    this.selectedType = null;
+    this.vehiclesService.updateType(this.selectedType).subscribe(() => {
+      this.selectedType = null;
+      this.loadAllTypes();
+    });
   }
-  deleteType(): void {
-    if (!this.selectedType) return;
-    this.types = this.types.filter(t => t.id !== this.selectedType!.id);
-    this.selectedType = null;
+  selectType(item: Type): void {
+    this.selectedType = { ...item };
+  }
+  deleteType(id?: string): void {
+    const typeId = id ?? this.selectedType?.id;
+    if (!typeId) return;
+    this.vehiclesService.deleteType(typeId).subscribe(() => {
+      this.selectedType = null;
+      this.loadAllTypes();
+    });
+  }
+  loadAllTypes(): void {
+    this.vehiclesService.getTypes().subscribe((data: Type[]) => {
+      this.types = data;
+    });
   }
 
   public brands: Brand[] = [];
   public selectedBrand: Brand | null = null;
-  public searchedBrandId: string = '';
-  fetchBrandById(): void {
-    const found = this.brands.find(b => b.id === this.searchedBrandId);
-    this.selectedBrand = found ? { ...found } : null;
+  public searchedBrandName: string = '';
+
+  fetchBrandByName(): void {
+    this.selectedBrand =
+      this.brands.find((brand) =>
+        brand.name.toLowerCase().includes(this.searchedBrandName.toLowerCase())
+      ) ?? null;
   }
   updateBrand(): void {
     if (!this.selectedBrand) return;
-    const index = this.brands.findIndex(b => b.id === this.selectedBrand!.id);
-    if (index !== -1) this.brands[index] = { ...this.selectedBrand };
-    this.selectedBrand = null;
+    this.vehiclesService.updateBrand(this.selectedBrand).subscribe(() => {
+      this.selectedBrand = null;
+      this.loadAllBrands();
+    });
   }
-  deleteBrand(): void {
-    if (!this.selectedBrand) return;
-    this.brands = this.brands.filter(b => b.id !== this.selectedBrand!.id);
-    this.selectedBrand = null;
+  selectBrand(item: Brand): void {
+    this.selectedBrand = { ...item };
+  }
+  deleteBrand(id?: string): void {
+    const brandId = id ?? this.selectedBrand?.id;
+    if (!brandId) return;
+    this.vehiclesService.deleteBrand(brandId).subscribe(() => {
+      this.selectedBrand = null;
+      this.loadAllBrands();
+    });
+  }
+  loadAllBrands(): void {
+    this.vehiclesService.getBrands().subscribe((data: Brand[]) => {
+      this.brands = data;
+    });
   }
 }
