@@ -230,10 +230,15 @@ export class VehiclesComponent implements OnInit {
 
   public updateFilterOptions(): void {
     const filtered = this.getFilteredVehicles();
+    const allVehicles = this.vehicles;
 
     this.uniqueBrands = [
       'All',
-      ...new Set(filtered.map((v) => v.brand?.name).filter(Boolean)),
+      ...new Set(
+        (this.filters.holding === 'All' ? allVehicles : filtered)
+          .map((v) => v.brand?.name)
+          .filter(Boolean)
+      ),
     ];
     this.uniqueTypes = [
       'All',
@@ -245,7 +250,7 @@ export class VehiclesComponent implements OnInit {
     ];
     this.uniqueHoldings = [
       'All',
-      ...new Set(filtered.map((v) => v.holding?.name).filter(Boolean)),
+      ...new Set(allVehicles.map((v) => v.holding?.name).filter(Boolean)),
     ];
     this.uniqueColors = [
       'All',
