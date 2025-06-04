@@ -36,6 +36,55 @@ export class DataManagementComponent {
   public colors: Color[] = [];
   public selectedColor: Color | null = null;
   public searchedColorName: string = '';
+  public newHolding: Holding = {
+    id: '',
+    founding: 0,
+    logo: '',
+    name: '',
+  };
+
+  public newBrand: Brand = {
+    id: '',
+    holdingId: '',
+    founding: 0,
+    logo: '',
+    name: '',
+  };
+
+  public newType: Type = { id: '', type: '' };
+  public newEngine: Engine = { id: '', engineType: '' };
+  public newFuel: Fuel = { id: '', fuelType: '' };
+  public newDoors: Doors = { id: '', quantity: 0 };
+  public newSeats: Seats = { id: '', quantity: 0 };
+  public newColor: Color = { id: '', name: '', hexCode: '' };
+
+  public brands: Brand[] = [];
+  public selectedBrand: Brand | null = null;
+  public searchedBrandName: string = '';
+
+  public doors: Doors[] = [];
+  public selectedDoors: Doors | null = null;
+  public searchedDoorsName: string = '';
+
+  public engines: Engine[] = [];
+  public selectedEngine: Engine | null = null;
+  public searchedEngineName: string = '';
+
+  public fuels: Fuel[] = [];
+  public selectedFuel: Fuel | null = null;
+  public searchedFuelName: string = '';
+
+  public holdings: Holding[] = [];
+  public selectedHolding: Holding | null = null;
+  public searchedHoldingName: string = '';
+
+  public seats: Seats[] = [];
+  public selectedSeats: Seats | null = null;
+  public searchedSeatsName: string = '';
+
+  public types: Type[] = [];
+  public selectedType: Type | null = null;
+  public searchedTypeName: string = '';
 
   constructor(private vehiclesService: VehiclesService) {
     this.loadAllColors();
@@ -78,14 +127,13 @@ export class DataManagementComponent {
     });
   }
 
-  public doors: Doors[] = [];
-  public selectedDoors: Doors | null = null;
-  public searchedDoorsName: string = '';
-
   fetchDoorsByName(): void {
     this.selectedDoors =
       this.doors.find((doors) =>
-        doors.quantity.toString().toLowerCase().includes(this.searchedDoorsName.toLowerCase())
+        doors.quantity
+          .toString()
+          .toLowerCase()
+          .includes(this.searchedDoorsName.toLowerCase())
       ) ?? null;
   }
   updateDoors(): void {
@@ -112,14 +160,12 @@ export class DataManagementComponent {
     });
   }
 
-  public engines: Engine[] = [];
-  public selectedEngine: Engine | null = null;
-  public searchedEngineName: string = '';
-
   fetchEngineByName(): void {
     this.selectedEngine =
       this.engines.find((engine) =>
-        engine.engineType.toLowerCase().includes(this.searchedEngineName.toLowerCase())
+        engine.engineType
+          .toLowerCase()
+          .includes(this.searchedEngineName.toLowerCase())
       ) ?? null;
   }
   updateEngine(): void {
@@ -146,14 +192,12 @@ export class DataManagementComponent {
     });
   }
 
-  public fuels: Fuel[] = [];
-  public selectedFuel: Fuel | null = null;
-  public searchedFuelName: string = '';
-
   fetchFuelByName(): void {
     this.selectedFuel =
       this.fuels.find((fuel) =>
-        fuel.fuelType.toLowerCase().includes(this.searchedFuelName.toLowerCase())
+        fuel.fuelType
+          .toLowerCase()
+          .includes(this.searchedFuelName.toLowerCase())
       ) ?? null;
   }
   updateFuel(): void {
@@ -180,14 +224,12 @@ export class DataManagementComponent {
     });
   }
 
-  public holdings: Holding[] = [];
-  public selectedHolding: Holding | null = null;
-  public searchedHoldingName: string = '';
-
   fetchHoldingByName(): void {
     this.selectedHolding =
       this.holdings.find((holding) =>
-        holding.name.toLowerCase().includes(this.searchedHoldingName.toLowerCase())
+        holding.name
+          .toLowerCase()
+          .includes(this.searchedHoldingName.toLowerCase())
       ) ?? null;
   }
   updateHolding(): void {
@@ -203,12 +245,10 @@ export class DataManagementComponent {
   deleteHolding(id?: string): void {
     const holdingId = id ?? this.selectedHolding?.id;
     if (!holdingId) return;
-    this.vehiclesService
-      .deleteHolding(holdingId)
-      .subscribe(() => {
-        this.selectedHolding = null;
-        this.loadAllHoldings();
-      });
+    this.vehiclesService.deleteHolding(holdingId).subscribe(() => {
+      this.selectedHolding = null;
+      this.loadAllHoldings();
+    });
   }
   loadAllHoldings(): void {
     this.vehiclesService.getHoldings().subscribe((data: Holding[]) => {
@@ -216,14 +256,20 @@ export class DataManagementComponent {
     });
   }
 
-  public seats: Seats[] = [];
-  public selectedSeats: Seats | null = null;
-  public searchedSeatsName: string = '';
+  createHolding(): void {
+    this.vehiclesService.createHolding(this.newHolding).subscribe(() => {
+      this.loadAllHoldings();
+      this.newHolding = { id: '', founding: 0, logo: '', name: '' };
+    });
+  }
 
   fetchSeatsByName(): void {
     this.selectedSeats =
       this.seats.find((seats) =>
-        seats.quantity.toString().toLowerCase().includes(this.searchedSeatsName.toLowerCase())
+        seats.quantity
+          .toString()
+          .toLowerCase()
+          .includes(this.searchedSeatsName.toLowerCase())
       ) ?? null;
   }
   updateSeats(): void {
@@ -249,10 +295,6 @@ export class DataManagementComponent {
       this.seats = data;
     });
   }
-
-  public types: Type[] = [];
-  public selectedType: Type | null = null;
-  public searchedTypeName: string = '';
 
   fetchTypeByName(): void {
     this.selectedType =
@@ -284,10 +326,6 @@ export class DataManagementComponent {
     });
   }
 
-  public brands: Brand[] = [];
-  public selectedBrand: Brand | null = null;
-  public searchedBrandName: string = '';
-
   fetchBrandByName(): void {
     this.selectedBrand =
       this.brands.find((brand) =>
@@ -315,6 +353,19 @@ export class DataManagementComponent {
   loadAllBrands(): void {
     this.vehiclesService.getBrands().subscribe((data: Brand[]) => {
       this.brands = data;
+    });
+  }
+
+  createBrand(): void {
+    this.vehiclesService.createBrand(this.newBrand).subscribe(() => {
+      this.loadAllBrands();
+      this.newBrand = {
+        id: '',
+        holdingId: '',
+        founding: 0,
+        logo: '',
+        name: '',
+      };
     });
   }
 }

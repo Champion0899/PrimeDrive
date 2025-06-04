@@ -25,13 +25,17 @@
         <form>
         <mat-form-field appearance="fill">
             <mat-label>Name</mat-label>
-            <input matInput placeholder="z. B. Volkswagen AG">
+            <input matInput placeholder="z. B. Volkswagen AG" [(ngModel)]="newHolding.name" name="newHoldingName">
         </mat-form-field>
         <mat-form-field appearance="fill">
             <mat-label>Gründungsjahr</mat-label>
-            <input matInput type="number" placeholder="1937">
+            <input matInput type="number" placeholder="1937" [(ngModel)]="newHolding.founding" name="newHoldingFounding">
         </mat-form-field>
-        <button mat-raised-button color="primary">Holding erstellen</button>
+        <mat-form-field appearance="fill">
+            <mat-label>Logo-URL</mat-label>
+            <input matInput placeholder="https://..." [(ngModel)]="newHolding.logo" name="newHoldingLogo">
+        </mat-form-field>
+        <button mat-raised-button color="primary" type="button" (click)="createHolding()">Holding erstellen</button>
         </form>
         <table mat-table [dataSource]="holdings" class="mat-elevation-z8">
         <ng-container matColumnDef="name">
@@ -42,6 +46,12 @@
             <th mat-header-cell *matHeaderCellDef>Gründung</th>
             <td mat-cell *matCellDef="let element">{{element.founding}}</td>
         </ng-container>
+        <ng-container matColumnDef="logo">
+            <th mat-header-cell *matHeaderCellDef>Logo</th>
+            <td mat-cell *matCellDef="let element">
+                <img [src]="element.logo" alt="Logo" width="50" height="30">
+            </td>
+        </ng-container>
         <ng-container matColumnDef="actions">
             <th mat-header-cell *matHeaderCellDef>Aktionen</th>
             <td mat-cell *matCellDef="let element">
@@ -49,8 +59,8 @@
             <button mat-button color="warn" (click)="deleteHolding(element.id)">Löschen</button>
             </td>
         </ng-container>
-        <tr mat-header-row *matHeaderRowDef="['name', 'founding', 'actions']"></tr>
-        <tr mat-row *matRowDef="let row; columns: ['name', 'founding', 'actions']"></tr>
+        <tr mat-header-row *matHeaderRowDef="['name', 'founding', 'logo', 'actions']"></tr>
+        <tr mat-row *matRowDef="let row; columns: ['name', 'founding', 'logo', 'actions']"></tr>
         </table>
     </mat-tab>
 
@@ -88,25 +98,25 @@
         <form>
             <mat-form-field appearance="fill">
                 <mat-label>Name</mat-label>
-                <input matInput placeholder="z. B. BMW">
+                <input matInput placeholder="z. B. BMW" [(ngModel)]="newBrand.name" name="newBrandName">
             </mat-form-field>
 
             <mat-form-field appearance="fill">
                 <mat-label>Holding ID</mat-label>
-                <input matInput placeholder="UUID der Holding">
+                <input matInput placeholder="UUID der Holding" [(ngModel)]="newBrand.holdingId" name="newBrandHoldingId">
             </mat-form-field>
 
             <mat-form-field appearance="fill">
                 <mat-label>Gründungsjahr</mat-label>
-                <input matInput type="number" placeholder="1920">
+                <input matInput type="number" placeholder="1920" [(ngModel)]="newBrand.founding" name="newBrandFounding">
             </mat-form-field>
 
             <mat-form-field appearance="fill">
                 <mat-label>Logo-URL</mat-label>
-                <input matInput placeholder="https://...">
+                <input matInput placeholder="https://..." [(ngModel)]="newBrand.logo" name="newBrandLogo">
             </mat-form-field>
 
-            <button mat-raised-button color="primary">Brand erstellen</button>
+            <button mat-raised-button color="primary" type="button" (click)="createBrand()">Brand erstellen</button>
         </form>
 
         <table mat-table [dataSource]="brands" class="mat-elevation-z8">
@@ -122,6 +132,12 @@
             <th mat-header-cell *matHeaderCellDef>Gründung</th>
             <td mat-cell *matCellDef="let element">{{element.founding}}</td>
         </ng-container>
+        <ng-container matColumnDef="logo">
+            <th mat-header-cell *matHeaderCellDef>Logo</th>
+            <td mat-cell *matCellDef="let element">
+                <img [src]="element.logo" alt="Logo" width="50" height="30">
+            </td>
+        </ng-container>
         <ng-container matColumnDef="actions">
             <th mat-header-cell *matHeaderCellDef>Aktionen</th>
             <td mat-cell *matCellDef="let element">
@@ -129,8 +145,8 @@
             <button mat-button color="warn" (click)="deleteBrand(element.id)">Löschen</button>
             </td>
         </ng-container>
-        <tr mat-header-row *matHeaderRowDef="['name', 'holdingId', 'founding', 'actions']"></tr>
-        <tr mat-row *matRowDef="let row; columns: ['name', 'holdingId', 'founding', 'actions']"></tr>
+        <tr mat-header-row *matHeaderRowDef="['name', 'holdingId', 'founding', 'logo', 'actions']"></tr>
+        <tr mat-row *matRowDef="let row; columns: ['name', 'holdingId', 'founding', 'logo', 'actions']"></tr>
         </table>
     </mat-tab>
     <mat-tab label="Type">
@@ -155,11 +171,15 @@
         <form>
         <mat-form-field appearance="fill">
             <mat-label>Type</mat-label>
-            <input matInput placeholder="z. B. Limousine">
+            <input matInput [(ngModel)]="newType.type" name="newTypeName" placeholder="z. B. Limousine">
         </mat-form-field>
         <button mat-raised-button color="primary">Type erstellen</button>
         </form>
         <table mat-table [dataSource]="types" class="mat-elevation-z8">
+        <ng-container matColumnDef="id">
+            <th mat-header-cell *matHeaderCellDef>ID</th>
+            <td mat-cell *matCellDef="let element">{{element.id}}</td>
+        </ng-container>
         <ng-container matColumnDef="type">
             <th mat-header-cell *matHeaderCellDef>Type</th>
             <td mat-cell *matCellDef="let element">{{element.type}}</td>
@@ -171,8 +191,8 @@
             <button mat-button color="warn" (click)="deleteType(element.id)">Löschen</button>
             </td>
         </ng-container>
-        <tr mat-header-row *matHeaderRowDef="['type', 'actions']"></tr>
-        <tr mat-row *matRowDef="let row; columns: ['type', 'actions']"></tr>
+        <tr mat-header-row *matHeaderRowDef="['id', 'type', 'actions']"></tr>
+        <tr mat-row *matRowDef="let row; columns: ['id', 'type', 'actions']"></tr>
         </table>
     </mat-tab>
 
@@ -198,11 +218,15 @@
         <form>
         <mat-form-field appearance="fill">
             <mat-label>Engine Type</mat-label>
-            <input matInput placeholder="z. B. V8">
+            <input matInput [(ngModel)]="newEngine.engineType" name="newEngineType" placeholder="z. B. V8">
         </mat-form-field>
         <button mat-raised-button color="primary">Engine erstellen</button>
         </form>
         <table mat-table [dataSource]="engines" class="mat-elevation-z8">
+        <ng-container matColumnDef="id">
+            <th mat-header-cell *matHeaderCellDef>ID</th>
+            <td mat-cell *matCellDef="let element">{{element.id}}</td>
+        </ng-container>
         <ng-container matColumnDef="engineType">
             <th mat-header-cell *matHeaderCellDef>Engine Type</th>
             <td mat-cell *matCellDef="let element">{{element.engineType}}</td>
@@ -214,8 +238,8 @@
             <button mat-button color="warn" (click)="deleteEngine(element.id)">Löschen</button>
             </td>
         </ng-container>
-        <tr mat-header-row *matHeaderRowDef="['engineType', 'actions']"></tr>
-        <tr mat-row *matRowDef="let row; columns: ['engineType', 'actions']"></tr>
+        <tr mat-header-row *matHeaderRowDef="['id', 'engineType', 'actions']"></tr>
+        <tr mat-row *matRowDef="let row; columns: ['id', 'engineType', 'actions']"></tr>
         </table>
     </mat-tab>
 
@@ -241,11 +265,15 @@
         <form>
         <mat-form-field appearance="fill">
             <mat-label>Kraftstofftyp</mat-label>
-            <input matInput placeholder="z. B. Diesel">
+            <input matInput [(ngModel)]="newFuel.fuelType" name="newFuelType" placeholder="z. B. Diesel">
         </mat-form-field>
         <button mat-raised-button color="primary">Fuel erstellen</button>
         </form>
         <table mat-table [dataSource]="fuels" class="mat-elevation-z8">
+        <ng-container matColumnDef="id">
+            <th mat-header-cell *matHeaderCellDef>ID</th>
+            <td mat-cell *matCellDef="let element">{{element.id}}</td>
+        </ng-container>
         <ng-container matColumnDef="fuelType">
             <th mat-header-cell *matHeaderCellDef>Kraftstofftyp</th>
             <td mat-cell *matCellDef="let element">{{element.fuelType}}</td>
@@ -257,8 +285,8 @@
             <button mat-button color="warn" (click)="deleteFuel(element.id)">Löschen</button>
             </td>
         </ng-container>
-        <tr mat-header-row *matHeaderRowDef="['fuelType', 'actions']"></tr>
-        <tr mat-row *matRowDef="let row; columns: ['fuelType', 'actions']"></tr>
+        <tr mat-header-row *matHeaderRowDef="['id', 'fuelType', 'actions']"></tr>
+        <tr mat-row *matRowDef="let row; columns: ['id', 'fuelType', 'actions']"></tr>
         </table>
     </mat-tab>
 
@@ -284,11 +312,15 @@
         <form>
         <mat-form-field appearance="fill">
             <mat-label>Anzahl</mat-label>
-            <input matInput type="number" placeholder="4">
+            <input matInput type="number" [(ngModel)]="newDoors.quantity" name="newDoorsQuantity" placeholder="4">
         </mat-form-field>
         <button mat-raised-button color="primary">Doors erstellen</button>
         </form>
         <table mat-table [dataSource]="doors" class="mat-elevation-z8">
+        <ng-container matColumnDef="id">
+            <th mat-header-cell *matHeaderCellDef>ID</th>
+            <td mat-cell *matCellDef="let element">{{element.id}}</td>
+        </ng-container>
         <ng-container matColumnDef="quantity">
             <th mat-header-cell *matHeaderCellDef>Anzahl</th>
             <td mat-cell *matCellDef="let element">{{element.quantity}}</td>
@@ -300,8 +332,8 @@
             <button mat-button color="warn" (click)="deleteDoors(element.id)">Löschen</button>
             </td>
         </ng-container>
-        <tr mat-header-row *matHeaderRowDef="['quantity', 'actions']"></tr>
-        <tr mat-row *matRowDef="let row; columns: ['quantity', 'actions']"></tr>
+        <tr mat-header-row *matHeaderRowDef="['id', 'quantity', 'actions']"></tr>
+        <tr mat-row *matRowDef="let row; columns: ['id', 'quantity', 'actions']"></tr>
         </table>
     </mat-tab>
 
@@ -327,11 +359,15 @@
         <form>
         <mat-form-field appearance="fill">
             <mat-label>Anzahl</mat-label>
-            <input matInput type="number" placeholder="5">
+            <input matInput type="number" [(ngModel)]="newSeats.quantity" name="newSeatsQuantity" placeholder="5">
         </mat-form-field>
         <button mat-raised-button color="primary">Seats erstellen</button>
         </form>
         <table mat-table [dataSource]="seats" class="mat-elevation-z8">
+        <ng-container matColumnDef="id">
+            <th mat-header-cell *matHeaderCellDef>ID</th>
+            <td mat-cell *matCellDef="let element">{{element.id}}</td>
+        </ng-container>
         <ng-container matColumnDef="quantity">
             <th mat-header-cell *matHeaderCellDef>Anzahl</th>
             <td mat-cell *matCellDef="let element">{{element.quantity}}</td>
@@ -343,8 +379,8 @@
             <button mat-button color="warn" (click)="deleteSeats(element.id)">Löschen</button>
             </td>
         </ng-container>
-        <tr mat-header-row *matHeaderRowDef="['quantity', 'actions']"></tr>
-        <tr mat-row *matRowDef="let row; columns: ['quantity', 'actions']"></tr>
+        <tr mat-header-row *matHeaderRowDef="['id', 'quantity', 'actions']"></tr>
+        <tr mat-row *matRowDef="let row; columns: ['id', 'quantity', 'actions']"></tr>
         </table>
     </mat-tab>
 
@@ -374,15 +410,19 @@
         <form>
         <mat-form-field appearance="fill">
             <mat-label>Name</mat-label>
-            <input matInput placeholder="z. B. Rot">
+            <input matInput [(ngModel)]="newColor.name" name="newColorName" placeholder="z. B. Rot">
         </mat-form-field>
         <mat-form-field appearance="fill">
             <mat-label>Hex-Code</mat-label>
-            <input matInput placeholder="#FF0000">
+            <input matInput [(ngModel)]="newColor.hexCode" name="newColorHexCode" placeholder="#FF0000">
         </mat-form-field>
         <button mat-raised-button color="primary">Color erstellen</button>
         </form>
         <table mat-table [dataSource]="colors" class="mat-elevation-z8">
+        <ng-container matColumnDef="id">
+            <th mat-header-cell *matHeaderCellDef>ID</th>
+            <td mat-cell *matCellDef="let element">{{element.id}}</td>
+        </ng-container>
         <ng-container matColumnDef="name">
             <th mat-header-cell *matHeaderCellDef>Name</th>
             <td mat-cell *matCellDef="let element">{{element.name}}</td>
@@ -398,8 +438,8 @@
             <button mat-button color="warn" (click)="deleteColor(element)">Löschen</button>
             </td>
         </ng-container>
-        <tr mat-header-row *matHeaderRowDef="['name', 'hexCode', 'actions']"></tr>
-        <tr mat-row *matRowDef="let row; columns: ['name', 'hexCode', 'actions']"></tr>
+        <tr mat-header-row *matHeaderRowDef="['id', 'name', 'hexCode', 'actions']"></tr>
+        <tr mat-row *matRowDef="let row; columns: ['id', 'name', 'hexCode', 'actions']"></tr>
         </table>
     </mat-tab>
 </mat-tab-group>
