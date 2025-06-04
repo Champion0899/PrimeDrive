@@ -148,24 +148,44 @@ public class AuthenticationController {
     }
 
     /**
-     * Endpoint to log out a user by clearing the JWT cookie.
+     * Endpoint to log out a user by clearing all cookies and invalidating session.
      *
-     * @param response HttpServletResponse used to clear the cookie
+     * @param request  HttpServletRequest used to access cookies and session
+     * @param response HttpServletResponse used to clear cookies
      * @return ResponseEntity confirming logout
      */
     @PostMapping("/logout")
     @CrossOrigin
-    @Operation(summary = "Logout user", description = "Logs out the user by removing the JWT cookie from the browser. "
-            + "The cookie is cleared by setting its max age to 0, effectively deleting it. "
-            + "The JWT is stored as a HttpOnly, Secure, SameSite cookie and is not accessible to client-side scripts.")
-    public ResponseEntity<?> logout(HttpServletResponse response) {
-        Cookie cookie = new Cookie("jwt", null);
-        cookie.setHttpOnly(true);
-        cookie.setSecure(true);
-        cookie.setPath("/");
-        cookie.setMaxAge(0); // Deletes the cookie
-        response.addCookie(cookie);
-        return ResponseEntity.ok("Logged out");
+    @Operation(summary = "Logout user", description = "Logs out the user by removing all cookies including the JWT cookie.")
+    public ResponseEntity<?> logout(HttpServletRequest request, HttpServletResponse response) {
+        // Clear the JWT cookie explicitly
+        String expiredCookie = ResponseCookie.from("jwt", "")
+                .httpOnly(true)
+                .secure(true)
+                .path("/")
+                .sameSite("None")
+                .maxAge(0)
+                .build()
+                .toString();
+        response.setHeader("Set-Cookie", expiredCookie);
+
+        // Remove all cookies
+        if (request.getCookies() != null) {
+            for (Cookie c : request.getCookies()) {
+                Cookie cleared = new Cookie(c.getName(), null);
+                cleared.setPath("/");
+                cleared.setMaxAge(0);
+                cleared.setSecure(true);
+                cleared.setHttpOnly(true);
+                response.addCookie(cleared);
+            }
+        }
+
+        // Invalidate session and clear SecurityContext
+        request.getSession(false); // ensure session isn't created
+        SecurityContextHolder.clearContext();
+
+        return ResponseEntity.ok(Map.of("message", "Logged out"));
     }
 
     /**

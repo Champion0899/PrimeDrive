@@ -59,8 +59,15 @@ export class NavigationComponent implements OnInit {
 
   /** Logs the user out and updates the local login state. */
   public logout() {
-    this.authService.logout();
-    this.isLoggedIn = false;
+    this.authService.logout().subscribe({
+      next: () => {
+        this.isLoggedIn = false;
+        window.location.reload();
+      },
+      error: (err) => {
+        console.error('Logout failed:', err);
+      },
+    });
   }
 
   /** Checks the current authentication state and updates admin status if logged in. */

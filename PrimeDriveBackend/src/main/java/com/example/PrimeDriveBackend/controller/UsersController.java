@@ -40,7 +40,6 @@ public class UsersController {
 
     private final UserService userService;
 
-    
     @GetMapping
     @PreAuthorize("hasRole('ADMIN')")
     @SecurityRequirement(name = "bearer")
@@ -77,14 +76,20 @@ public class UsersController {
      */
     @GetMapping("/current")
     @Operation(summary = "Get current user", description = "Returns the currently authenticated user. Access: All authenticated roles.")
-    @SecurityRequirement(name = "bearer")
     public UserSafeDto getCurrentUser(Authentication authentication) {
-        if (authentication == null || !authentication.isAuthenticated()
-                || !(authentication.getPrincipal() instanceof Jwt jwt)) {
-            throw new IllegalStateException("JWT authentication expected but not found");
+        if (authentication == null || !authentication.isAuthenticated()) {
+            throw new IllegalStateException("No authenticated user found.");
         }
 
-        String userId = jwt.getSubject();
+        Object principal = authentication.getPrincipal();
+        String userId;
+
+        if (principal instanceof Jwt jwt) {
+            userId = jwt.getSubject();
+        } else {
+            userId = authentication.getName(); // fallback für session-basierte Authentifizierung
+        }
+
         return userService.getUserByIdSafe(userId);
     }
 
@@ -115,7 +120,7 @@ public class UsersController {
      * The user is identified by their ID, and updated using the provided UserDto.
      * Only accessible to ADMIN users.
      *
-     * @param id Unique identifier of the user to be updated
+     * @param id      Unique identifier of the user to be updated
      * @param userDto Object containing updated user data
      * @return UserDto with updated user information
      */

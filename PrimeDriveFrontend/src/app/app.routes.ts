@@ -1,6 +1,8 @@
+import { AdminComponent } from './Web/admin/admin.component';
 import { Routes } from '@angular/router';
 import { VehiclesComponent } from './Web/vehicles/vehicles.component';
 import { VehicleDetailsComponent } from './Web/vehicles/vehicle-details/vehicle-details.component';
+import { AdminGuard } from './Guards/admin.guard';
 
 /**
  * Application route configuration for PrimeDrive.
@@ -28,5 +30,10 @@ export const routes: Routes = [
   {
     path: 'vehicles/:id',
     component: VehicleDetailsComponent,
+  },
+  {
+    path: 'admin',
+    component: AdminComponent,
+    canActivate: [AdminGuard],
   },
 ];
