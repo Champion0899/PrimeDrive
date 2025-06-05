@@ -1,39 +1,46 @@
 @if (vehicle) {
-  <mat-card>
-  <mat-card-header>
-    <mat-card-title>{{ vehicle.brand.name}} {{ vehicle.name }}</mat-card-title>
-    <mat-card-subtitle>{{ vehicle.year }} • {{ vehicle.condition }} • {{vehicle.type.type}}</mat-card-subtitle>
-  </mat-card-header>
-  <img mat-card-image [src]="vehicle.image" alt="{{ vehicle.name }}" />
-  <mat-card-content>
-    <p><strong>Preis:</strong> {{ vehicle.price | currency:'CHF' }}</p>
-    <p><strong>Kilometer:</strong> {{ vehicle.mileage }} km</p>
-    <p><strong>Historie:</strong> {{ vehicle.vehicleHistory }}</p>
-  </mat-card-content>
+  <mat-card class="vehicle-card">
+    <!-- Header oben -->
+    <mat-card-header>
+      <mat-card-title>{{ vehicle.brand.name }} {{ vehicle.name }}</mat-card-title>
+      <mat-card-subtitle>
+        {{ vehicle.year }} • {{ vehicle.condition }} • {{ vehicle.type.type }}
+      </mat-card-subtitle>
+    </mat-card-header>
 
-  
-  <mat-accordion>
-    <mat-expansion-panel>
-      <mat-expansion-panel-header>
-        <mat-panel-title>
-          Fahrzeugspezifikationen
-        </mat-panel-title>
-      </mat-expansion-panel-header>
+    <!-- Fahrzeugbild -->
+    <img mat-card-image [src]="vehicle.image" alt="{{ vehicle.name }}" class="vehicle-image" />
 
-      @if (vehicle.specs) {
-        <div>
-          <p><strong>Leistung (kW):</strong> {{ vehicle.specs.powerKw }}</p>
-          <p><strong>Leistung (PS):</strong> {{ vehicle.specs.powerPs }}</p>
-          <p><strong>0–100 km/h:</strong> {{ vehicle.specs.zeroToHundredInSeconds }} s</p>
-          <p><strong>Höchstgeschwindigkeit:</strong> {{ vehicle.specs.topSpeedInKmH }} km/h</p>
-          <p><strong>Verbrauch:</strong> {{ vehicle.specs.consumptionHundredInX }} l/100km</p>
-          <p><strong>CO₂-Emissionen:</strong> {{ vehicle.specs.coTwoEmissionsInGPerKm }} g/km</p>
-          <p><strong>Kofferraum (min–max):</strong> {{ vehicle.specs.trunkInLiterMin }}–{{ vehicle.specs.trunkInLiterMax }} l</p>
-          <p><strong>Hubraum:</strong> {{ vehicle.specs.cubicCapacity }} cm³</p>
-          <p><strong>Masse (L×B×H):</strong> {{ vehicle.specs.lengthMillimeters }} × {{ vehicle.specs.widthMillimeters }} × {{ vehicle.specs.heightMillimeters }} mm</p>
-        </div>
-      }
-    </mat-expansion-panel>
-  </mat-accordion>
+    <!-- Fahrzeugdetails -->
+    <mat-card-content class="vehicle-details">
+      <p><strong>Preis:</strong> {{ vehicle.price | currency:'CHF' }}</p>
+      <p><strong>Kilometer:</strong> {{ vehicle.mileage }} km</p>
+      <p><strong>Historie:</strong> {{ vehicle.vehicleHistory }}</p>
+    </mat-card-content>
+
+    <!-- Spezifikationen als Expansion Panel -->
+    @if (vehicle.specs) {
+      <mat-accordion class="vehicle-accordion">
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Fahrzeugspezifikationen
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+
+          <div class="vehicle-specs">
+            <p><strong>Leistung (kW):</strong> {{ vehicle.specs.powerKw }}</p>
+            <p><strong>Leistung (PS):</strong> {{ vehicle.specs.powerPs }}</p>
+            <p><strong>0–100 km/h:</strong> {{ vehicle.specs.zeroToHundredInSeconds }} s</p>
+            <p><strong>Höchstgeschwindigkeit:</strong> {{ vehicle.specs.topSpeedInKmH }} km/h</p>
+            <p><strong>Verbrauch:</strong> {{ vehicle.specs.consumptionHundredInX }} l/100km</p>
+            <p><strong>CO₂-Emissionen:</strong> {{ vehicle.specs.coTwoEmissionsInGPerKm }} g/km</p>
+            <p><strong>Kofferraum (min–max):</strong> {{ vehicle.specs.trunkInLiterMin }}–{{ vehicle.specs.trunkInLiterMax }} l</p>
+            <p><strong>Hubraum:</strong> {{ vehicle.specs.cubicCapacity }} cm³</p>
+            <p><strong>Masse (L×B×H):</strong> {{ vehicle.specs.lengthMillimeters }} × {{ vehicle.specs.widthMillimeters }} × {{ vehicle.specs.heightMillimeters }} mm</p>
+          </div>
+        </mat-expansion-panel>
+      </mat-accordion>
+    }
   </mat-card>
 }

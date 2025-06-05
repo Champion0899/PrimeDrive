@@ -17,3 +17,38 @@ mat-expansion-panel-header {
 mat-expansion-panel-body p {
   margin: 0.25rem 0;
 }
+
+.vehicle-card {
+  max-width: 900px;
+  margin: 2rem auto;
+  padding: 1rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.vehicle-image {
+  object-fit: cover;
+  max-height: 400px;
+  border-radius: 4px;
+}
+
+.vehicle-details {
+  padding-top: 1rem;
+}
+
+.vehicle-details p,
+.vehicle-specs p {
+  margin: 0.5rem 0;
+}
+
+.vehicle-accordion {
+  margin-top: 1.5rem;
+}
+
+.vehicle-specs {
+  padding: 1rem 0;
+}
+
+
+
+
