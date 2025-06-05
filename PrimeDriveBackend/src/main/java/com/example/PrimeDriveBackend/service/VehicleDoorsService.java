@@ -98,11 +98,16 @@ public class VehicleDoorsService {
      * Deletes a vehicle door configuration by ID.
      *
      * @param id the ID of the configuration to delete
-     * @throws RuntimeException if the configuration is not found
+     * @throws RuntimeException if the configuration is not found or in use
      */
     public void deleteDoors(String id) {
         VehicleDoors existing = vehicleDoorsRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Doors not found with id: " + id));
+
+        if (vehicleDoorsRepository.isDoorsInUse(id)) {
+            throw new RuntimeException("Cannot delete door configuration with id " + id + " because it is currently in use.");
+        }
+
         vehicleDoorsRepository.delete(existing);
     }
 }

@@ -104,6 +104,11 @@ public class VehicleSeatsService {
         if (!vehicleSeatsRepository.existsById(id)) {
             throw new RuntimeException("Seats not found with id: " + id);
         }
+
+        if (vehicleSeatsRepository.isSeatsInUse(id)) {
+            throw new RuntimeException("Cannot delete seat configuration with id " + id + " because it is currently in use.");
+        }
+
         vehicleSeatsRepository.deleteById(id);
     }
 }

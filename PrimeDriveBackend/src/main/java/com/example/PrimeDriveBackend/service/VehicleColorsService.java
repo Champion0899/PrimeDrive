@@ -104,6 +104,11 @@ public class VehicleColorsService {
         if (!vehicleColorsRepository.existsById(id)) {
             throw new RuntimeException("Color not found with id: " + id);
         }
+
+        if (vehicleColorsRepository.isColorInUse(id)) {
+            throw new RuntimeException("Cannot delete color with id " + id + " because it is currently in use.");
+        }
+
         vehicleColorsRepository.deleteById(id);
     }
 }

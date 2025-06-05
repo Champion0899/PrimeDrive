@@ -104,6 +104,11 @@ public class VehicleEngineService {
         if (!vehicleEngineRepository.existsById(id)) {
             throw new RuntimeException("Engine not found with id: " + id);
         }
+
+        if (vehicleEngineRepository.isEngineInUse(id)) {
+            throw new RuntimeException("Cannot delete engine with id " + id + " because it is currently in use.");
+        }
+
         vehicleEngineRepository.deleteById(id);
     }
 }

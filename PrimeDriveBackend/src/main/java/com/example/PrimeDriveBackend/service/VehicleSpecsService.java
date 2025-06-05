@@ -133,6 +133,11 @@ public class VehicleSpecsService {
             throw new SecurityException("You are not authorized to delete these specs.");
         }
 
+        // Prevent deletion if specs are still in use
+        if (vehicle.getSpecs() != null && vehicle.getSpecs().getId().equals(id)) {
+            throw new RuntimeException("Cannot delete specs with id " + id + " because they are currently in use.");
+        }
+
         vehicleSpecsRepository.deleteById(id);
     }
 }

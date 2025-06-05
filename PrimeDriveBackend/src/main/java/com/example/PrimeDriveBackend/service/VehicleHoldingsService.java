@@ -97,12 +97,17 @@ public class VehicleHoldingsService {
      * Deletes a vehicle holding company by ID.
      *
      * @param id the ID of the holding to delete
-     * @throws RuntimeException if the holding is not found
+     * @throws RuntimeException if the holding is not found or is in use
      */
     public void deleteHolding(String id) {
         if (!vehicleHoldingsRepository.existsById(id)) {
             throw new RuntimeException("Holdings not found with id: " + id);
         }
+
+        if (vehicleHoldingsRepository.isHoldingInUse(id)) {
+            throw new RuntimeException("Cannot delete holding with id " + id + " because it is currently in use.");
+        }
+
         vehicleHoldingsRepository.deleteById(id);
     }
 }

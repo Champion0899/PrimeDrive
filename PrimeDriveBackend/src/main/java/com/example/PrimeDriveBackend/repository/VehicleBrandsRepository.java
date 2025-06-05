@@ -2,6 +2,9 @@ package com.example.PrimeDriveBackend.repository;
 
 import java.util.Optional;
 
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -27,4 +30,13 @@ public interface VehicleBrandsRepository extends JpaRepository<VehicleBrands, St
      * @return an Optional containing the brand if found, or empty if not found
      */
     Optional<VehicleBrands> findById(String id);
+
+    /**
+     * Checks whether a brand is currently in use by any vehicle.
+     *
+     * @param id the ID of the vehicle brand
+     * @return true if the brand is in use, false otherwise
+     */
+    @Query("SELECT COUNT(v) > 0 FROM Vehicle v WHERE v.brands.id = :id")
+    boolean isBrandInUse(@Param("id") String id);
 }

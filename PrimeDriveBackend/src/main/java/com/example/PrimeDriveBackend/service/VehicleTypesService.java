@@ -97,12 +97,18 @@ public class VehicleTypesService {
      * Deletes a vehicle type by ID.
      *
      * @param id the ID of the vehicle type to delete
-     * @throws RuntimeException if the type is not found
+     * @throws RuntimeException if the type is not found or is in use
      */
     public void deleteType(String id) {
         if (!vehicleTypesRepository.existsById(id)) {
             throw new RuntimeException("Type not found with id: " + id);
         }
+
+        boolean isInUse = vehicleTypesRepository.isTypeInUse(id);
+        if (isInUse) {
+            throw new RuntimeException("Cannot delete vehicle type with id " + id + " because it is currently in use.");
+        }
+
         vehicleTypesRepository.deleteById(id);
     }
 }

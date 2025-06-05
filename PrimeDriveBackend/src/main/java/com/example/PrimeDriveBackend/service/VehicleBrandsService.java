@@ -105,12 +105,17 @@ public class VehicleBrandsService {
      * Deletes a vehicle brand by ID.
      *
      * @param id the ID of the brand to delete
-     * @throws RuntimeException if the brand is not found
+     * @throws RuntimeException if the brand is not found or is currently in use
      */
     public void deleteBrand(String id) {
         if (!vehicleBrandsRepository.existsById(id)) {
             throw new RuntimeException("Brand not found with id: " + id);
         }
+
+        if (vehicleBrandsRepository.isBrandInUse(id)) {
+            throw new RuntimeException("Cannot delete brand with id " + id + " because it is currently in use.");
+        }
+
         vehicleBrandsRepository.deleteById(id);
     }
 }

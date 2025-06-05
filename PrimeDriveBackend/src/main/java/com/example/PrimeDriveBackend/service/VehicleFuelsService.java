@@ -98,11 +98,16 @@ public class VehicleFuelsService {
      * Deletes a vehicle fuel type by ID.
      *
      * @param id the ID of the fuel type to delete
-     * @throws RuntimeException if the fuel type is not found
+     * @throws RuntimeException if the fuel type is not found or is in use
      */
     public void deleteFuels(String id) {
         VehicleFuels existing = vehicleFuelsRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Fuel not found with id: " + id));
+
+        if (vehicleFuelsRepository.isFuelInUse(id)) {
+            throw new RuntimeException("Cannot delete fuel type with id " + id + " because it is currently in use.");
+        }
+
         vehicleFuelsRepository.delete(existing);
     }
 }
