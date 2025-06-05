@@ -1,6 +1,7 @@
 package com.example.PrimeDriveBackend.controller;
 
 import com.example.PrimeDriveBackend.Dto.VehicleDto;
+import com.example.PrimeDriveBackend.service.AuthenticationService;
 import com.example.PrimeDriveBackend.service.VehicleService;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -9,6 +10,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
 
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -33,11 +35,13 @@ import java.util.List;
 @Tag(name = "Vehicle", description = "Endpoints for managing vehicles")
 public class VehicleController {
     private final VehicleService vehicleService;
+    private final AuthenticationService authenticationService;
 
     /**
      * Endpoint to retrieve all vehicles.
      *
-     * Accessible by all authenticated users. Returns a list of all registered vehicles.
+     * Accessible by all authenticated users. Returns a list of all registered
+     * vehicles.
      *
      * @return List of VehicleDto objects representing vehicles
      */
@@ -64,7 +68,8 @@ public class VehicleController {
     /**
      * Endpoint for SELLER or ADMIN users to create a new vehicle.
      *
-     * Accepts a VehicleDto object with vehicle details and returns the created vehicle.
+     * Accepts a VehicleDto object with vehicle details and returns the created
+     * vehicle.
      *
      * @param dto VehicleDto containing the new vehicle's data
      * @return VehicleDto representing the newly created vehicle
@@ -74,10 +79,11 @@ public class VehicleController {
     @SecurityRequirement(name = "bearer")
     @Operation(summary = "Create a new vehicle", description = "Creates a new vehicle with the provided details. Access: SELLER or ADMIN.")
     @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "Vehicle created successfully"),
-        @ApiResponse(responseCode = "403", description = "Access denied – only SELLER or ADMIN allowed")
+            @ApiResponse(responseCode = "200", description = "Vehicle created successfully"),
+            @ApiResponse(responseCode = "403", description = "Access denied – only SELLER or ADMIN allowed")
     })
-    public VehicleDto create(@RequestBody VehicleDto dto) {
+    public VehicleDto create(@RequestBody VehicleDto dto, Authentication authentication) {
+        authenticationService.checkAuthentication(authentication);
         return vehicleService.saveVehicle(dto);
     }
 
@@ -86,7 +92,7 @@ public class VehicleController {
      *
      * Accepts the vehicle ID and a VehicleDto with updated data.
      *
-     * @param id Unique identifier of the vehicle to update
+     * @param id  Unique identifier of the vehicle to update
      * @param dto Updated vehicle data
      * @return VehicleDto representing the updated vehicle
      */
@@ -95,10 +101,11 @@ public class VehicleController {
     @SecurityRequirement(name = "bearer")
     @Operation(summary = "Update vehicle by ID", description = "Updates an existing vehicle with the provided details. Access: SELLER or ADMIN.")
     @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "Vehicle updated successfully"),
-        @ApiResponse(responseCode = "403", description = "Access denied – only SELLER or ADMIN allowed")
+            @ApiResponse(responseCode = "200", description = "Vehicle updated successfully"),
+            @ApiResponse(responseCode = "403", description = "Access denied – only SELLER or ADMIN allowed")
     })
-    public VehicleDto update(@PathVariable String id, @RequestBody VehicleDto dto) {
+    public VehicleDto update(@PathVariable String id, @RequestBody VehicleDto dto, Authentication authentication) {
+        authenticationService.checkAuthentication(authentication);
         return vehicleService.updateVehicle(id, dto);
     }
 
@@ -114,10 +121,11 @@ public class VehicleController {
     @SecurityRequirement(name = "bearer")
     @Operation(summary = "Delete vehicle by ID", description = "Deletes a vehicle by its ID. Access: SELLER or ADMIN.")
     @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "Vehicle deleted successfully"),
-        @ApiResponse(responseCode = "403", description = "Access denied – only SELLER or ADMIN allowed")
+            @ApiResponse(responseCode = "200", description = "Vehicle deleted successfully"),
+            @ApiResponse(responseCode = "403", description = "Access denied – only SELLER or ADMIN allowed")
     })
-    public void delete(@PathVariable String id) {
+    public void delete(@PathVariable String id, Authentication authentication) {
+        authenticationService.checkAuthentication(authentication);
         vehicleService.deleteVehicle(id);
     }
 }

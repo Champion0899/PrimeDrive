@@ -14,6 +14,8 @@ import { Seats } from '../../../Models/vehicles/seats.interface';
 import { Type } from '../../../Models/vehicles/type.interface';
 import { FormsModule } from '@angular/forms';
 import { VehiclesService } from '../../../Services/vehicles/vehicles.service';
+import { MatOption, MatOptionModule } from '@angular/material/core';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-data-management',
@@ -25,7 +27,9 @@ import { VehiclesService } from '../../../Services/vehicles/vehicles.service';
     FormsModule,
     MatTableModule,
     MatButtonModule,
-  ],
+    CommonModule,
+    MatOptionModule
+],
   providers: [VehiclesService],
   templateUrl: './data-management.component.html',
   styleUrl: './data-management.component.scss',
@@ -159,6 +163,12 @@ export class DataManagementComponent {
       this.doors = data;
     });
   }
+  createDoors(): void {
+    this.vehiclesService.createDoors(this.newDoors).subscribe(() => {
+      this.loadAllDoors();
+      this.newDoors = { id: '', quantity: 0 };
+    });
+  }
 
   fetchEngineByName(): void {
     this.selectedEngine =
@@ -191,6 +201,12 @@ export class DataManagementComponent {
       this.engines = data;
     });
   }
+  createEngine(): void {
+    this.vehiclesService.createEngine(this.newEngine).subscribe(() => {
+      this.loadAllEngines();
+      this.newEngine = { id: '', engineType: '' };
+    });
+  }
 
   fetchFuelByName(): void {
     this.selectedFuel =
@@ -221,6 +237,12 @@ export class DataManagementComponent {
   loadAllFuels(): void {
     this.vehiclesService.getFuels().subscribe((data: Fuel[]) => {
       this.fuels = data;
+    });
+  }
+  createFuel(): void {
+    this.vehiclesService.createFuel(this.newFuel).subscribe(() => {
+      this.loadAllFuels();
+      this.newFuel = { id: '', fuelType: '' };
     });
   }
 
@@ -293,6 +315,12 @@ export class DataManagementComponent {
   loadAllSeats(): void {
     this.vehiclesService.getSeats().subscribe((data: Seats[]) => {
       this.seats = data;
+    });
+  }
+  createSeats(): void {
+    this.vehiclesService.createSeats(this.newSeats).subscribe(() => {
+      this.loadAllSeats();
+      this.newSeats = { id: '', quantity: 0 };
     });
   }
 

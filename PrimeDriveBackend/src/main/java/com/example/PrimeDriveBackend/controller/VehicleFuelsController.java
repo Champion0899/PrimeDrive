@@ -23,8 +23,10 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.Authentication;
 
 import com.example.PrimeDriveBackend.Dto.VehicleFuelsDto;
+import com.example.PrimeDriveBackend.service.AuthenticationService;
 import com.example.PrimeDriveBackend.service.VehicleFuelsService;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -42,6 +44,7 @@ import lombok.RequiredArgsConstructor;
 @Tag(name = "Vehicle Fuels", description = "Endpoints for managing vehicle fuels")
 public class VehicleFuelsController {
     private final VehicleFuelsService vehicleFuelsService;
+    private final AuthenticationService authenticationService;
 
     @GetMapping
     @Operation(summary = "Get all vehicle fuel types", description = "Retrieves a list of all vehicle fuel types. Access: All authenticated roles.")
@@ -84,7 +87,8 @@ public class VehicleFuelsController {
      * @param dto VehicleFuelsDto containing the fuel data to be created
      * @return VehicleFuelsDto representing the created fuel type
      */
-    public VehicleFuelsDto create(@RequestBody VehicleFuelsDto dto) {
+    public VehicleFuelsDto create(@RequestBody VehicleFuelsDto dto, Authentication authentication) {
+        authenticationService.checkAuthentication(authentication);
         return vehicleFuelsService.saveFuels(dto);
     }
 
@@ -101,11 +105,13 @@ public class VehicleFuelsController {
      *
      * Only accessible to ADMIN users.
      *
-     * @param id Unique identifier of the fuel type to update
+     * @param id  Unique identifier of the fuel type to update
      * @param dto Updated fuel data
      * @return VehicleFuelsDto representing the updated fuel type
      */
-    public VehicleFuelsDto update(@PathVariable String id, @RequestBody VehicleFuelsDto dto) {
+    public VehicleFuelsDto update(@PathVariable String id, @RequestBody VehicleFuelsDto dto,
+            Authentication authentication) {
+        authenticationService.checkAuthentication(authentication); // Assuming authentication is checked elsewhere
         dto.setId(id);
         return vehicleFuelsService.updateFuels(id, dto);
     }
@@ -125,7 +131,8 @@ public class VehicleFuelsController {
      *
      * @param id Unique identifier of the fuel type to delete
      */
-    public void delete(@PathVariable String id) {
+    public void delete(@PathVariable String id, Authentication authentication) {
+        authenticationService.checkAuthentication(authentication);
         vehicleFuelsService.deleteFuels(id);
     }
 }

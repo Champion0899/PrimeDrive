@@ -11,8 +11,10 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.Authentication;
 
 import com.example.PrimeDriveBackend.Dto.VehicleDoorsDto;
+import com.example.PrimeDriveBackend.service.AuthenticationService;
 import com.example.PrimeDriveBackend.service.VehicleDoorsService;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -42,6 +44,7 @@ import lombok.RequiredArgsConstructor;
 @Tag(name = "Vehicle Doors", description = "Endpoints for managing vehicle doors")
 public class VehicleDoorsController {
     private final VehicleDoorsService vehicleDoorsService;
+    private final AuthenticationService authenticationService;
 
     /**
      * Endpoint to retrieve all vehicle door configurations.
@@ -84,7 +87,8 @@ public class VehicleDoorsController {
             @ApiResponse(responseCode = "200", description = "Vehicle doors created successfully"),
             @ApiResponse(responseCode = "403", description = "Access denied – only ADMIN allowed")
     })
-    public VehicleDoorsDto create(@RequestBody VehicleDoorsDto dto) {
+    public VehicleDoorsDto create(@RequestBody VehicleDoorsDto dto, Authentication authentication) {
+        authenticationService.checkAuthentication(authentication);
         return vehicleDoorsService.saveDoors(dto);
     }
 
@@ -105,7 +109,9 @@ public class VehicleDoorsController {
             @ApiResponse(responseCode = "200", description = "Vehicle doors updated successfully"),
             @ApiResponse(responseCode = "403", description = "Access denied – only ADMIN allowed")
     })
-    public VehicleDoorsDto update(@PathVariable String id, @RequestBody VehicleDoorsDto dto) {
+    public VehicleDoorsDto update(@PathVariable String id, @RequestBody VehicleDoorsDto dto,
+            Authentication authentication) {
+        authenticationService.checkAuthentication(authentication);
         dto.setId(id);
         return vehicleDoorsService.updateDoors(id, dto);
     }
@@ -125,7 +131,8 @@ public class VehicleDoorsController {
             @ApiResponse(responseCode = "200", description = "Vehicle doors deleted successfully"),
             @ApiResponse(responseCode = "403", description = "Access denied – only ADMIN allowed")
     })
-    public void delete(@PathVariable String id) {
+    public void delete(@PathVariable String id, Authentication authentication) {
+        authenticationService.checkAuthentication(authentication);
         vehicleDoorsService.deleteDoors(id);
     }
 }

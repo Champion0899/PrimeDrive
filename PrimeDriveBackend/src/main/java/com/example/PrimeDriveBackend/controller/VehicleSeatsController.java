@@ -11,8 +11,10 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.Authentication;
 
 import com.example.PrimeDriveBackend.Dto.VehicleSeatsDto;
+import com.example.PrimeDriveBackend.service.AuthenticationService;
 import com.example.PrimeDriveBackend.service.VehicleSeatsService;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -42,6 +44,7 @@ import lombok.RequiredArgsConstructor;
 @Tag(name = "Vehicle Seats", description = "Endpoints for managing vehicle seats")
 public class VehicleSeatsController {
     private final VehicleSeatsService vehicleSeatsService;
+    private final AuthenticationService authenticationService;
 
     /**
      * Endpoint to retrieve all vehicle seat configurations.
@@ -84,7 +87,8 @@ public class VehicleSeatsController {
             @ApiResponse(responseCode = "200", description = "Vehicle seats successfully created."),
             @ApiResponse(responseCode = "403", description = "Access denied – only ADMIN allowed")
     })
-    public VehicleSeatsDto create(@RequestBody VehicleSeatsDto dto) {
+    public VehicleSeatsDto create(@RequestBody VehicleSeatsDto dto, Authentication authentication) {
+        authenticationService.checkAuthentication(authentication);
         return vehicleSeatsService.saveSeats(dto);
     }
 
@@ -105,7 +109,9 @@ public class VehicleSeatsController {
             @ApiResponse(responseCode = "200", description = "Vehicle seats successfully updated."),
             @ApiResponse(responseCode = "403", description = "Access denied – only ADMIN allowed")
     })
-    public VehicleSeatsDto update(@PathVariable String id, @RequestBody VehicleSeatsDto dto) {
+    public VehicleSeatsDto update(@PathVariable String id, @RequestBody VehicleSeatsDto dto,
+            Authentication authentication) {
+        authenticationService.checkAuthentication(authentication);
         dto.setId(id);
         return vehicleSeatsService.updateSeats(id, dto);
     }
@@ -125,7 +131,8 @@ public class VehicleSeatsController {
             @ApiResponse(responseCode = "200", description = "Vehicle seats successfully deleted."),
             @ApiResponse(responseCode = "403", description = "Access denied – only ADMIN allowed")
     })
-    public void delete(@PathVariable String id) {
+    public void delete(@PathVariable String id, Authentication authentication) {
+        authenticationService.checkAuthentication(authentication);
         vehicleSeatsService.deleteSeats(id);
     }
 

@@ -23,8 +23,10 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.Authentication;
 
 import com.example.PrimeDriveBackend.Dto.VehicleEngineDto;
+import com.example.PrimeDriveBackend.service.AuthenticationService;
 import com.example.PrimeDriveBackend.service.VehicleEngineService;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -42,6 +44,7 @@ import lombok.RequiredArgsConstructor;
 @Tag(name = "Vehicle Engine", description = "Endpoints for managing vehicle engine")
 public class VehicleEngineController {
     private final VehicleEngineService vehicleEngineService;
+    private final AuthenticationService authenticationService;
 
     /**
      * Endpoint to retrieve all vehicle engine configurations.
@@ -84,7 +87,8 @@ public class VehicleEngineController {
             @ApiResponse(responseCode = "200", description = "Vehicle engine created successfully"),
             @ApiResponse(responseCode = "403", description = "Access denied – only ADMIN allowed")
     })
-    public VehicleEngineDto create(@RequestBody VehicleEngineDto dto) {
+    public VehicleEngineDto create(@RequestBody VehicleEngineDto dto, Authentication authentication) {
+        authenticationService.checkAuthentication(authentication);
         return vehicleEngineService.saveEngine(dto);
     }
 
@@ -105,7 +109,9 @@ public class VehicleEngineController {
             @ApiResponse(responseCode = "200", description = "Vehicle engine updated successfully"),
             @ApiResponse(responseCode = "403", description = "Access denied – only ADMIN allowed")
     })
-    public VehicleEngineDto update(@PathVariable String id, @RequestBody VehicleEngineDto dto) {
+    public VehicleEngineDto update(@PathVariable String id, @RequestBody VehicleEngineDto dto,
+            Authentication authentication) {
+        authenticationService.checkAuthentication(authentication);
         return vehicleEngineService.updateEngine(id, dto);
     }
 
@@ -124,7 +130,8 @@ public class VehicleEngineController {
             @ApiResponse(responseCode = "200", description = "Vehicle engine deleted successfully"),
             @ApiResponse(responseCode = "403", description = "Access denied – only ADMIN allowed")
     })
-    public void delete(@PathVariable String id) {
+    public void delete(@PathVariable String id, Authentication authentication) {
+        authenticationService.checkAuthentication(authentication);
         vehicleEngineService.deleteEngine(id);
     }
 }

@@ -172,6 +172,7 @@ export class VehiclesService {
    * @returns Observable of the created Holding.
    */
   public createHolding(holding: Holding): Observable<Holding> {
+    console.log('Creating holding:', holding);
     return this.httpClient.post<Holding>(
       `${this.apiUrl}/vehicle_holdings`,
       holding,

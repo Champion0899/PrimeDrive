@@ -11,8 +11,10 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.Authentication;
 
 import com.example.PrimeDriveBackend.Dto.VehicleColorsDto;
+import com.example.PrimeDriveBackend.service.AuthenticationService;
 import com.example.PrimeDriveBackend.service.VehicleColorsService;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -41,6 +43,7 @@ import lombok.RequiredArgsConstructor;
  */
 public class VehicleColorsController {
     private final VehicleColorsService vehicleColorsService;
+    private final AuthenticationService authenticationService;
 
     /**
      * Endpoint to retrieve all available vehicle colors.
@@ -88,7 +91,8 @@ public class VehicleColorsController {
             @ApiResponse(responseCode = "200", description = "Vehicle color created successfully"),
             @ApiResponse(responseCode = "403", description = "Access denied – only ADMIN allowed")
     })
-    public VehicleColorsDto create(@RequestBody VehicleColorsDto dto) {
+    public VehicleColorsDto create(@RequestBody VehicleColorsDto dto, Authentication authentication) {
+        authenticationService.checkAuthentication(authentication);
         return vehicleColorsService.saveColor(dto);
     }
 
@@ -110,7 +114,9 @@ public class VehicleColorsController {
             @ApiResponse(responseCode = "200", description = "Vehicle color updated successfully"),
             @ApiResponse(responseCode = "403", description = "Access denied – only ADMIN allowed")
     })
-    public VehicleColorsDto update(@PathVariable String id, @RequestBody VehicleColorsDto dto) {
+    public VehicleColorsDto update(@PathVariable String id, @RequestBody VehicleColorsDto dto,
+            Authentication authentication) {
+        authenticationService.checkAuthentication(authentication);
         return vehicleColorsService.updateColor(id, dto);
     }
 
@@ -129,7 +135,8 @@ public class VehicleColorsController {
             @ApiResponse(responseCode = "200", description = "Vehicle color deleted successfully"),
             @ApiResponse(responseCode = "403", description = "Access denied – only ADMIN allowed")
     })
-    public void delete(@PathVariable String id) {
+    public void delete(@PathVariable String id, Authentication authentication) {
+        authenticationService.checkAuthentication(authentication);
         vehicleColorsService.deleteColor(id);
     }
 }

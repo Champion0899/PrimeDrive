@@ -5,7 +5,10 @@ import com.example.PrimeDriveBackend.model.Users;
 
 import java.sql.Date;
 
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.jwt.Jwt;
+
 import lombok.RequiredArgsConstructor;
 
 /**
@@ -112,4 +115,19 @@ public class AuthenticationService {
         return comparePassword(password, user.getPassword());
     }
 
+    public String checkAuthentication(Authentication authentication) {
+        if (authentication == null || !authentication.isAuthenticated()) {
+            throw new IllegalStateException("No authenticated user found.");
+        }
+
+        Object principal = authentication.getPrincipal();
+        String userId;
+        if (principal instanceof Jwt jwt) {
+            userId = jwt.getSubject();
+        } else {
+            userId = authentication.getName(); // fallback for session-based authentication
+        }
+
+        return userId;
+    }
 }

@@ -2,6 +2,7 @@ package com.example.PrimeDriveBackend.controller;
 
 import com.example.PrimeDriveBackend.Dto.UserDto;
 import com.example.PrimeDriveBackend.Dto.UserSafeDto;
+import com.example.PrimeDriveBackend.service.AuthenticationService;
 import com.example.PrimeDriveBackend.service.UserService;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -18,8 +19,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import org.springframework.security.core.Authentication;
-
-import org.springframework.security.oauth2.jwt.Jwt;
 
 /**
  * Controller for managing users.
@@ -39,6 +38,7 @@ import org.springframework.security.oauth2.jwt.Jwt;
 public class UsersController {
 
     private final UserService userService;
+    private final AuthenticationService authenticationService;
 
     @GetMapping
     @PreAuthorize("hasRole('ADMIN')")
@@ -77,19 +77,7 @@ public class UsersController {
     @GetMapping("/current")
     @Operation(summary = "Get current user", description = "Returns the currently authenticated user. Access: All authenticated roles.")
     public UserSafeDto getCurrentUser(Authentication authentication) {
-        if (authentication == null || !authentication.isAuthenticated()) {
-            throw new IllegalStateException("No authenticated user found.");
-        }
-
-        Object principal = authentication.getPrincipal();
-        String userId;
-
-        if (principal instanceof Jwt jwt) {
-            userId = jwt.getSubject();
-        } else {
-            userId = authentication.getName(); // fallback für session-basierte Authentifizierung
-        }
-
+        String userId = authenticationService.checkAuthentication(authentication);
         return userService.getUserByIdSafe(userId);
     }
 
@@ -110,7 +98,8 @@ public class UsersController {
             @ApiResponse(responseCode = "200", description = "User created successfully."),
             @ApiResponse(responseCode = "403", description = "Access denied – only ADMIN allowed")
     })
-    public UserDto createUser(@RequestBody UserDto userDto) {
+    public UserDto createUser(@RequestBody UserDto userDto, Authentication authentication) {
+        authenticationService.checkAuthentication(authentication);
         return userService.createUser(userDto);
     }
 
@@ -132,7 +121,8 @@ public class UsersController {
             @ApiResponse(responseCode = "200", description = "User updated successfully."),
             @ApiResponse(responseCode = "403", description = "Access denied – only ADMIN allowed")
     })
-    public UserDto updateUser(@PathVariable String id, @RequestBody UserDto userDto) {
+    public UserDto updateUser(@PathVariable String id, @RequestBody UserDto userDto, Authentication authentication) {
+        authenticationService.checkAuthentication(authentication);
         return userService.updateUser(id, userDto);
     }
 
@@ -152,7 +142,8 @@ public class UsersController {
             @ApiResponse(responseCode = "200", description = "User deleted successfully."),
             @ApiResponse(responseCode = "403", description = "Access denied – only ADMIN allowed")
     })
-    public void deleteUser(@PathVariable String id) {
+    public void deleteUser(@PathVariable String id, Authentication authentication) {
+        authenticationService.checkAuthentication(authentication);
         userService.deleteUser(id);
     }
 }

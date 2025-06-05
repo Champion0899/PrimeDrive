@@ -1,5 +1,7 @@
 package com.example.PrimeDriveBackend.model;
 
+import java.util.UUID;
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -21,9 +23,18 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Vehicle {
-    /** Unique identifier for the vehicle. */
+    /** Unique identifier for the vehicle. (UUID) */
     @Id
+    @Column(name = "id", nullable = false, updatable = false, columnDefinition = "VARCHAR(36)")
     private String id;
+
+    @PrePersist
+    public void ensureId() {
+        if (this.id == null || this.id.isBlank()) {
+            this.id = UUID.randomUUID().toString();
+        }
+    }
+
     /** Name or model designation of the vehicle. */
     private String name;
     /** Listed price of the vehicle. */

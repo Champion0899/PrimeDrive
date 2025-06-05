@@ -1,7 +1,11 @@
 package com.example.PrimeDriveBackend.model;
 
+import java.util.UUID;
+
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.PrePersist;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,7 +13,8 @@ import lombok.NoArgsConstructor;
 /**
  * Entity representing the seating configuration of a vehicle.
  *
- * Stores information about the number of seats, typically referenced in vehicle specifications.
+ * Stores information about the number of seats, typically referenced in vehicle
+ * specifications.
  *
  * Author: Fatlum Epiroti
  * Version: 1.0
@@ -21,9 +26,17 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class VehicleSeats {
 
-    /** Unique identifier for the seat configuration. */
+    /** Unique identifier for the seat configuration. (UUID) */
     @Id
+    @Column(name = "id", nullable = false, updatable = false, columnDefinition = "VARCHAR(36)")
     private String id;
+
+    @PrePersist
+    public void ensureId() {
+        if (this.id == null || this.id.isBlank()) {
+            this.id = UUID.randomUUID().toString();
+        }
+    }
 
     /** Number of seats defined by this configuration. */
     private Integer quantity;

@@ -12,8 +12,10 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.Authentication;
 
 import com.example.PrimeDriveBackend.Dto.VehicleSpecsDto;
+import com.example.PrimeDriveBackend.service.AuthenticationService;
 import com.example.PrimeDriveBackend.service.VehicleSpecsService;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -26,8 +28,10 @@ import lombok.RequiredArgsConstructor;
 /**
  * REST controller providing endpoints to manage vehicle specifications.
  *
- * This controller supports creating, retrieving, updating, and deleting vehicle specification entries.
- * Only users with SELLER or ADMIN roles are permitted to modify or delete records.
+ * This controller supports creating, retrieving, updating, and deleting vehicle
+ * specification entries.
+ * Only users with SELLER or ADMIN roles are permitted to modify or delete
+ * records.
  * All authenticated users may access retrieval endpoints.
  *
  * Author: Fatlum Epiroti
@@ -41,6 +45,7 @@ import lombok.RequiredArgsConstructor;
 @Tag(name = "Vehicle Specs", description = "Endpoints for managing vehicle specs")
 public class VehicleSpecsController {
     private final VehicleSpecsService vehicleSpecsService;
+    private final AuthenticationService authenticationService;
 
     /**
      * Endpoint to retrieve all vehicle specifications.
@@ -83,7 +88,8 @@ public class VehicleSpecsController {
             @ApiResponse(responseCode = "200", description = "Vehicle specs created successfully."),
             @ApiResponse(responseCode = "403", description = "Access denied – only SELLER or ADMIN allowed")
     })
-    public VehicleSpecsDto create(@RequestBody VehicleSpecsDto dto) {
+    public VehicleSpecsDto create(@RequestBody VehicleSpecsDto dto, Authentication authentication) {
+        authenticationService.checkAuthentication(authentication);
         return vehicleSpecsService.saveSpecs(dto);
     }
 
@@ -92,7 +98,7 @@ public class VehicleSpecsController {
      *
      * Only accessible to SELLER or ADMIN users.
      *
-     * @param id Unique identifier of the specification to update
+     * @param id  Unique identifier of the specification to update
      * @param dto Updated specification data
      * @return VehicleSpecsDto representing the updated specification
      */
@@ -104,7 +110,9 @@ public class VehicleSpecsController {
             @ApiResponse(responseCode = "200", description = "Vehicle specs updated successfully."),
             @ApiResponse(responseCode = "403", description = "Access denied – only SELLER or ADMIN allowed")
     })
-    public VehicleSpecsDto update(@PathVariable String id, @RequestBody VehicleSpecsDto dto) {
+    public VehicleSpecsDto update(@PathVariable String id, @RequestBody VehicleSpecsDto dto,
+            Authentication authentication) {
+        authenticationService.checkAuthentication(authentication);
         return vehicleSpecsService.updateSpecs(id, dto);
     }
 
@@ -123,7 +131,8 @@ public class VehicleSpecsController {
             @ApiResponse(responseCode = "200", description = "Vehicle specs deleted successfully."),
             @ApiResponse(responseCode = "403", description = "Access denied – only SELLER or ADMIN allowed")
     })
-    public void delete(@PathVariable String id) {
+    public void delete(@PathVariable String id, Authentication authentication) {
+        authenticationService.checkAuthentication(authentication);
         vehicleSpecsService.deleteSpecs(id);
     }
 }

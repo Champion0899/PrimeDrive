@@ -12,8 +12,10 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.Authentication;
 
 import com.example.PrimeDriveBackend.Dto.VehicleTypesDto;
+import com.example.PrimeDriveBackend.service.AuthenticationService;
 import com.example.PrimeDriveBackend.service.VehicleTypesService;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -27,8 +29,10 @@ import lombok.RequiredArgsConstructor;
 /**
  * REST controller providing endpoints to manage vehicle types.
  *
- * This controller allows for creation, retrieval, updating, and deletion of vehicle type records.
- * Only users with ADMIN role are permitted to create, update, or delete entries.
+ * This controller allows for creation, retrieval, updating, and deletion of
+ * vehicle type records.
+ * Only users with ADMIN role are permitted to create, update, or delete
+ * entries.
  * All authenticated users can retrieve vehicle types.
  *
  * Author: Fatlum Epiroti
@@ -42,6 +46,7 @@ import lombok.RequiredArgsConstructor;
 @Tag(name = "Vehicle Types", description = "Endpoints for managing vehicle types")
 public class VehicleTypesController {
     private final VehicleTypesService vehicleTypesService;
+    private final AuthenticationService authenticationService;
 
     /**
      * Endpoint to retrieve all vehicle types.
@@ -84,7 +89,8 @@ public class VehicleTypesController {
             @ApiResponse(responseCode = "200", description = "Vehicle type created successfully"),
             @ApiResponse(responseCode = "403", description = "Access denied – only ADMIN allowed")
     })
-    public VehicleTypesDto create(@RequestBody VehicleTypesDto dto) {
+    public VehicleTypesDto create(@RequestBody VehicleTypesDto dto, Authentication authentication) {
+        authenticationService.checkAuthentication(authentication);
         return vehicleTypesService.saveType(dto);
     }
 
@@ -93,7 +99,7 @@ public class VehicleTypesController {
      *
      * Only accessible to ADMIN users.
      *
-     * @param id Unique identifier of the type to update
+     * @param id  Unique identifier of the type to update
      * @param dto Updated vehicle type data
      * @return VehicleTypesDto representing the updated type
      */
@@ -105,7 +111,9 @@ public class VehicleTypesController {
             @ApiResponse(responseCode = "200", description = "Vehicle type updated successfully"),
             @ApiResponse(responseCode = "403", description = "Access denied – only ADMIN allowed")
     })
-    public VehicleTypesDto update(@PathVariable String id, @RequestBody VehicleTypesDto dto) {
+    public VehicleTypesDto update(@PathVariable String id, @RequestBody VehicleTypesDto dto,
+            Authentication authentication) {
+        authenticationService.checkAuthentication(authentication);
         dto.setId(id);
         return vehicleTypesService.updateType(id, dto);
     }
@@ -126,7 +134,8 @@ public class VehicleTypesController {
             @ApiResponse(responseCode = "200", description = "Vehicle type deleted successfully"),
             @ApiResponse(responseCode = "403", description = "Access denied – only ADMIN allowed")
     })
-    public ResponseEntity<Void> delete(@PathVariable String id) {
+    public ResponseEntity<Void> delete(@PathVariable String id, Authentication authentication) {
+        authenticationService.checkAuthentication(authentication);
         vehicleTypesService.deleteType(id);
         return ResponseEntity.noContent().build();
     }

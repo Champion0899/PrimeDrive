@@ -11,8 +11,10 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.Authentication;
 
 import com.example.PrimeDriveBackend.Dto.VehicleBrandsDto;
+import com.example.PrimeDriveBackend.service.AuthenticationService;
 import com.example.PrimeDriveBackend.service.VehicleBrandsService;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -42,6 +44,7 @@ import lombok.RequiredArgsConstructor;
 @Tag(name = "Vehicle Brands", description = "Endpoints for managing vehicle brands")
 public class VehicleBrandsController {
     private final VehicleBrandsService vehicleBrandsService;
+    private final AuthenticationService authenticationService;
 
     /**
      * Endpoint to retrieve all available vehicle brands.
@@ -89,7 +92,8 @@ public class VehicleBrandsController {
             @ApiResponse(responseCode = "200", description = "Vehicle brand created successfully."),
             @ApiResponse(responseCode = "403", description = "Access denied – only ADMIN allowed")
     })
-    public VehicleBrandsDto create(@RequestBody VehicleBrandsDto dto) {
+    public VehicleBrandsDto create(@RequestBody VehicleBrandsDto dto, Authentication authentication) {
+        authenticationService.checkAuthentication(authentication);
         return vehicleBrandsService.saveBrand(dto);
     }
 
@@ -111,7 +115,9 @@ public class VehicleBrandsController {
             @ApiResponse(responseCode = "200", description = "Vehicle brand updated successfully."),
             @ApiResponse(responseCode = "403", description = "Access denied – only ADMIN allowed")
     })
-    public VehicleBrandsDto update(@PathVariable String id, @RequestBody VehicleBrandsDto dto) {
+    public VehicleBrandsDto update(@PathVariable String id, @RequestBody VehicleBrandsDto dto,
+            Authentication authentication) {
+        authenticationService.checkAuthentication(authentication);
         return vehicleBrandsService.updateBrand(id, dto);
     }
 
@@ -130,7 +136,8 @@ public class VehicleBrandsController {
             @ApiResponse(responseCode = "200", description = "Vehicle brand deleted successfully."),
             @ApiResponse(responseCode = "403", description = "Access denied – only ADMIN allowed")
     })
-    public void delete(@PathVariable String id) {
+    public void delete(@PathVariable String id, Authentication authentication) {
+        authenticationService.checkAuthentication(authentication);
         vehicleBrandsService.deleteBrand(id);
     }
 }

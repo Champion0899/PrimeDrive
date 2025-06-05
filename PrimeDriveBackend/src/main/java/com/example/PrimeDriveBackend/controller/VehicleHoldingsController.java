@@ -25,12 +25,14 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
 
 import com.example.PrimeDriveBackend.Dto.VehicleHoldingsDto;
+import com.example.PrimeDriveBackend.service.AuthenticationService;
 import com.example.PrimeDriveBackend.service.VehicleHoldingsService;
 
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
+import org.springframework.web.bind.annotation.RequestBody;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -44,6 +46,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 @Tag(name = "Vehicle Holdings", description = "Endpoints for managing vehicle holdings")
 public class VehicleHoldingsController {
     private final VehicleHoldingsService vehicleHoldingsService;
+    private final AuthenticationService authenticationService;
 
     @GetMapping
     @Operation(summary = "Get all vehicle holdings", description = "Retrieves a list of all vehicle holdings. Access: All authenticated roles.")
@@ -86,7 +89,8 @@ public class VehicleHoldingsController {
      * @param dto VehicleHoldingsDto containing the data to create
      * @return VehicleHoldingsDto representing the created record
      */
-    public VehicleHoldingsDto create(@RequestBody VehicleHoldingsDto dto) {
+    public VehicleHoldingsDto create(@RequestBody VehicleHoldingsDto dto, Authentication authentication) {
+        authenticationService.checkAuthentication(authentication);
         return vehicleHoldingsService.saveHolding(dto);
     }
 
@@ -103,11 +107,13 @@ public class VehicleHoldingsController {
      *
      * Only accessible to ADMIN users.
      *
-     * @param id Unique identifier of the holding to update
+     * @param id  Unique identifier of the holding to update
      * @param dto Updated holding data
      * @return VehicleHoldingsDto with updated information
      */
-    public ResponseEntity<VehicleHoldingsDto> update(@PathVariable String id, @RequestBody VehicleHoldingsDto dto) {
+    public ResponseEntity<VehicleHoldingsDto> update(@PathVariable String id, @RequestBody VehicleHoldingsDto dto,
+            Authentication authentication) {
+        authenticationService.checkAuthentication(authentication);
         dto.setId(id);
         VehicleHoldingsDto updated = vehicleHoldingsService.updateHolding(id, dto);
         return ResponseEntity.ok(updated);
@@ -129,7 +135,8 @@ public class VehicleHoldingsController {
      * @param id Unique identifier of the holding to delete
      * @return HTTP 204 if deletion was successful
      */
-    public ResponseEntity<Void> delete(@PathVariable String id) {
+    public ResponseEntity<Void> delete(@PathVariable String id, Authentication authentication) {
+        authenticationService.checkAuthentication(authentication);
         vehicleHoldingsService.deleteHolding(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
