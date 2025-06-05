@@ -15,7 +15,7 @@
             </mat-form-field>
             <mat-form-field appearance="fill">
                 <mat-label>Gründung</mat-label>
-                <input matInput [(ngModel)]="selectedHolding.founding" type="number" name="holdingFounding" placeholder="Gründungsjahr" title="Gründungsjahr der Holding">
+                <input matInput [(ngModel)]="selectedHolding.founding" type="number" name="holdingFounding" placeholder="Gründungsjahr" title="Gründungsjahr der Holding" value="1970">
             </mat-form-field>
             <button mat-raised-button color="accent" (click)="updateHolding()">Aktualisieren</button>
             <button mat-raised-button color="warn" (click)="deleteHolding()">Löschen</button>
@@ -29,7 +29,7 @@
         </mat-form-field>
         <mat-form-field appearance="fill">
             <mat-label>Gründungsjahr</mat-label>
-            <input matInput type="number" placeholder="1937" [(ngModel)]="newHolding.founding" name="newHoldingFounding">
+            <input matInput type="number" placeholder="1937" [(ngModel)]="newHolding.founding" name="newHoldingFounding" value="1970">
         </mat-form-field>
         <mat-form-field appearance="fill">
             <mat-label>Logo-URL</mat-label>
@@ -79,12 +79,16 @@
                 <input matInput [(ngModel)]="selectedBrand.name" name="brandName" placeholder="Name der Brand" title="Name der Brand">
             </mat-form-field>
             <mat-form-field appearance="fill">
-                <mat-label>Holding ID</mat-label>
-                <input matInput [(ngModel)]="selectedBrand.holdingId" name="brandHoldingId" placeholder="Holding ID" title="Holding ID der Brand">
+                <mat-label>Holding</mat-label>
+                <mat-select [(ngModel)]="selectedBrand.holdingId" name="brandHoldingId" placeholder="Holding auswählen">
+                    @for (holding of holdings; track holding.id) {
+                        <mat-option [value]="holding.id">{{ holding.name }}</mat-option>
+                    }
+                </mat-select>
             </mat-form-field>
             <mat-form-field appearance="fill">
                 <mat-label>Gründung</mat-label>
-                <input matInput [(ngModel)]="selectedBrand.founding" type="number" name="brandFounding" placeholder="Gründungsjahr" title="Gründungsjahr der Brand">
+                <input matInput [(ngModel)]="selectedBrand.founding" type="number" name="brandFounding" placeholder="Gründungsjahr" title="Gründungsjahr der Brand" value="1970">
             </mat-form-field>
             <mat-form-field appearance="fill">
                 <mat-label>Logo</mat-label>
@@ -102,13 +106,17 @@
             </mat-form-field>
 
             <mat-form-field appearance="fill">
-                <mat-label>Holding ID</mat-label>
-                <input matInput placeholder="UUID der Holding" [(ngModel)]="newBrand.holdingId" name="newBrandHoldingId">
+                <mat-label>Holding</mat-label>
+                <mat-select [(ngModel)]="newBrand.holdingId" name="newBrandHoldingId" placeholder="Holding auswählen">
+                    @for (holding of holdings; track holding.id) {
+                        <mat-option [value]="holding.id">{{ holding.name }}</mat-option>
+                    }
+                </mat-select>
             </mat-form-field>
 
             <mat-form-field appearance="fill">
                 <mat-label>Gründungsjahr</mat-label>
-                <input matInput type="number" placeholder="1920" [(ngModel)]="newBrand.founding" name="newBrandFounding">
+                <input matInput type="number" placeholder="1920" [(ngModel)]="newBrand.founding" name="newBrandFounding" value="1970">
             </mat-form-field>
 
             <mat-form-field appearance="fill">

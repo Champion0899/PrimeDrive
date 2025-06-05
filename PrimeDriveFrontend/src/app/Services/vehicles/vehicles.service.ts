@@ -123,6 +123,7 @@ export class VehiclesService {
    * @returns Observable of the updated Brand.
    */
   public updateBrand(brand: Brand): Observable<Brand> {
+    console.log('Updating brand:', brand);
     return this.httpClient.put<Brand>(
       `${this.apiUrl}/vehicle_brands/${brand.id}`,
       brand,

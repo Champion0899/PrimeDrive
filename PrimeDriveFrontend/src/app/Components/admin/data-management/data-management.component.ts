@@ -14,8 +14,8 @@ import { Seats } from '../../../Models/vehicles/seats.interface';
 import { Type } from '../../../Models/vehicles/type.interface';
 import { FormsModule } from '@angular/forms';
 import { VehiclesService } from '../../../Services/vehicles/vehicles.service';
-import { MatOption, MatOptionModule } from '@angular/material/core';
 import { CommonModule } from '@angular/common';
+import { MatSelectModule } from '@angular/material/select';
 
 @Component({
   selector: 'app-data-management',
@@ -28,7 +28,7 @@ import { CommonModule } from '@angular/common';
     MatTableModule,
     MatButtonModule,
     CommonModule,
-    MatOptionModule,
+    MatSelectModule,
   ],
   providers: [VehiclesService],
   templateUrl: './data-management.component.html',
@@ -42,7 +42,7 @@ export class DataManagementComponent {
   public searchedColorName: string = '';
   public newHolding: Holding = {
     id: '',
-    founding: 0,
+    founding: 1970,
     logo: '',
     name: '',
   };
@@ -50,7 +50,7 @@ export class DataManagementComponent {
   public newBrand: Brand = {
     id: '',
     holdingId: '',
-    founding: 0,
+    founding: 1970,
     logo: '',
     name: '',
   };
@@ -63,7 +63,13 @@ export class DataManagementComponent {
   public newColor: Color = { id: '', name: '', hexCode: '' };
 
   public brands: Brand[] = [];
-  public selectedBrand: Brand | null = null;
+  public selectedBrand: Brand | null = {
+    id: '',
+    holdingId: '',
+    founding: 1970,
+    logo: '',
+    name: '',
+  };
   public searchedBrandName: string = '';
 
   public doors: Doors[] = [];
@@ -79,7 +85,12 @@ export class DataManagementComponent {
   public searchedFuelName: string = '';
 
   public holdings: Holding[] = [];
-  public selectedHolding: Holding | null = null;
+  public selectedHolding: Holding | null = {
+    id: '',
+    founding: 1970,
+    logo: '',
+    name: '',
+  };
   public searchedHoldingName: string = '';
 
   public seats: Seats[] = [];
@@ -301,7 +312,7 @@ export class DataManagementComponent {
   createHolding(): void {
     this.vehiclesService.createHolding(this.newHolding).subscribe(() => {
       this.loadAllHoldings();
-      this.newHolding = { id: '', founding: 0, logo: '', name: '' };
+      this.newHolding = { id: '', founding: 1970, logo: '', name: '' };
     });
   }
 
@@ -421,10 +432,16 @@ export class DataManagementComponent {
       this.newBrand = {
         id: '',
         holdingId: '',
-        founding: 0,
+        founding: 1970,
         logo: '',
         name: '',
       };
     });
+  }
+
+  onHoldingSelectedForBrand(holding: Holding): void {
+    if (this.selectedBrand) {
+      this.selectedBrand.holdingId = holding.id;
+    }
   }
 }

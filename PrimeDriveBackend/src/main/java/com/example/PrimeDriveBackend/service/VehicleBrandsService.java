@@ -27,6 +27,7 @@ import lombok.RequiredArgsConstructor;
 public class VehicleBrandsService {
     private final VehicleBrandsRepository vehicleBrandsRepository;
     private final VehicleBrandsMapper vehicleBrandsMapper;
+    private final VehicleHoldingsService vehicleHoldingsService;
 
     /**
      * Retrieves all vehicle brands and maps them to DTOs.
@@ -87,6 +88,12 @@ public class VehicleBrandsService {
     public VehicleBrandsDto updateBrand(String id, VehicleBrandsDto dto) {
         VehicleBrands existing = vehicleBrandsRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Brand not found with id: " + id));
+
+        // Update holding if necessary
+        if (dto.getHoldingId() != null &&
+                (existing.getHolding() == null || !dto.getHoldingId().equals(existing.getHolding().getId()))) {
+            existing.setHolding(vehicleHoldingsService.getVehicleHoldingEntityById(dto.getHoldingId()));
+        }
 
         VehicleBrands updatedVehicleBrand = vehicleBrandsMapper.toEntity(dto);
         updatedVehicleBrand.setId(existing.getId());
