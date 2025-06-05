@@ -4,13 +4,13 @@ import com.example.PrimeDriveBackend.Dto.UserDto;
 import com.example.PrimeDriveBackend.Dto.UserSafeDto;
 import com.example.PrimeDriveBackend.service.AuthenticationService;
 import com.example.PrimeDriveBackend.service.UserService;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
 
 import lombok.RequiredArgsConstructor;
 

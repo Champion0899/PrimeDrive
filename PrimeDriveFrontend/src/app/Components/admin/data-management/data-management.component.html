@@ -173,7 +173,7 @@
             <mat-label>Type</mat-label>
             <input matInput [(ngModel)]="newType.type" name="newTypeName" placeholder="z. B. Limousine">
         </mat-form-field>
-        <button mat-raised-button color="primary">Type erstellen</button>
+        <button mat-raised-button color="primary" (click)="createType()">Type erstellen</button>
         </form>
         <table mat-table [dataSource]="types" class="mat-elevation-z8">
         <ng-container matColumnDef="id">
@@ -220,7 +220,7 @@
             <mat-label>Engine Type</mat-label>
             <input matInput [(ngModel)]="newEngine.engineType" name="newEngineType" placeholder="z. B. V8">
         </mat-form-field>
-        <button mat-raised-button color="primary">Engine erstellen</button>
+        <button mat-raised-button color="primary" (click)="createEngine()">Engine erstellen</button>
         </form>
         <table mat-table [dataSource]="engines" class="mat-elevation-z8">
         <ng-container matColumnDef="id">
@@ -267,7 +267,7 @@
             <mat-label>Kraftstofftyp</mat-label>
             <input matInput [(ngModel)]="newFuel.fuelType" name="newFuelType" placeholder="z. B. Diesel">
         </mat-form-field>
-        <button mat-raised-button color="primary">Fuel erstellen</button>
+        <button mat-raised-button color="primary" (click)="createFuel()">Fuel erstellen</button>
         </form>
         <table mat-table [dataSource]="fuels" class="mat-elevation-z8">
         <ng-container matColumnDef="id">
@@ -314,7 +314,7 @@
             <mat-label>Anzahl</mat-label>
             <input matInput type="number" [(ngModel)]="newDoors.quantity" name="newDoorsQuantity" placeholder="4">
         </mat-form-field>
-        <button mat-raised-button color="primary">Doors erstellen</button>
+        <button mat-raised-button color="primary" (click)="createDoors()">Doors erstellen</button>
         </form>
         <table mat-table [dataSource]="doors" class="mat-elevation-z8">
         <ng-container matColumnDef="id">
@@ -361,7 +361,7 @@
             <mat-label>Anzahl</mat-label>
             <input matInput type="number" [(ngModel)]="newSeats.quantity" name="newSeatsQuantity" placeholder="5">
         </mat-form-field>
-        <button mat-raised-button color="primary">Seats erstellen</button>
+        <button mat-raised-button color="primary" (click)="createSeats()">Seats erstellen</button>
         </form>
         <table mat-table [dataSource]="seats" class="mat-elevation-z8">
         <ng-container matColumnDef="id">
@@ -416,7 +416,7 @@
             <mat-label>Hex-Code</mat-label>
             <input matInput [(ngModel)]="newColor.hexCode" name="newColorHexCode" placeholder="#FF0000">
         </mat-form-field>
-        <button mat-raised-button color="primary">Color erstellen</button>
+        <button mat-raised-button color="primary" (click)="createColor()">Color erstellen</button>
         </form>
         <table mat-table [dataSource]="colors" class="mat-elevation-z8">
         <ng-container matColumnDef="id">
@@ -435,7 +435,7 @@
             <th mat-header-cell *matHeaderCellDef>Aktionen</th>
             <td mat-cell *matCellDef="let element">
             <button mat-button color="accent" (click)="selectColor(element)">Bearbeiten</button>
-            <button mat-button color="warn" (click)="deleteColor(element)">Löschen</button>
+            <button mat-button color="warn" (click)="deleteColor(element.id)">Löschen</button>
             </td>
         </ng-container>
         <tr mat-header-row *matHeaderRowDef="['id', 'name', 'hexCode', 'actions']"></tr>

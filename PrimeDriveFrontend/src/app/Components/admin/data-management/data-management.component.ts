@@ -28,8 +28,8 @@ import { CommonModule } from '@angular/common';
     MatTableModule,
     MatButtonModule,
     CommonModule,
-    MatOptionModule
-],
+    MatOptionModule,
+  ],
   providers: [VehiclesService],
   templateUrl: './data-management.component.html',
   styleUrl: './data-management.component.scss',
@@ -125,6 +125,17 @@ export class DataManagementComponent {
       this.loadAllColors();
     });
   }
+  createColor(): void {
+    const name = this.newColor.name.trim();
+    const hex = this.newColor.hexCode.trim();
+    if (!name || !hex) return;
+    this.vehiclesService
+      .createColor({ id: '', name, hexCode: hex })
+      .subscribe(() => {
+        this.loadAllColors();
+        this.newColor = { id: '', name: '', hexCode: '' };
+      });
+  }
   loadAllColors(): void {
     this.vehiclesService.getColors().subscribe((data: Color[]) => {
       this.colors = data;
@@ -164,6 +175,7 @@ export class DataManagementComponent {
     });
   }
   createDoors(): void {
+    if (this.newDoors.quantity <= 0) return;
     this.vehiclesService.createDoors(this.newDoors).subscribe(() => {
       this.loadAllDoors();
       this.newDoors = { id: '', quantity: 0 };
@@ -202,10 +214,14 @@ export class DataManagementComponent {
     });
   }
   createEngine(): void {
-    this.vehiclesService.createEngine(this.newEngine).subscribe(() => {
-      this.loadAllEngines();
-      this.newEngine = { id: '', engineType: '' };
-    });
+    const engineValue = this.newEngine.engineType.trim();
+    if (!engineValue) return;
+    this.vehiclesService
+      .createEngine({ id: '', engineType: engineValue })
+      .subscribe(() => {
+        this.loadAllEngines();
+        this.newEngine = { id: '', engineType: '' };
+      });
   }
 
   fetchFuelByName(): void {
@@ -240,10 +256,14 @@ export class DataManagementComponent {
     });
   }
   createFuel(): void {
-    this.vehiclesService.createFuel(this.newFuel).subscribe(() => {
-      this.loadAllFuels();
-      this.newFuel = { id: '', fuelType: '' };
-    });
+    const fuelValue = this.newFuel.fuelType.trim();
+    if (!fuelValue) return;
+    this.vehiclesService
+      .createFuel({ id: '', fuelType: fuelValue })
+      .subscribe(() => {
+        this.loadAllFuels();
+        this.newFuel = { id: '', fuelType: '' };
+      });
   }
 
   fetchHoldingByName(): void {
@@ -318,6 +338,7 @@ export class DataManagementComponent {
     });
   }
   createSeats(): void {
+    if (this.newSeats.quantity <= 0) return;
     this.vehiclesService.createSeats(this.newSeats).subscribe(() => {
       this.loadAllSeats();
       this.newSeats = { id: '', quantity: 0 };
@@ -336,6 +357,16 @@ export class DataManagementComponent {
       this.selectedType = null;
       this.loadAllTypes();
     });
+  }
+  createType(): void {
+    const typeValue = this.newType.type.trim();
+    if (!typeValue) return;
+    this.vehiclesService
+      .createType({ id: '', type: typeValue })
+      .subscribe(() => {
+        this.loadAllTypes();
+        this.newType = { id: '', type: '' };
+      });
   }
   selectType(item: Type): void {
     this.selectedType = { ...item };
