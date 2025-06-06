@@ -26,7 +26,6 @@ import jakarta.validation.constraints.NotBlank;
 @NoArgsConstructor
 public class VehicleDto {
     /** The unique identifier of the vehicle. */
-    @NotNull
     @Schema(description = "Id of the vehicle", example = "48d183d9-5658-4488-984e-8801967850e9")
     private String id;
 

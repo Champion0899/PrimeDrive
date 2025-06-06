@@ -94,10 +94,17 @@ public class GlobalExceptionHandler {
             // Do not handle Swagger-related exceptions here
             throw new RuntimeException(ex);
         }
+        String activeProfile = System.getProperty("spring.profiles.active");
 
+        String message = "Ein unerwarteter Fehler ist aufgetreten.";
+        if ("dev".equals(activeProfile)) {
+            message = ex.getClass().getSimpleName() + ": " + ex.getMessage();
+        }
+
+        ex.printStackTrace();
         return new ResponseEntity<>(new ErrorResponse(
                 HttpStatus.INTERNAL_SERVER_ERROR.value(),
-                "Ein unerwarteter Fehler ist aufgetreten.",
+                message,
                 LocalDateTime.now()), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 

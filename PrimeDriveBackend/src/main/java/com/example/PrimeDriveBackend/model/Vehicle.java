@@ -46,6 +46,7 @@ public class Vehicle {
     /** Mileage of the vehicle (distance already driven). */
     private Integer mileage;
     /** Condition status of the vehicle (e.g., new, used). */
+    @Column(name = "`condition`") // Escaped to avoid SQL syntax conflict with reserved keyword
     private String condition;
     /** Historical notes about the vehicle (e.g., accident-free). */
     private String vehicleHistory;

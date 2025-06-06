@@ -9,10 +9,13 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * Data Transfer Object (DTO) representing the technical specifications of a vehicle.
+ * Data Transfer Object (DTO) representing the technical specifications of a
+ * vehicle.
  *
- * This class contains detailed technical and performance data such as dimensions,
- * engine output, fuel consumption, and emission values. It also links to related entities
+ * This class contains detailed technical and performance data such as
+ * dimensions,
+ * engine output, fuel consumption, and emission values. It also links to
+ * related entities
  * like doors, seats, engine, and fuel type.
  *
  * Author: Fatlum Epiroti
@@ -24,7 +27,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class VehicleSpecsDto {
     /** The unique identifier for the vehicle specifications. */
-    @NotNull
     @Schema(description = "Id of the vehicle specs", example = "48d183d9-5658-4488-984e-8801967850e9")
     String id;
 

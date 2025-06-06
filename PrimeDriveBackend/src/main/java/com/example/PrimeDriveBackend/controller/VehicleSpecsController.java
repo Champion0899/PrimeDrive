@@ -90,6 +90,7 @@ public class VehicleSpecsController {
             @ApiResponse(responseCode = "403", description = "Access denied – only SELLER or ADMIN allowed")
     })
     public VehicleSpecsDto create(@Valid @RequestBody VehicleSpecsDto dto, Authentication authentication) {
+        System.out.println("Creating vehicle specs: " + dto);
         authenticationService.checkAuthentication(authentication);
         return vehicleSpecsService.saveSpecs(dto);
     }

@@ -12,10 +12,13 @@ import com.example.PrimeDriveBackend.service.*;
 import org.springframework.stereotype.Component;
 
 /**
- * Mapper class for converting between Vehicle entities and their DTO representations.
+ * Mapper class for converting between Vehicle entities and their DTO
+ * representations.
  *
- * Transforms full vehicle information to DTOs for transport and reverses the transformation
- * for persistence. Resolves all associated references using related service classes.
+ * Transforms full vehicle information to DTOs for transport and reverses the
+ * transformation
+ * for persistence. Resolves all associated references using related service
+ * classes.
  *
  * Author: Fatlum Epiroti
  * Version: 1.0
@@ -58,18 +61,21 @@ public class VehicleMapper {
         dto.setMileage(vehicle.getMileage());
         dto.setCondition(vehicle.getCondition());
         dto.setVehicleHistory(vehicle.getVehicleHistory());
-        dto.setBrandsId(vehicle.getBrands().getId());
-        dto.setSpecsId(vehicle.getSpecs().getId());
-        dto.setTypesId(vehicle.getTypes().getId());
-        dto.setColorsId(vehicle.getColors().getId());
-        dto.setSellerId(vehicle.getUsers().getId());
+
+        dto.setBrandsId(vehicle.getBrands() != null ? vehicle.getBrands().getId() : null);
+        dto.setSpecsId(vehicle.getSpecs() != null ? vehicle.getSpecs().getId() : null);
+        dto.setTypesId(vehicle.getTypes() != null ? vehicle.getTypes().getId() : null);
+        dto.setColorsId(vehicle.getColors() != null ? vehicle.getColors().getId() : null);
+        dto.setSellerId(vehicle.getUsers() != null ? vehicle.getUsers().getId() : null);
+
         return dto;
     }
 
     /**
      * Converts a VehicleDto to a Vehicle entity.
      *
-     * Resolves all related entities (brands, types, specs, colors, users) using services.
+     * Resolves all related entities (brands, types, specs, colors, users) using
+     * services.
      *
      * @param dto The VehicleDto containing vehicle data.
      * @return A fully constructed Vehicle entity.
@@ -92,7 +98,7 @@ public class VehicleMapper {
         }
         vehicle.setBrands(vehicleBrands);
 
-        VehicleTypes vehicleTypes = vehicleTypesService.getTypeByIdEntity(dto.getBrandsId());
+        VehicleTypes vehicleTypes = vehicleTypesService.getTypeByIdEntity(dto.getTypesId());
         if (vehicleTypes == null) {
             throw new RuntimeException("Type not found");
         }
@@ -108,6 +114,7 @@ public class VehicleMapper {
         if (vehicleColors == null) {
             throw new RuntimeException("Color not found");
         }
+        vehicle.setColors(vehicleColors);
 
         Users users = userService.getByIdEntity(dto.getSellerId());
         if (users == null) {
