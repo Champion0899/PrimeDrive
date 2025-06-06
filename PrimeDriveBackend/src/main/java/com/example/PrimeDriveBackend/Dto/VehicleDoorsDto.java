@@ -1,16 +1,11 @@
 package com.example.PrimeDriveBackend.dto;
 
-import jakarta.validation.constraints.Min;
-
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
 /**
  * Data Transfer Object (DTO) representing a vehicle door configuration.
  *
@@ -21,6 +16,9 @@ import lombok.NoArgsConstructor;
  * Version: 1.0
  * Date: 2025-06-03
  */
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class VehicleDoorsDto {
     /** The unique identifier for the door configuration. */
     @NotNull
@@ -28,7 +26,6 @@ public class VehicleDoorsDto {
     private String id;
     /** The number of doors for the vehicle (e.g., 2, 4, etc.). */
     @NotNull
-    @Min(1)
-    @Schema(description = "Quantity of the vehicle doors", example = "4", minimum = "1")
+    @Schema(description = "Quantity of the vehicle doors", example = "4")
     private Integer quantity;
 }

@@ -1,17 +1,5 @@
 package com.example.PrimeDriveBackend.controller;
 
-/**
- * REST controller providing endpoints to manage vehicle fuel types.
- *
- * This controller handles the creation, retrieval, updating, and deletion of fuel type records.
- * Only users with ADMIN role may create, update or delete fuel entries.
- * All authenticated users may access retrieval endpoints.
- *
- * Author: Fatlum Epiroti
- * Version: 1.0
- * Date: 2025-06-03
- */
-
 import java.util.List;
 
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -37,7 +25,17 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-
+/**
+ * REST controller providing endpoints to manage vehicle fuel types.
+ *
+ * This controller handles the creation, retrieval, updating, and deletion of fuel type records.
+ * Only users with ADMIN role may create, update or delete fuel entries.
+ * All authenticated users may access retrieval endpoints.
+ *
+ * Author: Fatlum Epiroti
+ * Version: 1.0
+ * Date: 2025-06-03
+ */
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/api/vehicle_fuels")

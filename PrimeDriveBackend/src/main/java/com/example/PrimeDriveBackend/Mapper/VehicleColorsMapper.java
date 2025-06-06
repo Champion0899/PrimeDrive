@@ -5,7 +5,6 @@ import org.springframework.stereotype.Component;
 import com.example.PrimeDriveBackend.dto.VehicleColorsDto;
 import com.example.PrimeDriveBackend.model.VehicleColors;
 
-@Component
 /**
  * Mapper class for converting between VehicleColors entities and their DTO
  * representations.
@@ -18,6 +17,7 @@ import com.example.PrimeDriveBackend.model.VehicleColors;
  * Version: 1.0
  * Date: 2025-06-03
  */
+@Component
 public class VehicleColorsMapper {
 
     /**

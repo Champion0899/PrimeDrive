@@ -11,7 +11,6 @@ import com.example.PrimeDriveBackend.service.*;
 
 import org.springframework.stereotype.Component;
 
-@Component
 /**
  * Mapper class for converting between Vehicle entities and their DTO representations.
  *
@@ -22,6 +21,7 @@ import org.springframework.stereotype.Component;
  * Version: 1.0
  * Date: 2025-06-03
  */
+@Component
 public class VehicleMapper {
 
     private final UserService userService;

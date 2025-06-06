@@ -27,11 +27,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 
-@CrossOrigin(origins = "http://localhost:4200")
-@RestController
-@RequestMapping("/api/vehicle_colors")
-@RequiredArgsConstructor
-@Tag(name = "Vehicle Colors", description = "Endpoints for managing vehicle colors")
 /**
  * REST controller providing endpoints to manage vehicle colors.
  *
@@ -43,6 +38,11 @@ import lombok.RequiredArgsConstructor;
  * Version: 1.0
  * Date: 2025-06-03
  */
+@CrossOrigin(origins = "http://localhost:4200")
+@RestController
+@RequestMapping("/api/vehicle_colors")
+@RequiredArgsConstructor
+@Tag(name = "Vehicle Colors", description = "Endpoints for managing vehicle colors")
 public class VehicleColorsController {
     private final VehicleColorsService vehicleColorsService;
     private final AuthenticationService authenticationService;

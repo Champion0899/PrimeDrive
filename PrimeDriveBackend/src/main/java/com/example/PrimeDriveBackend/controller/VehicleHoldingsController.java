@@ -1,15 +1,3 @@
-
-/**
- * REST controller providing endpoints to manage vehicle holdings.
- *
- * This controller enables creation, retrieval, updating, and deletion of vehicle holding records.
- * Only users with ADMIN role are permitted to modify or delete records, while all authenticated
- * users may access retrieval endpoints.
- *
- * Author: Fatlum Epiroti
- * Version: 1.0
- * Date: 2025-06-03
- */
 package com.example.PrimeDriveBackend.controller;
 
 import jakarta.validation.Valid;
@@ -41,6 +29,19 @@ import lombok.RequiredArgsConstructor;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 
+/**
+ * REST controller providing endpoints to manage vehicle holdings.
+ *
+ * This controller enables creation, retrieval, updating, and deletion of
+ * vehicle holding records.
+ * Only users with ADMIN role are permitted to modify or delete records, while
+ * all authenticated
+ * users may access retrieval endpoints.
+ *
+ * Author: Fatlum Epiroti
+ * Version: 1.0
+ * Date: 2025-06-03
+ */
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/api/vehicle_holdings")
@@ -113,7 +114,8 @@ public class VehicleHoldingsController {
      * @param dto Updated holding data
      * @return VehicleHoldingsDto with updated information
      */
-    public ResponseEntity<VehicleHoldingsDto> update(@PathVariable String id, @Valid @RequestBody VehicleHoldingsDto dto,
+    public ResponseEntity<VehicleHoldingsDto> update(@PathVariable String id,
+            @Valid @RequestBody VehicleHoldingsDto dto,
             Authentication authentication) {
         authenticationService.checkAuthentication(authentication);
         dto.setId(id);

@@ -7,9 +7,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
 /**
  * Data Transfer Object (DTO) representing the seating configuration of a
  * vehicle.
@@ -23,6 +20,9 @@ import lombok.NoArgsConstructor;
  * Version: 1.0
  * Date: 2025-06-03
  */
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class VehicleSeatsDto {
     /** The unique identifier for the seat configuration. */
     @NotNull

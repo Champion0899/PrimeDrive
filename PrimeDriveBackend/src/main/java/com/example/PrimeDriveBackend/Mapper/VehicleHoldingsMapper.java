@@ -5,7 +5,6 @@ import org.springframework.stereotype.Component;
 import com.example.PrimeDriveBackend.dto.VehicleHoldingsDto;
 import com.example.PrimeDriveBackend.model.VehicleHoldings;
 
-@Component
 /**
  * Mapper class for converting between VehicleHoldings entities and their DTO representations.
  *
@@ -16,6 +15,7 @@ import com.example.PrimeDriveBackend.model.VehicleHoldings;
  * Version: 1.0
  * Date: 2025-06-03
  */
+@Component
 public class VehicleHoldingsMapper {
 
     /**

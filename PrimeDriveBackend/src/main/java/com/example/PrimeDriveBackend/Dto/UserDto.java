@@ -1,3 +1,13 @@
+package com.example.PrimeDriveBackend.dto;
+
+import java.sql.Date;
+
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotBlank;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 /**
  * Data Transfer Object (DTO) representing a full user entity.
  *
@@ -9,17 +19,6 @@
  * Version: 2.0
  * Date: 2025-06-06
  */
-package com.example.PrimeDriveBackend.dto;
-
-import java.sql.Date;
-
-import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.NotBlank;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

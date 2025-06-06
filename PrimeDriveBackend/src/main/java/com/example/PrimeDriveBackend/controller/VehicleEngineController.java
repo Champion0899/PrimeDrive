@@ -1,15 +1,3 @@
-
-/**
- * REST controller providing endpoints to manage vehicle engine configurations.
- *
- * This controller handles creation, retrieval, updating, and deletion of vehicle engine entries.
- * Only users with ADMIN role are allowed to perform modifications, while all authenticated users
- * can access retrieval endpoints.
- *
- * Author: Fatlum Epiroti
- * Version: 1.0
- * Date: 2025-06-03
- */
 package com.example.PrimeDriveBackend.controller;
 
 import java.util.List;
@@ -39,6 +27,17 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 
+/**
+ * REST controller providing endpoints to manage vehicle engine configurations.
+ *
+ * This controller handles creation, retrieval, updating, and deletion of vehicle engine entries.
+ * Only users with ADMIN role are allowed to perform modifications, while all authenticated users
+ * can access retrieval endpoints.
+ *
+ * Author: Fatlum Epiroti
+ * Version: 1.0
+ * Date: 2025-06-03
+ */
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/api/vehicle_engine")

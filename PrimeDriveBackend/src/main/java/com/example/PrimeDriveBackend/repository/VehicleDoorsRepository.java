@@ -1,3 +1,11 @@
+package com.example.PrimeDriveBackend.repository;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+
+import com.example.PrimeDriveBackend.model.VehicleDoors;
+
 /**
  * Repository interface for managing VehicleDoors entities.
  *
@@ -8,14 +16,6 @@
  * Version: 1.0
  * Date: 2025-06-03
  */
-package com.example.PrimeDriveBackend.repository;
-
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
-
-import com.example.PrimeDriveBackend.model.VehicleDoors;
-
 public interface VehicleDoorsRepository extends JpaRepository<VehicleDoors, String> {
 
     /**

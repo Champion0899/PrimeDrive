@@ -1,11 +1,3 @@
-/**
- * Global exception handler for REST controllers.
- * Catches specific exceptions and returns structured error responses with HTTP status codes.
- *
- * Author: Fatlum Epiroti
- * Version: 1.0.0
- * Date: 2025-06-06
- */
 package com.example.PrimeDriveBackend.exception;
 
 import com.example.PrimeDriveBackend.exception.UnauthorizedAccessException;
@@ -16,6 +8,14 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDateTime;
 import java.util.NoSuchElementException;
 
+/**
+ * Global exception handler for REST controllers.
+ * Catches specific exceptions and returns structured error responses with HTTP status codes.
+ *
+ * Author: Fatlum Epiroti
+ * Version: 1.0.0
+ * Date: 2025-06-06
+ */
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
