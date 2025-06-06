@@ -1,9 +1,9 @@
-package com.example.PrimeDriveBackend.Mapper;
+package com.example.PrimeDriveBackend.mapper;
 
 import org.springframework.stereotype.Component;
 
-import com.example.PrimeDriveBackend.Dto.UserDto;
-import com.example.PrimeDriveBackend.Dto.UserSafeDto;
+import com.example.PrimeDriveBackend.dto.UserDto;
+import com.example.PrimeDriveBackend.dto.UserSafeDto;
 import com.example.PrimeDriveBackend.model.Users;
 
 /**

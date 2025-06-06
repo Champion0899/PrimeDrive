@@ -4,8 +4,8 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.example.PrimeDriveBackend.Dto.VehicleTypesDto;
-import com.example.PrimeDriveBackend.Mapper.VehicleTypesMapper;
+import com.example.PrimeDriveBackend.dto.VehicleTypesDto;
+import com.example.PrimeDriveBackend.mapper.VehicleTypesMapper;
 import com.example.PrimeDriveBackend.model.VehicleTypes;
 import com.example.PrimeDriveBackend.repository.VehicleTypesRepository;
 

@@ -6,9 +6,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import com.example.PrimeDriveBackend.repository.VehicleRepository;
 import com.example.PrimeDriveBackend.model.Vehicle;
-
-import com.example.PrimeDriveBackend.Dto.VehicleSpecsDto;
-import com.example.PrimeDriveBackend.Mapper.VehicleSpecsMapper;
+import com.example.PrimeDriveBackend.dto.VehicleSpecsDto;
+import com.example.PrimeDriveBackend.mapper.VehicleSpecsMapper;
 import com.example.PrimeDriveBackend.model.VehicleSpecs;
 import com.example.PrimeDriveBackend.repository.VehicleSpecsRepository;
 

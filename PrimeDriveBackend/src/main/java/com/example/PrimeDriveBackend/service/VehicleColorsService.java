@@ -4,8 +4,8 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.example.PrimeDriveBackend.Dto.VehicleColorsDto;
-import com.example.PrimeDriveBackend.Mapper.VehicleColorsMapper;
+import com.example.PrimeDriveBackend.dto.VehicleColorsDto;
+import com.example.PrimeDriveBackend.mapper.VehicleColorsMapper;
 import com.example.PrimeDriveBackend.model.VehicleColors;
 import com.example.PrimeDriveBackend.repository.VehicleColorsRepository;
 

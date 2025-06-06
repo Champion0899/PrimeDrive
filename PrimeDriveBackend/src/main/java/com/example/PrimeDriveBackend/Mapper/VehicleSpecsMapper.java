@@ -1,9 +1,9 @@
-package com.example.PrimeDriveBackend.Mapper;
+package com.example.PrimeDriveBackend.mapper;
 
 import org.bouncycastle.crypto.RuntimeCryptoException;
 import org.springframework.stereotype.Component;
 
-import com.example.PrimeDriveBackend.Dto.VehicleSpecsDto;
+import com.example.PrimeDriveBackend.dto.VehicleSpecsDto;
 import com.example.PrimeDriveBackend.model.VehicleDoors;
 import com.example.PrimeDriveBackend.model.VehicleEngine;
 import com.example.PrimeDriveBackend.model.VehicleFuels;

@@ -1,8 +1,8 @@
-package com.example.PrimeDriveBackend.Mapper;
+package com.example.PrimeDriveBackend.mapper;
 
 import org.springframework.stereotype.Component;
 
-import com.example.PrimeDriveBackend.Dto.VehicleDoorsDto;
+import com.example.PrimeDriveBackend.dto.VehicleDoorsDto;
 import com.example.PrimeDriveBackend.model.VehicleDoors;
 
 /**

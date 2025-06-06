@@ -9,7 +9,7 @@
  * Version: 1.0
  * Date: 2025-06-03
  */
-package com.example.PrimeDriveBackend.Dto;
+package com.example.PrimeDriveBackend.dto;
 
 import java.sql.Date;
 

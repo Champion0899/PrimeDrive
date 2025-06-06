@@ -1,7 +1,7 @@
 package com.example.PrimeDriveBackend.controller;
 
-import com.example.PrimeDriveBackend.Dto.UserDto;
-import com.example.PrimeDriveBackend.Dto.UserSafeDto;
+import com.example.PrimeDriveBackend.dto.UserDto;
+import com.example.PrimeDriveBackend.dto.UserSafeDto;
 import com.example.PrimeDriveBackend.service.AuthenticationService;
 import com.example.PrimeDriveBackend.service.UserService;
 import org.springframework.web.bind.annotation.RequestBody;

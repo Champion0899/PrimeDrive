@@ -1,6 +1,6 @@
 package com.example.PrimeDriveBackend.controller;
 
-import com.example.PrimeDriveBackend.Dto.VehicleDto;
+import com.example.PrimeDriveBackend.dto.VehicleDto;
 import com.example.PrimeDriveBackend.service.AuthenticationService;
 import com.example.PrimeDriveBackend.service.VehicleService;
 

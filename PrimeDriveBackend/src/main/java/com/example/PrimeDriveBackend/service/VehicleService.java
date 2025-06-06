@@ -1,7 +1,7 @@
 package com.example.PrimeDriveBackend.service;
 
-import com.example.PrimeDriveBackend.Dto.VehicleDto;
-import com.example.PrimeDriveBackend.Mapper.VehicleMapper;
+import com.example.PrimeDriveBackend.dto.VehicleDto;
+import com.example.PrimeDriveBackend.mapper.VehicleMapper;
 import com.example.PrimeDriveBackend.model.Vehicle;
 import com.example.PrimeDriveBackend.repository.VehicleRepository;
 import jakarta.persistence.EntityNotFoundException;

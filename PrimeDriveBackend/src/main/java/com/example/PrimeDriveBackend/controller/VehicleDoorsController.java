@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import com.example.PrimeDriveBackend.Dto.VehicleDoorsDto;
+import com.example.PrimeDriveBackend.dto.VehicleDoorsDto;
 import com.example.PrimeDriveBackend.service.AuthenticationService;
 import com.example.PrimeDriveBackend.service.VehicleDoorsService;
 

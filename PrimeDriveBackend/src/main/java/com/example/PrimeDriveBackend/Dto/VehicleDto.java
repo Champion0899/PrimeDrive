@@ -1,4 +1,4 @@
-package com.example.PrimeDriveBackend.Dto;
+package com.example.PrimeDriveBackend.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

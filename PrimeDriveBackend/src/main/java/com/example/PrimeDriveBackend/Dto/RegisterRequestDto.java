@@ -1,4 +1,4 @@
-package com.example.PrimeDriveBackend.Dto;
+package com.example.PrimeDriveBackend.dto;
 
 import jakarta.validation.constraints.NotNull;
 

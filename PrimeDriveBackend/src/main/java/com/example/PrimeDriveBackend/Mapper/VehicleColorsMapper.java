@@ -1,8 +1,8 @@
-package com.example.PrimeDriveBackend.Mapper;
+package com.example.PrimeDriveBackend.mapper;
 
 import org.springframework.stereotype.Component;
 
-import com.example.PrimeDriveBackend.Dto.VehicleColorsDto;
+import com.example.PrimeDriveBackend.dto.VehicleColorsDto;
 import com.example.PrimeDriveBackend.model.VehicleColors;
 
 @Component

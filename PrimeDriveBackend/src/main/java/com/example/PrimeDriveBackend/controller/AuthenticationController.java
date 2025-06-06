@@ -6,8 +6,8 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.PrimeDriveBackend.Dto.LoginRequestDto;
-import com.example.PrimeDriveBackend.Dto.RegisterRequestDto;
+import com.example.PrimeDriveBackend.dto.LoginRequestDto;
+import com.example.PrimeDriveBackend.dto.RegisterRequestDto;
 import com.example.PrimeDriveBackend.model.Users;
 import com.example.PrimeDriveBackend.service.AuthenticationService;
 import com.example.PrimeDriveBackend.service.RequestInfoService;

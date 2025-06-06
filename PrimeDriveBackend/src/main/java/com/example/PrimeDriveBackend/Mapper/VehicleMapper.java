@@ -1,6 +1,6 @@
-package com.example.PrimeDriveBackend.Mapper;
+package com.example.PrimeDriveBackend.mapper;
 
-import com.example.PrimeDriveBackend.Dto.VehicleDto;
+import com.example.PrimeDriveBackend.dto.VehicleDto;
 import com.example.PrimeDriveBackend.model.Users;
 import com.example.PrimeDriveBackend.model.Vehicle;
 import com.example.PrimeDriveBackend.model.VehicleBrands;

@@ -4,9 +4,9 @@ import java.util.List;
 import java.util.Optional;
 import org.springframework.stereotype.Service;
 
-import com.example.PrimeDriveBackend.Dto.UserDto;
-import com.example.PrimeDriveBackend.Dto.UserSafeDto;
-import com.example.PrimeDriveBackend.Mapper.UserMapper;
+import com.example.PrimeDriveBackend.dto.UserDto;
+import com.example.PrimeDriveBackend.dto.UserSafeDto;
+import com.example.PrimeDriveBackend.mapper.UserMapper;
 import com.example.PrimeDriveBackend.model.Users;
 import com.example.PrimeDriveBackend.repository.UsersRepository;
 
