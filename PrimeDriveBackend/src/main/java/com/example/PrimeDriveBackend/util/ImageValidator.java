@@ -1,5 +1,13 @@
 package com.example.PrimeDriveBackend.util;
 
+/**
+ * Utility class for validating image filenames.
+ * Ensures only allowed image formats (.jpg, .jpeg, .png) are accepted.
+ *
+ * Author: Fatlum Epiroti
+ * Version: 1.0.0
+ * Date: 2025-06-06
+ */
 public class ImageValidator {
     /**
      * Validates the image filename to allow only .jpg, .jpeg, and .png extensions.

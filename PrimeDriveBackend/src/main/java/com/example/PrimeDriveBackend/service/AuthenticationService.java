@@ -15,12 +15,11 @@ import lombok.RequiredArgsConstructor;
 
 /**
  * Service class responsible for handling user registration and login
- * operations,
- * including password encoding and authentication validation.
+ * operations, including password encoding and authentication validation.
  *
  * Author: Fatlum Epiroti
- * Version: 1.0
- * Date: 2025-05-16
+ * Version: 2.0
+ * Date: 2025-06-06
  */
 @Service
 @RequiredArgsConstructor
@@ -117,6 +116,13 @@ public class AuthenticationService {
         return comparePassword(password, user.getPassword());
     }
 
+    /**
+     * Extracts and returns the authenticated user's ID.
+     * Throws an exception if no authentication is present or valid.
+     *
+     * @param authentication The Spring Security Authentication object
+     * @return String The user ID from the JWT or session context
+     */
     public String checkAuthentication(Authentication authentication) {
         if (authentication == null || !authentication.isAuthenticated()) {
             throw new UnauthorizedAccessException("No authenticated user found.");
