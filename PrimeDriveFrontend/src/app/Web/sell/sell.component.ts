@@ -1,3 +1,32 @@
+/**
+ * SellComponent - UI-Komponente für das Einstellen und Bearbeiten von Fahrzeugen durch den Verkäufer.
+ *
+ * Diese Komponente erlaubt es eingeloggten Benutzern, neue Fahrzeuge inklusive technischer Spezifikationen
+ * anzulegen sowie bestehende Fahrzeuge zu bearbeiten oder zu löschen.
+ * Sie nutzt Reactive Forms zur Validierung und Verwaltung der Eingaben.
+ *
+ * @author Fatlum Epiroti
+ * @version 1.0
+ * @date 2025-06-06
+ *
+ * @property form - Formular zur Eingabe allgemeiner Fahrzeugdaten
+ * @property specsForm - Formular zur Eingabe technischer Spezifikationen
+ * @property brands - Liste aller verfügbaren Marken
+ * @property colors - Liste aller verfügbaren Farben
+ * @property types - Liste aller verfügbaren Fahrzeugtypen
+ * @property specs - Liste gespeicherter Spezifikationen (derzeit nicht genutzt für Auswahl)
+ * @property doors - Liste möglicher Türvarianten
+ * @property seats - Liste möglicher Sitzanzahlen
+ * @property engines - Liste verfügbarer Motorvarianten
+ * @property fuels - Liste möglicher Kraftstoffarten
+ * @property userVehicles - Liste der Fahrzeuge, die vom eingeloggten Nutzer eingestellt wurden
+ *
+ * @method onSubmit() - Validiert beide Formulare, erstellt Spezifikationen und Fahrzeugeintrag
+ * @method loadUserVehicles(userId) - Lädt Fahrzeuge des Benutzers
+ * @method editVehicle(vehicle) - Befüllt Formulare mit bestehenden Daten zum Bearbeiten
+ * @method deleteVehicle(id) - Entfernt ein Fahrzeug aus der lokalen Liste
+ * @method ngOnInit() - Initialisiert Daten beim Laden der Komponente
+ */
 import { Component, inject, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
@@ -94,6 +123,11 @@ export class SellComponent {
 
   constructor(private fb: FormBuilder) {}
 
+  /**
+   * Verarbeitet die Eingabe aus beiden Formularen (allgemeine Fahrzeugdaten und Spezifikationen).
+   * Erstellt zunächst die technischen Spezifikationen, verknüpft diese anschließend mit dem Fahrzeug
+   * und speichert den Eintrag in der Datenbank. Führt anschließend ein Reset der Formulare durch.
+   */
   onSubmit() {
     if (this.form.invalid || this.specsForm.invalid) {
       console.warn('Formulareingaben ungültig.');
@@ -187,12 +221,24 @@ export class SellComponent {
     });
   }
 
+  /**
+   * Lädt alle Fahrzeuge aus der Datenbank und filtert jene heraus,
+   * die vom aktuell eingeloggten Benutzer eingestellt wurden.
+   *
+   * @param userId - Die eindeutige ID des aktuell eingeloggten Benutzers
+   */
   loadUserVehicles(userId: string) {
     this.vehicleService.getVehicles().subscribe((vehicles) => {
       this.userVehicles = vehicles.filter((v) => v.sellerId === userId);
     });
   }
 
+  /**
+   * Lädt die vorhandenen Werte eines Fahrzeugs in die Formulare, um eine Bearbeitung zu ermöglichen.
+   * Ruft zusätzlich die zugehörigen technischen Spezifikationen ab und trägt sie ins Spezifikationsformular ein.
+   *
+   * @param vehicle - Das zu bearbeitende Fahrzeugobjekt
+   */
   editVehicle(vehicle: Vehicle) {
     this.form.patchValue(vehicle);
     if (vehicle.specsId) {
@@ -216,10 +262,21 @@ export class SellComponent {
     }
   }
 
+  /**
+   * Entfernt ein Fahrzeug mit der übergebenen ID aus der lokalen Fahrzeugliste.
+   * Dieser Vorgang betrifft nur die lokale Anzeige, nicht die Datenbank.
+   *
+   * @param id - Die ID des Fahrzeugs, das gelöscht werden soll
+   */
   deleteVehicle(id: string) {
     this.userVehicles = this.userVehicles.filter((v) => v.id !== id);
   }
 
+  /**
+   * Initialisiert die Komponente beim Laden.
+   * Lädt alle erforderlichen Referenzdaten (z. B. Marken, Farben, Typen usw.)
+   * sowie die Fahrzeugliste des aktuell eingeloggten Nutzers.
+   */
   ngOnInit() {
     this.vehicleService.getBrands().subscribe((data) => (this.brands = data));
     this.vehicleService.getColors().subscribe((data) => (this.colors = data));
