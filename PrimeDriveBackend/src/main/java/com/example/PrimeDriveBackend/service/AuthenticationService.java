@@ -4,6 +4,8 @@ import org.springframework.stereotype.Service;
 import com.example.PrimeDriveBackend.model.Users;
 
 import java.sql.Date;
+import java.util.NoSuchElementException;
+import com.example.PrimeDriveBackend.exception.UnauthorizedAccessException;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -110,14 +112,14 @@ public class AuthenticationService {
      */
     public boolean login(String username, String password) {
         Users user = userService.findByUsername(username)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new NoSuchElementException("User not found with username: " + username));
 
         return comparePassword(password, user.getPassword());
     }
 
     public String checkAuthentication(Authentication authentication) {
         if (authentication == null || !authentication.isAuthenticated()) {
-            throw new IllegalStateException("No authenticated user found.");
+            throw new UnauthorizedAccessException("No authenticated user found.");
         }
 
         Object principal = authentication.getPrincipal();

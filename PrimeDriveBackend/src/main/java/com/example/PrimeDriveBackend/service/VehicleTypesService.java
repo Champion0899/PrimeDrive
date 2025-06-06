@@ -1,10 +1,12 @@
 package com.example.PrimeDriveBackend.service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import org.springframework.stereotype.Service;
 
 import com.example.PrimeDriveBackend.dto.VehicleTypesDto;
+import com.example.PrimeDriveBackend.exception.EntityInUseException;
 import com.example.PrimeDriveBackend.mapper.VehicleTypesMapper;
 import com.example.PrimeDriveBackend.model.VehicleTypes;
 import com.example.PrimeDriveBackend.repository.VehicleTypesRepository;
@@ -45,12 +47,12 @@ public class VehicleTypesService {
      *
      * @param id the ID of the vehicle type
      * @return the vehicle type as a DTO
-     * @throws RuntimeException if the type is not found
+     * @throws NoSuchElementException if the type is not found
      */
     public VehicleTypesDto getTypeById(String id) {
         return vehicleTypesRepository.findById(id)
                 .map(vehicleTypesMapper::toDto)
-                .orElseThrow(() -> new RuntimeException("Type not found with id: " + id));
+                .orElseThrow(() -> new NoSuchElementException("Type not found with id: " + id));
     }
 
     /**
@@ -58,11 +60,11 @@ public class VehicleTypesService {
      *
      * @param id the ID of the vehicle type
      * @return the vehicle type entity
-     * @throws RuntimeException if the type is not found
+     * @throws NoSuchElementException if the type is not found
      */
     public VehicleTypes getTypeByIdEntity(String id) {
         return vehicleTypesRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Type not found with id: " + id));
+                .orElseThrow(() -> new NoSuchElementException("Type not found with id: " + id));
     }
 
     /**
@@ -82,11 +84,11 @@ public class VehicleTypesService {
      * @param id  the ID of the vehicle type to update
      * @param dto the updated vehicle type data
      * @return the updated vehicle type as a DTO
-     * @throws RuntimeException if the type is not found
+     * @throws NoSuchElementException if the type is not found
      */
     public VehicleTypesDto updateType(String id, VehicleTypesDto dto) {
         VehicleTypes existing = vehicleTypesRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Type not found with id: " + id));
+                .orElseThrow(() -> new NoSuchElementException("Type not found with id: " + id));
 
         VehicleTypes updatedVehicleType = vehicleTypesMapper.toEntity(dto);
         updatedVehicleType.setId(existing.getId());
@@ -97,16 +99,18 @@ public class VehicleTypesService {
      * Deletes a vehicle type by ID.
      *
      * @param id the ID of the vehicle type to delete
-     * @throws RuntimeException if the type is not found or is in use
+     * @throws NoSuchElementException if the type is not found
+     * @throws EntityInUseException   if the type is in use
      */
     public void deleteType(String id) {
         if (!vehicleTypesRepository.existsById(id)) {
-            throw new RuntimeException("Type not found with id: " + id);
+            throw new NoSuchElementException("Type not found with id: " + id);
         }
 
         boolean isInUse = vehicleTypesRepository.isTypeInUse(id);
         if (isInUse) {
-            throw new RuntimeException("Cannot delete vehicle type with id " + id + " because it is currently in use.");
+            throw new EntityInUseException(
+                    "Cannot delete vehicle type with id " + id + " because it is currently in use.");
         }
 
         vehicleTypesRepository.deleteById(id);

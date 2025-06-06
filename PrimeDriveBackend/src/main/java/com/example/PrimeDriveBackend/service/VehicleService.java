@@ -1,10 +1,13 @@
 package com.example.PrimeDriveBackend.service;
 
+import com.example.PrimeDriveBackend.util.ImageValidator;
+
 import com.example.PrimeDriveBackend.dto.VehicleDto;
 import com.example.PrimeDriveBackend.mapper.VehicleMapper;
 import com.example.PrimeDriveBackend.model.Vehicle;
 import com.example.PrimeDriveBackend.repository.VehicleRepository;
-import jakarta.persistence.EntityNotFoundException;
+import java.util.NoSuchElementException;
+import com.example.PrimeDriveBackend.exception.UnauthorizedAccessException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -46,12 +49,12 @@ public class VehicleService {
      *
      * @param id the ID of the vehicle
      * @return the vehicle as a DTO
-     * @throws EntityNotFoundException if the vehicle is not found
+     * @throws NoSuchElementException if the vehicle is not found
      */
     public VehicleDto getVehicleById(String id) {
         return vehicleRepository.findById(id)
                 .map(vehicleMapper::toDto)
-                .orElseThrow(() -> new EntityNotFoundException("Vehicle not found with id: "
+                .orElseThrow(() -> new NoSuchElementException("Vehicle not found with id: "
                         + id));
     }
 
@@ -62,6 +65,7 @@ public class VehicleService {
      * @return the saved vehicle as a DTO
      */
     public VehicleDto saveVehicle(VehicleDto dto) {
+        ImageValidator.validate(dto.getImage());
         Vehicle vehicle = vehicleMapper.toEntity(dto);
         return vehicleMapper.toDto(vehicleRepository.save(vehicle));
     }
@@ -72,17 +76,19 @@ public class VehicleService {
      * @param id  the ID of the vehicle to update
      * @param dto the updated vehicle data
      * @return the updated vehicle as a DTO
-     * @throws EntityNotFoundException if the vehicle is not found
-     * @throws SecurityException       if the authenticated user is not the vehicle
-     *                                 owner
+     * @throws NoSuchElementException      if the vehicle is not found
+     * @throws UnauthorizedAccessException if the authenticated user is not the
+     *                                     vehicle
+     *                                     owner
      */
     public VehicleDto updateVehicle(String id, VehicleDto dto) {
+        ImageValidator.validate(dto.getImage());
         Vehicle existing = vehicleRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Vehicle not found with id: " + id));
+                .orElseThrow(() -> new NoSuchElementException("Vehicle not found with id: " + id));
 
         String currentUserId = SecurityContextHolder.getContext().getAuthentication().getName();
         if (!existing.getUsers().equals(currentUserId)) {
-            throw new SecurityException("You are not authorized to update this vehicle.");
+            throw new UnauthorizedAccessException("You are not authorized to update this vehicle.");
         }
 
         Vehicle updatedVehicle = vehicleMapper.toEntity(dto);
@@ -95,17 +101,18 @@ public class VehicleService {
      * Deletes a vehicle by ID, validating ownership.
      *
      * @param id the ID of the vehicle to delete
-     * @throws EntityNotFoundException if the vehicle is not found
-     * @throws SecurityException       if the authenticated user is not the vehicle
-     *                                 owner
+     * @throws NoSuchElementException      if the vehicle is not found
+     * @throws UnauthorizedAccessException if the authenticated user is not the
+     *                                     vehicle
+     *                                     owner
      */
     public void deleteVehicle(String id) {
         Vehicle existing = vehicleRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Vehicle not found with id: " + id));
+                .orElseThrow(() -> new NoSuchElementException("Vehicle not found with id: " + id));
 
         String currentUserId = SecurityContextHolder.getContext().getAuthentication().getName();
         if (!existing.getUsers().equals(currentUserId)) {
-            throw new SecurityException("You are not authorized to update this vehicle.");
+            throw new UnauthorizedAccessException("You are not authorized to update this vehicle.");
         }
         vehicleRepository.deleteById(id);
     }

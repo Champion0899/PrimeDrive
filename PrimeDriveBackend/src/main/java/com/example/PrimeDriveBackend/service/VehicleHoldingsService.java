@@ -1,13 +1,16 @@
 package com.example.PrimeDriveBackend.service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import org.springframework.stereotype.Service;
 
 import com.example.PrimeDriveBackend.dto.VehicleHoldingsDto;
+import com.example.PrimeDriveBackend.exception.EntityInUseException;
 import com.example.PrimeDriveBackend.mapper.VehicleHoldingsMapper;
 import com.example.PrimeDriveBackend.model.VehicleHoldings;
 import com.example.PrimeDriveBackend.repository.VehicleHoldingsRepository;
+import com.example.PrimeDriveBackend.util.ImageValidator;
 
 import lombok.RequiredArgsConstructor;
 
@@ -45,12 +48,12 @@ public class VehicleHoldingsService {
      *
      * @param id the ID of the holding
      * @return the holding as a DTO
-     * @throws RuntimeException if the holding is not found
+     * @throws NoSuchElementException if the holding is not found
      */
     public VehicleHoldingsDto getHoldingById(String id) {
         return vehicleHoldingsRepository.findById(id)
                 .map(vehicleHoldingsMapper::toDto)
-                .orElseThrow(() -> new RuntimeException("Holdings not found with id: " + id));
+                .orElseThrow(() -> new NoSuchElementException("Holdings not found with id: " + id));
     }
 
     /**
@@ -58,11 +61,11 @@ public class VehicleHoldingsService {
      *
      * @param id the ID of the holding
      * @return the holding entity
-     * @throws RuntimeException if the holding is not found
+     * @throws NoSuchElementException if the holding is not found
      */
     public VehicleHoldings getVehicleHoldingEntityById(String id) {
         return vehicleHoldingsRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Holdings not found with id: " + id));
+                .orElseThrow(() -> new NoSuchElementException("Holdings not found with id: " + id));
     }
 
     /**
@@ -72,6 +75,7 @@ public class VehicleHoldingsService {
      * @return the saved holding as a DTO
      */
     public VehicleHoldingsDto saveHolding(VehicleHoldingsDto dto) {
+        ImageValidator.validate(dto.getLogo());
         VehicleHoldings vehicleHoldings = vehicleHoldingsMapper.toEntity(dto);
         return vehicleHoldingsMapper.toDto(vehicleHoldingsRepository.save(vehicleHoldings));
     }
@@ -82,11 +86,12 @@ public class VehicleHoldingsService {
      * @param id  the ID of the holding to update
      * @param dto the updated holding data
      * @return the updated holding as a DTO
-     * @throws RuntimeException if the holding is not found
+     * @throws NoSuchElementException if the holding is not found
      */
     public VehicleHoldingsDto updateHolding(String id, VehicleHoldingsDto dto) {
+        ImageValidator.validate(dto.getLogo());
         VehicleHoldings existing = vehicleHoldingsRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Holdings not found with id: " + id));
+                .orElseThrow(() -> new NoSuchElementException("Holdings not found with id: " + id));
 
         VehicleHoldings updatedHolding = vehicleHoldingsMapper.toEntity(dto);
         updatedHolding.setId(existing.getId());
@@ -97,15 +102,16 @@ public class VehicleHoldingsService {
      * Deletes a vehicle holding company by ID.
      *
      * @param id the ID of the holding to delete
-     * @throws RuntimeException if the holding is not found or is in use
+     * @throws NoSuchElementException if the holding is not found
+     * @throws EntityInUseException if the holding is in use
      */
     public void deleteHolding(String id) {
         if (!vehicleHoldingsRepository.existsById(id)) {
-            throw new RuntimeException("Holdings not found with id: " + id);
+            throw new NoSuchElementException("Holdings not found with id: " + id);
         }
 
         if (vehicleHoldingsRepository.isHoldingInUse(id)) {
-            throw new RuntimeException("Cannot delete holding with id " + id + " because it is currently in use.");
+            throw new EntityInUseException("Cannot delete holding with id " + id + " because it is currently in use.");
         }
 
         vehicleHoldingsRepository.deleteById(id);

@@ -1,6 +1,8 @@
 package com.example.PrimeDriveBackend.service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
+import com.example.PrimeDriveBackend.exception.EntityInUseException;
 
 import org.springframework.stereotype.Service;
 
@@ -50,7 +52,7 @@ public class VehicleSeatsService {
     public VehicleSeatsDto getSeatsById(String id) {
         return vehicleSeatsRepository.findById(id)
                 .map(vehicleSeatsMapper::toDto)
-                .orElseThrow(() -> new RuntimeException("Seats not found with id: " + id));
+                .orElseThrow(() -> new NoSuchElementException("Seats not found with id: " + id));
     }
 
     /**
@@ -62,7 +64,7 @@ public class VehicleSeatsService {
      */
     public VehicleSeats getSeatsByIdEntity(String id) {
         return vehicleSeatsRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Seats not found with id: " + id));
+                .orElseThrow(() -> new NoSuchElementException("Seats not found with id: " + id));
     }
 
     /**
@@ -86,7 +88,7 @@ public class VehicleSeatsService {
      */
     public VehicleSeatsDto updateSeats(String id, VehicleSeatsDto dto) {
         VehicleSeats existing = vehicleSeatsRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Seats not found with id: " + id));
+                .orElseThrow(() -> new NoSuchElementException("Seats not found with id: " + id));
 
         VehicleSeats updatedVehicleSeats = vehicleSeatsMapper.toEntity(dto);
         updatedVehicleSeats.setId(updatedVehicleSeats.getId());
@@ -102,11 +104,11 @@ public class VehicleSeatsService {
      */
     public void deleteSeats(String id) {
         if (!vehicleSeatsRepository.existsById(id)) {
-            throw new RuntimeException("Seats not found with id: " + id);
+            throw new NoSuchElementException("Seats not found with id: " + id);
         }
 
         if (vehicleSeatsRepository.isSeatsInUse(id)) {
-            throw new RuntimeException("Cannot delete seat configuration with id " + id + " because it is currently in use.");
+            throw new EntityInUseException("Cannot delete seat configuration with id " + id + " because it is currently in use.");
         }
 
         vehicleSeatsRepository.deleteById(id);

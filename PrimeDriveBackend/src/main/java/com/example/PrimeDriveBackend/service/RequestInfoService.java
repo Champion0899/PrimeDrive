@@ -27,10 +27,15 @@ public class RequestInfoService {
      * @return the client's IP address as a string
      */
     public String getClientIp(HttpServletRequest request) {
-        String clientIp = request.getHeader("X-Forwarded-For");
-        if (clientIp == null || clientIp.isEmpty()) {
-            clientIp = request.getRemoteAddr();
+        try {
+            String clientIp = request.getHeader("X-Forwarded-For");
+            if (clientIp == null || clientIp.isEmpty()) {
+                clientIp = request.getRemoteAddr();
+            }
+            return clientIp;
+        } catch (Exception e) {
+            System.err.println("Failed to retrieve client IP: " + e.getMessage());
+            return "UNKNOWN";
         }
-        return clientIp;
     }
 }

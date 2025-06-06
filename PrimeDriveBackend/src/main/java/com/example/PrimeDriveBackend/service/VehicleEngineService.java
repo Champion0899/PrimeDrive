@@ -1,10 +1,12 @@
 package com.example.PrimeDriveBackend.service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import org.springframework.stereotype.Service;
 
 import com.example.PrimeDriveBackend.dto.VehicleEngineDto;
+import com.example.PrimeDriveBackend.exception.EntityInUseException;
 import com.example.PrimeDriveBackend.mapper.VehicleEngineMapper;
 import com.example.PrimeDriveBackend.model.VehicleEngine;
 import com.example.PrimeDriveBackend.repository.VehicleEngineRepository;
@@ -45,12 +47,12 @@ public class VehicleEngineService {
      *
      * @param id the ID of the engine configuration
      * @return the engine configuration as a DTO
-     * @throws RuntimeException if the engine configuration is not found
+     * @throws NoSuchElementException if the engine configuration is not found
      */
     public VehicleEngineDto getEngineById(String id) {
         return vehicleEngineRepository.findById(id)
                 .map(vehicleEngineMapper::toDto)
-                .orElseThrow(() -> new RuntimeException("Engine not found with id: " + id));
+                .orElseThrow(() -> new NoSuchElementException("Engine not found with id: " + id));
     }
 
     /**
@@ -58,11 +60,11 @@ public class VehicleEngineService {
      *
      * @param id the ID of the engine configuration
      * @return the engine configuration entity
-     * @throws RuntimeException if the engine configuration is not found
+     * @throws NoSuchElementException if the engine configuration is not found
      */
     public VehicleEngine getEngineByIdEntity(String id) {
         return vehicleEngineRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Engine not found with id: " + id));
+                .orElseThrow(() -> new NoSuchElementException("Engine not found with id: " + id));
     }
 
     /**
@@ -82,11 +84,11 @@ public class VehicleEngineService {
      * @param id  the ID of the engine configuration to update
      * @param dto the updated configuration data
      * @return the updated configuration as a DTO
-     * @throws RuntimeException if the engine configuration is not found
+     * @throws NoSuchElementException if the engine configuration is not found
      */
     public VehicleEngineDto updateEngine(String id, VehicleEngineDto dto) {
         VehicleEngine existing = vehicleEngineRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Engine not found with id: " + id));
+                .orElseThrow(() -> new NoSuchElementException("Engine not found with id: " + id));
 
         VehicleEngine updatedVehicleEngine = vehicleEngineMapper.toEntity(dto);
         updatedVehicleEngine.setId(existing.getId());
@@ -98,15 +100,16 @@ public class VehicleEngineService {
      * Deletes a vehicle engine configuration by ID.
      *
      * @param id the ID of the configuration to delete
-     * @throws RuntimeException if the configuration is not found
+     * @throws NoSuchElementException if the configuration is not found
+     * @throws EntityInUseException if the configuration is currently in use
      */
     public void deleteEngine(String id) {
         if (!vehicleEngineRepository.existsById(id)) {
-            throw new RuntimeException("Engine not found with id: " + id);
+            throw new NoSuchElementException("Engine not found with id: " + id);
         }
 
         if (vehicleEngineRepository.isEngineInUse(id)) {
-            throw new RuntimeException("Cannot delete engine with id " + id + " because it is currently in use.");
+            throw new EntityInUseException("Cannot delete engine with id " + id + " because it is currently in use.");
         }
 
         vehicleEngineRepository.deleteById(id);

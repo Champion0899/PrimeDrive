@@ -1,13 +1,16 @@
 package com.example.PrimeDriveBackend.service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import org.springframework.stereotype.Service;
 
 import com.example.PrimeDriveBackend.dto.VehicleBrandsDto;
+import com.example.PrimeDriveBackend.exception.EntityInUseException;
 import com.example.PrimeDriveBackend.mapper.VehicleBrandsMapper;
 import com.example.PrimeDriveBackend.model.VehicleBrands;
 import com.example.PrimeDriveBackend.repository.VehicleBrandsRepository;
+import com.example.PrimeDriveBackend.util.ImageValidator;
 
 import lombok.RequiredArgsConstructor;
 
@@ -46,12 +49,12 @@ public class VehicleBrandsService {
      *
      * @param id the ID of the brand
      * @return the brand as a DTO
-     * @throws RuntimeException if the brand is not found
+     * @throws NoSuchElementException if the brand is not found
      */
     public VehicleBrandsDto getBrandById(String id) {
         return vehicleBrandsRepository.findById(id)
                 .map(vehicleBrandsMapper::toDto)
-                .orElseThrow(() -> new RuntimeException("Brand not found with id: " + id));
+                .orElseThrow(() -> new NoSuchElementException("Brand not found with id: " + id));
     }
 
     /**
@@ -59,11 +62,11 @@ public class VehicleBrandsService {
      *
      * @param id the ID of the brand
      * @return the brand entity
-     * @throws RuntimeException if the brand is not found
+     * @throws NoSuchElementException if the brand is not found
      */
     public VehicleBrands getBrandByIdEntity(String id) {
         return vehicleBrandsRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Brand not found with id: " + id));
+                .orElseThrow(() -> new NoSuchElementException("Brand not found with id: " + id));
     }
 
     /**
@@ -73,6 +76,7 @@ public class VehicleBrandsService {
      * @return the saved brand as a DTO
      */
     public VehicleBrandsDto saveBrand(VehicleBrandsDto dto) {
+        ImageValidator.validate(dto.getLogo());
         VehicleBrands vehicleBrands = vehicleBrandsMapper.toEntity(dto);
         return vehicleBrandsMapper.toDto(vehicleBrandsRepository.save(vehicleBrands));
     }
@@ -83,11 +87,11 @@ public class VehicleBrandsService {
      * @param id  the ID of the brand to update
      * @param dto the updated brand data
      * @return the updated brand as a DTO
-     * @throws RuntimeException if the brand is not found
+     * @throws NoSuchElementException if the brand is not found
      */
     public VehicleBrandsDto updateBrand(String id, VehicleBrandsDto dto) {
         VehicleBrands existing = vehicleBrandsRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Brand not found with id: " + id));
+                .orElseThrow(() -> new NoSuchElementException("Brand not found with id: " + id));
 
         // Update holding if necessary
         if (dto.getHoldingId() != null &&
@@ -95,6 +99,7 @@ public class VehicleBrandsService {
             existing.setHolding(vehicleHoldingsService.getVehicleHoldingEntityById(dto.getHoldingId()));
         }
 
+        ImageValidator.validate(dto.getLogo());
         VehicleBrands updatedVehicleBrand = vehicleBrandsMapper.toEntity(dto);
         updatedVehicleBrand.setId(existing.getId());
 
@@ -105,15 +110,16 @@ public class VehicleBrandsService {
      * Deletes a vehicle brand by ID.
      *
      * @param id the ID of the brand to delete
-     * @throws RuntimeException if the brand is not found or is currently in use
+     * @throws NoSuchElementException if the brand is not found
+     * @throws EntityInUseException   if the brand is currently in use
      */
     public void deleteBrand(String id) {
         if (!vehicleBrandsRepository.existsById(id)) {
-            throw new RuntimeException("Brand not found with id: " + id);
+            throw new NoSuchElementException("Brand not found with id: " + id);
         }
 
         if (vehicleBrandsRepository.isBrandInUse(id)) {
-            throw new RuntimeException("Cannot delete brand with id " + id + " because it is currently in use.");
+            throw new EntityInUseException("Cannot delete brand with id " + id + " because it is currently in use.");
         }
 
         vehicleBrandsRepository.deleteById(id);

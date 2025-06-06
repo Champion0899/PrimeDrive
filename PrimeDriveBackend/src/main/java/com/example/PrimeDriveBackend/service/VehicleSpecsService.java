@@ -1,6 +1,9 @@
 package com.example.PrimeDriveBackend.service;
 
+import com.example.PrimeDriveBackend.exception.EntityInUseException;
+
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -49,12 +52,12 @@ public class VehicleSpecsService {
      *
      * @param id the ID of the specification
      * @return the specification as a DTO
-     * @throws RuntimeException if the specification is not found
+     * @throws NoSuchElementException if the specification is not found
      */
     public VehicleSpecsDto getSpecsById(String id) {
         return vehicleSpecsRepository.findById(id)
                 .map(vehicleSpecsMapper::toDto)
-                .orElseThrow(() -> new RuntimeException("Seats not found with id: " + id));
+                .orElseThrow(() -> new NoSuchElementException("Specs not found with id: " + id));
     }
 
     /**
@@ -62,11 +65,11 @@ public class VehicleSpecsService {
      *
      * @param id the ID of the specification
      * @return the specification entity
-     * @throws RuntimeException if the specification is not found
+     * @throws NoSuchElementException if the specification is not found
      */
     public VehicleSpecs getSpecsByIdEntity(String id) {
         return vehicleSpecsRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Seats not found with id: " + id));
+                .orElseThrow(() -> new NoSuchElementException("Specs not found with id: " + id));
     }
 
     /**
@@ -87,16 +90,17 @@ public class VehicleSpecsService {
      * @param id         the ID of the specification to update
      * @param updatedDto the updated specification data
      * @return the updated specification as a DTO
-     * @throws RuntimeException  if the specification or related vehicle is not
-     *                           found
-     * @throws SecurityException if the user is not authorized to perform the update
+     * @throws NoSuchElementException if the specification or related vehicle is not
+     *                                found
+     * @throws SecurityException      if the user is not authorized to perform the
+     *                                update
      */
     public VehicleSpecsDto updateSpecs(String id, VehicleSpecsDto updatedDto) {
         VehicleSpecs existing = vehicleSpecsRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Specs not found with id: " + id));
+                .orElseThrow(() -> new NoSuchElementException("Specs not found with id: " + id));
 
         Vehicle vehicle = vehicleRepository.findBySpecs_Id(id)
-                .orElseThrow(() -> new RuntimeException("No vehicle found for given specs ID"));
+                .orElseThrow(() -> new NoSuchElementException("No vehicle found for given specs ID"));
 
         String currentUserId = SecurityContextHolder.getContext().getAuthentication().getName();
         if (!vehicle.getUsers().equals(currentUserId)) {
@@ -114,18 +118,18 @@ public class VehicleSpecsService {
      * authorized.
      *
      * @param id the ID of the specification to delete
-     * @throws RuntimeException  if the specification or related vehicle is not
-     *                           found
-     * @throws SecurityException if the user is not authorized to perform the
-     *                           deletion
+     * @throws NoSuchElementException if the specification or related vehicle is not
+     *                                found
+     * @throws SecurityException      if the user is not authorized to perform the
+     *                                deletion
      */
     public void deleteSpecs(String id) {
         if (!vehicleSpecsRepository.existsById(id)) {
-            throw new RuntimeException("Specs not found with id: " + id);
+            throw new NoSuchElementException("Specs not found with id: " + id);
         }
 
         Vehicle vehicle = vehicleRepository.findBySpecs_Id(id)
-                .orElseThrow(() -> new RuntimeException("No vehicle found for given specs ID"));
+                .orElseThrow(() -> new NoSuchElementException("No vehicle found for given specs ID"));
 
         String currentUserId = SecurityContextHolder.getContext().getAuthentication().getName();
         if (!vehicle.getUsers().equals(currentUserId)) {
@@ -134,7 +138,7 @@ public class VehicleSpecsService {
 
         // Prevent deletion if specs are still in use
         if (vehicle.getSpecs() != null && vehicle.getSpecs().getId().equals(id)) {
-            throw new RuntimeException("Cannot delete specs with id " + id + " because they are currently in use.");
+            throw new EntityInUseException("Cannot delete specs with id " + id + " because they are currently in use.");
         }
 
         vehicleSpecsRepository.deleteById(id);

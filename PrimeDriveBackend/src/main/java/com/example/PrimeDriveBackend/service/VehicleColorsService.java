@@ -1,10 +1,12 @@
 package com.example.PrimeDriveBackend.service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import org.springframework.stereotype.Service;
 
 import com.example.PrimeDriveBackend.dto.VehicleColorsDto;
+import com.example.PrimeDriveBackend.exception.EntityInUseException;
 import com.example.PrimeDriveBackend.mapper.VehicleColorsMapper;
 import com.example.PrimeDriveBackend.model.VehicleColors;
 import com.example.PrimeDriveBackend.repository.VehicleColorsRepository;
@@ -45,12 +47,12 @@ public class VehicleColorsService {
      *
      * @param id the ID of the color
      * @return the color as a DTO
-     * @throws RuntimeException if the color is not found
+     * @throws NoSuchElementException if the color is not found
      */
     public VehicleColorsDto getColorById(String id) {
         return vehicleColorsRepository.findById(id)
                 .map(vehicleColorsMapper::toDto)
-                .orElseThrow(() -> new RuntimeException("Brand not found with id: " + id));
+                .orElseThrow(() -> new NoSuchElementException("Color not found with id: " + id));
     }
 
     /**
@@ -58,11 +60,11 @@ public class VehicleColorsService {
      *
      * @param id the ID of the color
      * @return the color entity
-     * @throws RuntimeException if the color is not found
+     * @throws NoSuchElementException if the color is not found
      */
     public VehicleColors getColorByIdEntity(String id) {
         return vehicleColorsRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Brand not found with id: " + id));
+                .orElseThrow(() -> new NoSuchElementException("Color not found with id: " + id));
     }
 
     /**
@@ -82,11 +84,11 @@ public class VehicleColorsService {
      * @param id  the ID of the color to update
      * @param dto the updated color data
      * @return the updated color as a DTO
-     * @throws RuntimeException if the color is not found
+     * @throws NoSuchElementException if the color is not found
      */
     public VehicleColorsDto updateColor(String id, VehicleColorsDto dto) {
         VehicleColors existing = vehicleColorsRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Color not found with id: " + id));
+                .orElseThrow(() -> new NoSuchElementException("Color not found with id: " + id));
 
         VehicleColors updatedVehicleColor = vehicleColorsMapper.toEntity(dto);
         updatedVehicleColor.setId(existing.getId());
@@ -98,15 +100,16 @@ public class VehicleColorsService {
      * Deletes a vehicle color by ID.
      *
      * @param id the ID of the color to delete
-     * @throws RuntimeException if the color is not found
+     * @throws NoSuchElementException if the color is not found
+     * @throws EntityInUseException if the color is currently in use
      */
     public void deleteColor(String id) {
         if (!vehicleColorsRepository.existsById(id)) {
-            throw new RuntimeException("Color not found with id: " + id);
+            throw new NoSuchElementException("Color not found with id: " + id);
         }
 
         if (vehicleColorsRepository.isColorInUse(id)) {
-            throw new RuntimeException("Cannot delete color with id " + id + " because it is currently in use.");
+            throw new EntityInUseException("Cannot delete color with id " + id + " because it is currently in use.");
         }
 
         vehicleColorsRepository.deleteById(id);

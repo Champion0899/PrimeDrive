@@ -1,6 +1,8 @@
 package com.example.PrimeDriveBackend.service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
+import com.example.PrimeDriveBackend.exception.EntityInUseException;
 
 import org.springframework.stereotype.Service;
 
@@ -50,7 +52,7 @@ public class VehicleFuelsService {
     public VehicleFuelsDto getFuelsById(String id) {
         return vehicleFuelsRepository.findById(id)
                 .map(vehicleFuelsMapper::toDto)
-                .orElseThrow(() -> new RuntimeException("Fuel not found with id: " + id));
+                .orElseThrow(() -> new NoSuchElementException("Fuel not found with id: " + id));
     }
 
     /**
@@ -62,7 +64,7 @@ public class VehicleFuelsService {
      */
     public VehicleFuels getFuelsByIdEntity(String id) {
         return vehicleFuelsRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Fuel not found with id: " + id));
+                .orElseThrow(() -> new NoSuchElementException("Fuel not found with id: " + id));
     }
 
     /**
@@ -86,7 +88,7 @@ public class VehicleFuelsService {
      */
     public VehicleFuelsDto updateFuels(String id, VehicleFuelsDto dto) {
         VehicleFuels existing = vehicleFuelsRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Fuel not found with id: " + id));
+                .orElseThrow(() -> new NoSuchElementException("Fuel not found with id: " + id));
 
         VehicleFuels updatedVehicleFuel = vehicleFuelsMapper.toEntity(dto);
         updatedVehicleFuel.setId(existing.getId());
@@ -102,10 +104,10 @@ public class VehicleFuelsService {
      */
     public void deleteFuels(String id) {
         VehicleFuels existing = vehicleFuelsRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Fuel not found with id: " + id));
+                .orElseThrow(() -> new NoSuchElementException("Fuel not found with id: " + id));
 
         if (vehicleFuelsRepository.isFuelInUse(id)) {
-            throw new RuntimeException("Cannot delete fuel type with id " + id + " because it is currently in use.");
+            throw new EntityInUseException("Cannot delete fuel type with id " + id + " because it is currently in use.");
         }
 
         vehicleFuelsRepository.delete(existing);

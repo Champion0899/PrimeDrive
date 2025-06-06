@@ -2,6 +2,7 @@ package com.example.PrimeDriveBackend.service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.NoSuchElementException;
 import org.springframework.stereotype.Service;
 
 import com.example.PrimeDriveBackend.dto.UserDto;
@@ -77,7 +78,7 @@ public class UserService {
      */
     public Users getByIdEntity(String id) {
         return userRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Users not found with id: " + id));
+                .orElseThrow(() -> new NoSuchElementException("User not found with id: " + id));
     }
 
     /**
@@ -102,7 +103,7 @@ public class UserService {
     public UserSafeDto getUserByIdSafe(String id) {
         return userRepository.findById(id)
                 .map(userMapper::toSafeDto)
-                .orElseThrow(() -> new RuntimeException("User not found with id: " + id));
+                .orElseThrow(() -> new NoSuchElementException("User not found with id: " + id));
     }
 
     /**
@@ -127,7 +128,7 @@ public class UserService {
      */
     public UserDto updateUser(String id, UserDto userDto) {
         Users existingUser = userRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("User not found with id: " + id));
+                .orElseThrow(() -> new NoSuchElementException("User not found with id: " + id));
 
         Users updatedUser = userMapper.toEntity(userDto);
         updatedUser.setId(existingUser.getId());
@@ -144,7 +145,7 @@ public class UserService {
      */
     public void deleteUser(String id) {
         if (!userRepository.existsById(id)) {
-            throw new RuntimeException("User not found with id: " + id);
+            throw new NoSuchElementException("User not found with id: " + id);
         }
         userRepository.deleteById(id);
     }
