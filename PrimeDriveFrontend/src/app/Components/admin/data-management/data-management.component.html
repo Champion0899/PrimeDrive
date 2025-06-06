@@ -1,4 +1,4 @@
-<mat-tab-group>
+<mat-tab-group (selectedTabChange)="onTabChange()">
     <mat-tab label="Holding">
         <section style="margin-top: 20px;">
         <h4>Holding verwalten</h4>
@@ -19,23 +19,38 @@
             </mat-form-field>
             <button mat-raised-button color="accent" (click)="updateHolding()">Aktualisieren</button>
             <button mat-raised-button color="warn" (click)="deleteHolding()">Löschen</button>
+            @if (errorMessage) {
+                <mat-error>{{ errorMessage }}</mat-error>
+            }
             </div>
         }
         </section>
         <form>
         <mat-form-field appearance="fill">
             <mat-label>Name</mat-label>
-            <input matInput placeholder="z. B. Volkswagen AG" [(ngModel)]="newHolding.name" name="newHoldingName">
+            <input matInput placeholder="z. B. Volkswagen AG" [(ngModel)]="newHolding.name" name="newHoldingName" required #newHoldingName="ngModel">
+            @if (newHoldingName.invalid && newHoldingName.touched) {
+                <mat-error>Name ist erforderlich</mat-error>
+            }
         </mat-form-field>
         <mat-form-field appearance="fill">
             <mat-label>Gründungsjahr</mat-label>
-            <input matInput type="number" placeholder="1937" [(ngModel)]="newHolding.founding" name="newHoldingFounding" value="1970">
+            <input matInput type="number" placeholder="1937" [(ngModel)]="newHolding.founding" name="newHoldingFounding" value="1970" required #newHoldingFounding="ngModel">
+            @if (newHoldingFounding.invalid && newHoldingFounding.touched) {
+                <mat-error>Gründungsjahr ist erforderlich</mat-error>
+            }
         </mat-form-field>
         <mat-form-field appearance="fill">
             <mat-label>Logo-URL</mat-label>
-            <input matInput placeholder="https://..." [(ngModel)]="newHolding.logo" name="newHoldingLogo">
+            <input matInput placeholder="https://..." [(ngModel)]="newHolding.logo" name="newHoldingLogo" required #newHoldingLogo="ngModel">
+            @if (newHoldingLogo.invalid && newHoldingLogo.touched) {
+                <mat-error>Logo-URL ist erforderlich</mat-error>
+            }
         </mat-form-field>
         <button mat-raised-button color="primary" type="button" (click)="createHolding()">Holding erstellen</button>
+        @if (errorMessage) {
+            <mat-error>{{ errorMessage }}</mat-error>
+        }
         </form>
         <table mat-table [dataSource]="holdings" class="mat-elevation-z8">
         <ng-container matColumnDef="name">
@@ -96,35 +111,53 @@
             </mat-form-field>
             <button mat-raised-button color="accent" (click)="updateBrand()">Aktualisieren</button>
             <button mat-raised-button color="warn" (click)="deleteBrand()">Löschen</button>
+            @if (errorMessage) {
+                <mat-error>{{ errorMessage }}</mat-error>
+            }
             </div>
         }
         </section>
         <form>
             <mat-form-field appearance="fill">
                 <mat-label>Name</mat-label>
-                <input matInput placeholder="z. B. BMW" [(ngModel)]="newBrand.name" name="newBrandName">
+                <input matInput placeholder="z. B. BMW" [(ngModel)]="newBrand.name" name="newBrandName" required #newBrandName="ngModel">
+                @if (newBrandName.invalid && newBrandName.touched) {
+                    <mat-error>Name ist erforderlich</mat-error>
+                }
             </mat-form-field>
 
             <mat-form-field appearance="fill">
                 <mat-label>Holding</mat-label>
-                <mat-select [(ngModel)]="newBrand.holdingId" name="newBrandHoldingId" placeholder="Holding auswählen">
+                <mat-select [(ngModel)]="newBrand.holdingId" name="newBrandHoldingId" required #newBrandHoldingId="ngModel" placeholder="Holding auswählen">
                     @for (holding of holdings; track holding.id) {
                         <mat-option [value]="holding.id">{{ holding.name }}</mat-option>
                     }
                 </mat-select>
+                @if (newBrandHoldingId.invalid && newBrandHoldingId.touched) {
+                    <mat-error>Holding ist erforderlich</mat-error>
+                }
             </mat-form-field>
 
             <mat-form-field appearance="fill">
                 <mat-label>Gründungsjahr</mat-label>
-                <input matInput type="number" placeholder="1920" [(ngModel)]="newBrand.founding" name="newBrandFounding" value="1970">
+                <input matInput type="number" placeholder="1920" [(ngModel)]="newBrand.founding" name="newBrandFounding" value="1970" required #newBrandFounding="ngModel">
+                @if (newBrandFounding.invalid && newBrandFounding.touched) {
+                    <mat-error>Gründungsjahr ist erforderlich</mat-error>
+                }
             </mat-form-field>
 
             <mat-form-field appearance="fill">
                 <mat-label>Logo-URL</mat-label>
-                <input matInput placeholder="https://..." [(ngModel)]="newBrand.logo" name="newBrandLogo">
+                <input matInput placeholder="https://..." [(ngModel)]="newBrand.logo" name="newBrandLogo" required #newBrandLogo="ngModel">
+                @if (newBrandLogo.invalid && newBrandLogo.touched) {
+                    <mat-error>Logo-URL ist erforderlich</mat-error>
+                }
             </mat-form-field>
 
             <button mat-raised-button color="primary" type="button" (click)="createBrand()">Brand erstellen</button>
+            @if (errorMessage) {
+                <mat-error>{{ errorMessage }}</mat-error>
+            }
         </form>
 
         <table mat-table [dataSource]="brands" class="mat-elevation-z8">
@@ -173,15 +206,24 @@
             </mat-form-field>
             <button mat-raised-button color="accent" (click)="updateType()">Aktualisieren</button>
             <button mat-raised-button color="warn" (click)="deleteType()">Löschen</button>
+            @if (errorMessage) {
+                <mat-error>{{ errorMessage }}</mat-error>
+            }
             </div>
         }
         </section>
         <form>
         <mat-form-field appearance="fill">
             <mat-label>Type</mat-label>
-            <input matInput [(ngModel)]="newType.type" name="newTypeName" placeholder="z. B. Limousine">
+            <input matInput [(ngModel)]="newType.type" name="newTypeName" placeholder="z. B. Limousine" required #newTypeName="ngModel">
+            @if (newTypeName.invalid && newTypeName.touched) {
+                <mat-error>Type ist erforderlich</mat-error>
+            }
         </mat-form-field>
         <button mat-raised-button color="primary" (click)="createType()">Type erstellen</button>
+        @if (errorMessage) {
+            <mat-error>{{ errorMessage }}</mat-error>
+        }
         </form>
         <table mat-table [dataSource]="types" class="mat-elevation-z8">
         <ng-container matColumnDef="id">
@@ -220,15 +262,24 @@
             </mat-form-field>
             <button mat-raised-button color="accent" (click)="updateEngine()">Aktualisieren</button>
             <button mat-raised-button color="warn" (click)="deleteEngine()">Löschen</button>
+            @if (errorMessage) {
+                <mat-error>{{ errorMessage }}</mat-error>
+            }
             </div>
         }
         </section>
         <form>
         <mat-form-field appearance="fill">
             <mat-label>Engine Type</mat-label>
-            <input matInput [(ngModel)]="newEngine.engineType" name="newEngineType" placeholder="z. B. V8">
+            <input matInput [(ngModel)]="newEngine.engineType" name="newEngineType" placeholder="z. B. V8" required #newEngineType="ngModel">
+            @if (newEngineType.invalid && newEngineType.touched) {
+                <mat-error>Engine Type ist erforderlich</mat-error>
+            }
         </mat-form-field>
         <button mat-raised-button color="primary" (click)="createEngine()">Engine erstellen</button>
+        @if (errorMessage) {
+            <mat-error>{{ errorMessage }}</mat-error>
+        }
         </form>
         <table mat-table [dataSource]="engines" class="mat-elevation-z8">
         <ng-container matColumnDef="id">
@@ -267,15 +318,24 @@
             </mat-form-field>
             <button mat-raised-button color="accent" (click)="updateFuel()">Aktualisieren</button>
             <button mat-raised-button color="warn" (click)="deleteFuel()">Löschen</button>
+            @if (errorMessage) {
+                <mat-error>{{ errorMessage }}</mat-error>
+            }
             </div>
         }
         </section>
         <form>
         <mat-form-field appearance="fill">
             <mat-label>Kraftstofftyp</mat-label>
-            <input matInput [(ngModel)]="newFuel.fuelType" name="newFuelType" placeholder="z. B. Diesel">
+            <input matInput [(ngModel)]="newFuel.fuelType" name="newFuelType" placeholder="z. B. Diesel" required #newFuelType="ngModel">
+            @if (newFuelType.invalid && newFuelType.touched) {
+                <mat-error>Kraftstofftyp ist erforderlich</mat-error>
+            }
         </mat-form-field>
         <button mat-raised-button color="primary" (click)="createFuel()">Fuel erstellen</button>
+        @if (errorMessage) {
+            <mat-error>{{ errorMessage }}</mat-error>
+        }
         </form>
         <table mat-table [dataSource]="fuels" class="mat-elevation-z8">
         <ng-container matColumnDef="id">
@@ -314,15 +374,24 @@
             </mat-form-field>
             <button mat-raised-button color="accent" (click)="updateDoors()">Aktualisieren</button>
             <button mat-raised-button color="warn" (click)="deleteDoors()">Löschen</button>
+            @if (errorMessage) {
+                <mat-error>{{ errorMessage }}</mat-error>
+            }
             </div>
         }
         </section>
         <form>
         <mat-form-field appearance="fill">
             <mat-label>Anzahl</mat-label>
-            <input matInput type="number" [(ngModel)]="newDoors.quantity" name="newDoorsQuantity" placeholder="4">
+            <input matInput type="number" [(ngModel)]="newDoors.quantity" name="newDoorsQuantity" placeholder="4" required #newDoorsQuantity="ngModel">
+            @if (newDoorsQuantity.invalid && newDoorsQuantity.touched) {
+                <mat-error>Anzahl ist erforderlich</mat-error>
+            }
         </mat-form-field>
         <button mat-raised-button color="primary" (click)="createDoors()">Doors erstellen</button>
+        @if (errorMessage) {
+            <mat-error>{{ errorMessage }}</mat-error>
+        }
         </form>
         <table mat-table [dataSource]="doors" class="mat-elevation-z8">
         <ng-container matColumnDef="id">
@@ -361,15 +430,24 @@
             </mat-form-field>
             <button mat-raised-button color="accent" (click)="updateSeats()">Aktualisieren</button>
             <button mat-raised-button color="warn" (click)="deleteSeats()">Löschen</button>
+            @if (errorMessage) {
+                <mat-error>{{ errorMessage }}</mat-error>
+            }
             </div>
         }
         </section>
         <form>
         <mat-form-field appearance="fill">
             <mat-label>Anzahl</mat-label>
-            <input matInput type="number" [(ngModel)]="newSeats.quantity" name="newSeatsQuantity" placeholder="5">
+            <input matInput type="number" [(ngModel)]="newSeats.quantity" name="newSeatsQuantity" placeholder="5" required #newSeatsQuantity="ngModel">
+            @if (newSeatsQuantity.invalid && newSeatsQuantity.touched) {
+                <mat-error>Anzahl ist erforderlich</mat-error>
+            }
         </mat-form-field>
         <button mat-raised-button color="primary" (click)="createSeats()">Seats erstellen</button>
+        @if (errorMessage) {
+            <mat-error>{{ errorMessage }}</mat-error>
+        }
         </form>
         <table mat-table [dataSource]="seats" class="mat-elevation-z8">
         <ng-container matColumnDef="id">
@@ -412,19 +490,31 @@
             </mat-form-field>
             <button mat-raised-button color="accent" (click)="updateColor()">Aktualisieren</button>
             <button mat-raised-button color="warn" (click)="deleteColor()">Löschen</button>
+            @if (errorMessage) {
+                <mat-error>{{ errorMessage }}</mat-error>
+            }
             </div>
         }
         </section>
         <form>
         <mat-form-field appearance="fill">
             <mat-label>Name</mat-label>
-            <input matInput [(ngModel)]="newColor.name" name="newColorName" placeholder="z. B. Rot">
+            <input matInput [(ngModel)]="newColor.name" name="newColorName" placeholder="z. B. Rot" required #newColorName="ngModel">
+            @if (newColorName.invalid && newColorName.touched) {
+                <mat-error>Name ist erforderlich</mat-error>
+            }
         </mat-form-field>
         <mat-form-field appearance="fill">
             <mat-label>Hex-Code</mat-label>
-            <input matInput [(ngModel)]="newColor.hexCode" name="newColorHexCode" placeholder="#FF0000">
+            <input matInput [(ngModel)]="newColor.hexCode" name="newColorHexCode" placeholder="#FF0000" required #newColorHexCode="ngModel">
+            @if (newColorHexCode.invalid && newColorHexCode.touched) {
+                <mat-error>Hex-Code ist erforderlich</mat-error>
+            }
         </mat-form-field>
         <button mat-raised-button color="primary" (click)="createColor()">Color erstellen</button>
+        @if (errorMessage) {
+            <mat-error>{{ errorMessage }}</mat-error>
+        }
         </form>
         <table mat-table [dataSource]="colors" class="mat-elevation-z8">
         <ng-container matColumnDef="id">

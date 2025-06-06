@@ -35,6 +35,7 @@ import { MatSelectModule } from '@angular/material/select';
   styleUrl: './data-management.component.scss',
 })
 export class DataManagementComponent {
+  public errorMessage: string | null = null;
   public dataSource = [];
 
   public colors: Color[] = [];
@@ -120,9 +121,15 @@ export class DataManagementComponent {
   }
   updateColor(): void {
     if (!this.selectedColor) return;
-    this.vehiclesService.updateColor(this.selectedColor).subscribe(() => {
-      this.selectedColor = null;
-      this.loadAllColors();
+    this.vehiclesService.updateColor(this.selectedColor).subscribe({
+      next: () => {
+        this.selectedColor = null;
+        this.loadAllColors();
+        this.errorMessage = null;
+      },
+      error: (error) => {
+        this.errorMessage = error?.error?.message || 'Default error message';
+      }
     });
   }
   selectColor(item: Color): void {
@@ -131,9 +138,15 @@ export class DataManagementComponent {
   deleteColor(id?: string): void {
     const colorId = id ?? this.selectedColor?.id;
     if (!colorId) return;
-    this.vehiclesService.deleteColor(colorId).subscribe(() => {
-      this.selectedColor = null;
-      this.loadAllColors();
+    this.vehiclesService.deleteColor(colorId).subscribe({
+      next: () => {
+        this.selectedColor = null;
+        this.loadAllColors();
+        this.errorMessage = null;
+      },
+      error: (error) => {
+        this.errorMessage = error?.error?.message || 'Default error message';
+      }
     });
   }
   createColor(): void {
@@ -142,9 +155,15 @@ export class DataManagementComponent {
     if (!name || !hex) return;
     this.vehiclesService
       .createColor({ id: '', name, hexCode: hex })
-      .subscribe(() => {
-        this.loadAllColors();
-        this.newColor = { id: '', name: '', hexCode: '' };
+      .subscribe({
+        next: () => {
+          this.loadAllColors();
+          this.newColor = { id: '', name: '', hexCode: '' };
+          this.errorMessage = null;
+        },
+        error: (error) => {
+          this.errorMessage = error?.error?.message || 'Default error message';
+        }
       });
   }
   loadAllColors(): void {
@@ -164,9 +183,15 @@ export class DataManagementComponent {
   }
   updateDoors(): void {
     if (!this.selectedDoors) return;
-    this.vehiclesService.updateDoors(this.selectedDoors).subscribe(() => {
-      this.selectedDoors = null;
-      this.loadAllDoors();
+    this.vehiclesService.updateDoors(this.selectedDoors).subscribe({
+      next: () => {
+        this.selectedDoors = null;
+        this.loadAllDoors();
+        this.errorMessage = null;
+      },
+      error: (error) => {
+        this.errorMessage = error?.error?.message || 'Default error message';
+      }
     });
   }
   selectDoors(item: Doors): void {
@@ -175,9 +200,15 @@ export class DataManagementComponent {
   deleteDoors(id?: string): void {
     const doorsId = id ?? this.selectedDoors?.id;
     if (!doorsId) return;
-    this.vehiclesService.deleteDoors(doorsId).subscribe(() => {
-      this.selectedDoors = null;
-      this.loadAllDoors();
+    this.vehiclesService.deleteDoors(doorsId).subscribe({
+      next: () => {
+        this.selectedDoors = null;
+        this.loadAllDoors();
+        this.errorMessage = null;
+      },
+      error: (error) => {
+        this.errorMessage = error?.error?.message || 'Default error message';
+      }
     });
   }
   loadAllDoors(): void {
@@ -187,9 +218,15 @@ export class DataManagementComponent {
   }
   createDoors(): void {
     if (this.newDoors.quantity <= 0) return;
-    this.vehiclesService.createDoors(this.newDoors).subscribe(() => {
-      this.loadAllDoors();
-      this.newDoors = { id: '', quantity: 0 };
+    this.vehiclesService.createDoors(this.newDoors).subscribe({
+      next: () => {
+        this.loadAllDoors();
+        this.newDoors = { id: '', quantity: 0 };
+        this.errorMessage = null;
+      },
+      error: (error) => {
+        this.errorMessage = error?.error?.message || 'Default error message';
+      }
     });
   }
 
@@ -203,9 +240,15 @@ export class DataManagementComponent {
   }
   updateEngine(): void {
     if (!this.selectedEngine) return;
-    this.vehiclesService.updateEngine(this.selectedEngine).subscribe(() => {
-      this.selectedEngine = null;
-      this.loadAllEngines();
+    this.vehiclesService.updateEngine(this.selectedEngine).subscribe({
+      next: () => {
+        this.selectedEngine = null;
+        this.loadAllEngines();
+        this.errorMessage = null;
+      },
+      error: (error) => {
+        this.errorMessage = error?.error?.message || 'Default error message';
+      }
     });
   }
   selectEngine(item: Engine): void {
@@ -214,9 +257,15 @@ export class DataManagementComponent {
   deleteEngine(id?: string): void {
     const engineId = id ?? this.selectedEngine?.id;
     if (!engineId) return;
-    this.vehiclesService.deleteEngine(engineId).subscribe(() => {
-      this.selectedEngine = null;
-      this.loadAllEngines();
+    this.vehiclesService.deleteEngine(engineId).subscribe({
+      next: () => {
+        this.selectedEngine = null;
+        this.loadAllEngines();
+        this.errorMessage = null;
+      },
+      error: (error) => {
+        this.errorMessage = error?.error?.message || 'Default error message';
+      }
     });
   }
   loadAllEngines(): void {
@@ -229,9 +278,15 @@ export class DataManagementComponent {
     if (!engineValue) return;
     this.vehiclesService
       .createEngine({ id: '', engineType: engineValue })
-      .subscribe(() => {
-        this.loadAllEngines();
-        this.newEngine = { id: '', engineType: '' };
+      .subscribe({
+        next: () => {
+          this.loadAllEngines();
+          this.newEngine = { id: '', engineType: '' };
+          this.errorMessage = null;
+        },
+        error: (error) => {
+          this.errorMessage = error?.error?.message || 'Default error message';
+        }
       });
   }
 
@@ -245,9 +300,15 @@ export class DataManagementComponent {
   }
   updateFuel(): void {
     if (!this.selectedFuel) return;
-    this.vehiclesService.updateFuel(this.selectedFuel).subscribe(() => {
-      this.selectedFuel = null;
-      this.loadAllFuels();
+    this.vehiclesService.updateFuel(this.selectedFuel).subscribe({
+      next: () => {
+        this.selectedFuel = null;
+        this.loadAllFuels();
+        this.errorMessage = null;
+      },
+      error: (error) => {
+        this.errorMessage = error?.error?.message || 'Default error message';
+      }
     });
   }
   selectFuel(item: Fuel): void {
@@ -256,9 +317,15 @@ export class DataManagementComponent {
   deleteFuel(id?: string): void {
     const fuelId = id ?? this.selectedFuel?.id;
     if (!fuelId) return;
-    this.vehiclesService.deleteFuel(fuelId).subscribe(() => {
-      this.selectedFuel = null;
-      this.loadAllFuels();
+    this.vehiclesService.deleteFuel(fuelId).subscribe({
+      next: () => {
+        this.selectedFuel = null;
+        this.loadAllFuels();
+        this.errorMessage = null;
+      },
+      error: (error) => {
+        this.errorMessage = error?.error?.message || 'Default error message';
+      }
     });
   }
   loadAllFuels(): void {
@@ -271,9 +338,15 @@ export class DataManagementComponent {
     if (!fuelValue) return;
     this.vehiclesService
       .createFuel({ id: '', fuelType: fuelValue })
-      .subscribe(() => {
-        this.loadAllFuels();
-        this.newFuel = { id: '', fuelType: '' };
+      .subscribe({
+        next: () => {
+          this.loadAllFuels();
+          this.newFuel = { id: '', fuelType: '' };
+          this.errorMessage = null;
+        },
+        error: (error) => {
+          this.errorMessage = error?.error?.message || 'Default error message';
+        }
       });
   }
 
@@ -287,9 +360,15 @@ export class DataManagementComponent {
   }
   updateHolding(): void {
     if (!this.selectedHolding) return;
-    this.vehiclesService.updateHolding(this.selectedHolding).subscribe(() => {
-      this.selectedHolding = null;
-      this.loadAllHoldings();
+    this.vehiclesService.updateHolding(this.selectedHolding).subscribe({
+      next: () => {
+        this.selectedHolding = null;
+        this.loadAllHoldings();
+        this.errorMessage = null;
+      },
+      error: (error) => {
+        this.errorMessage = error?.error?.message || 'Default error message';
+      }
     });
   }
   selectHolding(item: Holding): void {
@@ -298,9 +377,15 @@ export class DataManagementComponent {
   deleteHolding(id?: string): void {
     const holdingId = id ?? this.selectedHolding?.id;
     if (!holdingId) return;
-    this.vehiclesService.deleteHolding(holdingId).subscribe(() => {
-      this.selectedHolding = null;
-      this.loadAllHoldings();
+    this.vehiclesService.deleteHolding(holdingId).subscribe({
+      next: () => {
+        this.selectedHolding = null;
+        this.loadAllHoldings();
+        this.errorMessage = null;
+      },
+      error: (error) => {
+        this.errorMessage = error?.error?.message || 'Default error message';
+      }
     });
   }
   loadAllHoldings(): void {
@@ -310,9 +395,19 @@ export class DataManagementComponent {
   }
 
   createHolding(): void {
-    this.vehiclesService.createHolding(this.newHolding).subscribe(() => {
-      this.loadAllHoldings();
-      this.newHolding = { id: '', founding: 1970, logo: '', name: '' };
+    if (!this.newHolding.name.trim() || !this.newHolding.logo.trim() || this.newHolding.founding <= 0) {
+      this.errorMessage = 'Please fill in all holding fields correctly.';
+      return;
+    }
+    this.vehiclesService.createHolding(this.newHolding).subscribe({
+      next: () => {
+        this.loadAllHoldings();
+        this.newHolding = { id: '', founding: 1970, logo: '', name: '' };
+        this.errorMessage = null;
+      },
+      error: (error) => {
+        this.errorMessage = error?.error?.message || 'Failed to create holding.';
+      }
     });
   }
 
@@ -327,9 +422,15 @@ export class DataManagementComponent {
   }
   updateSeats(): void {
     if (!this.selectedSeats) return;
-    this.vehiclesService.updateSeats(this.selectedSeats).subscribe(() => {
-      this.selectedSeats = null;
-      this.loadAllSeats();
+    this.vehiclesService.updateSeats(this.selectedSeats).subscribe({
+      next: () => {
+        this.selectedSeats = null;
+        this.loadAllSeats();
+        this.errorMessage = null;
+      },
+      error: (error) => {
+        this.errorMessage = error?.error?.message || 'Default error message';
+      }
     });
   }
   selectSeats(item: Seats): void {
@@ -338,9 +439,15 @@ export class DataManagementComponent {
   deleteSeats(id?: string): void {
     const seatsId = id ?? this.selectedSeats?.id;
     if (!seatsId) return;
-    this.vehiclesService.deleteSeats(seatsId).subscribe(() => {
-      this.selectedSeats = null;
-      this.loadAllSeats();
+    this.vehiclesService.deleteSeats(seatsId).subscribe({
+      next: () => {
+        this.selectedSeats = null;
+        this.loadAllSeats();
+        this.errorMessage = null;
+      },
+      error: (error) => {
+        this.errorMessage = error?.error?.message || 'Default error message';
+      }
     });
   }
   loadAllSeats(): void {
@@ -350,9 +457,15 @@ export class DataManagementComponent {
   }
   createSeats(): void {
     if (this.newSeats.quantity <= 0) return;
-    this.vehiclesService.createSeats(this.newSeats).subscribe(() => {
-      this.loadAllSeats();
-      this.newSeats = { id: '', quantity: 0 };
+    this.vehiclesService.createSeats(this.newSeats).subscribe({
+      next: () => {
+        this.loadAllSeats();
+        this.newSeats = { id: '', quantity: 0 };
+        this.errorMessage = null;
+      },
+      error: (error) => {
+        this.errorMessage = error?.error?.message || 'Default error message';
+      }
     });
   }
 
@@ -364,9 +477,15 @@ export class DataManagementComponent {
   }
   updateType(): void {
     if (!this.selectedType) return;
-    this.vehiclesService.updateType(this.selectedType).subscribe(() => {
-      this.selectedType = null;
-      this.loadAllTypes();
+    this.vehiclesService.updateType(this.selectedType).subscribe({
+      next: () => {
+        this.selectedType = null;
+        this.loadAllTypes();
+        this.errorMessage = null;
+      },
+      error: (error) => {
+        this.errorMessage = error?.error?.message || 'Default error message';
+      }
     });
   }
   createType(): void {
@@ -374,9 +493,15 @@ export class DataManagementComponent {
     if (!typeValue) return;
     this.vehiclesService
       .createType({ id: '', type: typeValue })
-      .subscribe(() => {
-        this.loadAllTypes();
-        this.newType = { id: '', type: '' };
+      .subscribe({
+        next: () => {
+          this.loadAllTypes();
+          this.newType = { id: '', type: '' };
+          this.errorMessage = null;
+        },
+        error: (error) => {
+          this.errorMessage = error?.error?.message || 'Default error message';
+        }
       });
   }
   selectType(item: Type): void {
@@ -385,9 +510,15 @@ export class DataManagementComponent {
   deleteType(id?: string): void {
     const typeId = id ?? this.selectedType?.id;
     if (!typeId) return;
-    this.vehiclesService.deleteType(typeId).subscribe(() => {
-      this.selectedType = null;
-      this.loadAllTypes();
+    this.vehiclesService.deleteType(typeId).subscribe({
+      next: () => {
+        this.selectedType = null;
+        this.loadAllTypes();
+        this.errorMessage = null;
+      },
+      error: (error) => {
+        this.errorMessage = error?.error?.message || 'Default error message';
+      }
     });
   }
   loadAllTypes(): void {
@@ -404,9 +535,15 @@ export class DataManagementComponent {
   }
   updateBrand(): void {
     if (!this.selectedBrand) return;
-    this.vehiclesService.updateBrand(this.selectedBrand).subscribe(() => {
-      this.selectedBrand = null;
-      this.loadAllBrands();
+    this.vehiclesService.updateBrand(this.selectedBrand).subscribe({
+      next: () => {
+        this.selectedBrand = null;
+        this.loadAllBrands();
+        this.errorMessage = null;
+      },
+      error: (error) => {
+        this.errorMessage = error?.error?.message || 'Default error message';
+      }
     });
   }
   selectBrand(item: Brand): void {
@@ -415,9 +552,15 @@ export class DataManagementComponent {
   deleteBrand(id?: string): void {
     const brandId = id ?? this.selectedBrand?.id;
     if (!brandId) return;
-    this.vehiclesService.deleteBrand(brandId).subscribe(() => {
-      this.selectedBrand = null;
-      this.loadAllBrands();
+    this.vehiclesService.deleteBrand(brandId).subscribe({
+      next: () => {
+        this.selectedBrand = null;
+        this.loadAllBrands();
+        this.errorMessage = null;
+      },
+      error: (error) => {
+        this.errorMessage = error?.error?.message || 'Default error message';
+      }
     });
   }
   loadAllBrands(): void {
@@ -427,15 +570,25 @@ export class DataManagementComponent {
   }
 
   createBrand(): void {
-    this.vehiclesService.createBrand(this.newBrand).subscribe(() => {
-      this.loadAllBrands();
-      this.newBrand = {
-        id: '',
-        holdingId: '',
-        founding: 1970,
-        logo: '',
-        name: '',
-      };
+    if (!this.newBrand.name.trim() || !this.newBrand.logo.trim() || this.newBrand.founding <= 0 || !this.newBrand.holdingId.trim()) {
+      this.errorMessage = 'Please fill in all brand fields correctly.';
+      return;
+    }
+    this.vehiclesService.createBrand(this.newBrand).subscribe({
+      next: () => {
+        this.loadAllBrands();
+        this.newBrand = {
+          id: '',
+          holdingId: '',
+          founding: 1970,
+          logo: '',
+          name: '',
+        };
+        this.errorMessage = null;
+      },
+      error: (error) => {
+        this.errorMessage = error?.error?.message || 'Failed to create brand.';
+      }
     });
   }
 
@@ -443,5 +596,8 @@ export class DataManagementComponent {
     if (this.selectedBrand) {
       this.selectedBrand.holdingId = holding.id;
     }
+  }
+  onTabChange(): void {
+    this.errorMessage = null;
   }
 }
