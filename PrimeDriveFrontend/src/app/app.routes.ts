@@ -3,6 +3,7 @@ import { Routes } from '@angular/router';
 import { VehiclesComponent } from './Web/vehicles/vehicles.component';
 import { VehicleDetailsComponent } from './Web/vehicles/vehicle-details/vehicle-details.component';
 import { AdminGuard } from './Guards/admin.guard';
+import { SellComponent } from './Web/sell/sell.component';
 
 /**
  * Application route configuration for PrimeDrive.
@@ -18,7 +19,6 @@ import { AdminGuard } from './Guards/admin.guard';
  * Date: 2025-06-03
  */
 export const routes: Routes = [
-
   {
     path: '',
     redirectTo: 'vehicles',
@@ -42,8 +42,8 @@ export const routes: Routes = [
     component: VehiclesComponent,
   },
   {
-    path: 'about',
-    component: VehiclesComponent,
+    path: 'sell',
+    component: SellComponent,
   },
   {
     path: 'contact',
@@ -52,5 +52,5 @@ export const routes: Routes = [
   {
     path: 'services',
     component: VehiclesComponent,
-  }
+  },
 ];
