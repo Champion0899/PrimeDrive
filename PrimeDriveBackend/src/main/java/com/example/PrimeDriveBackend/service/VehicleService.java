@@ -5,6 +5,7 @@ import com.example.PrimeDriveBackend.util.ImageValidator;
 import com.example.PrimeDriveBackend.dto.VehicleDto;
 import com.example.PrimeDriveBackend.mapper.VehicleMapper;
 import com.example.PrimeDriveBackend.model.Vehicle;
+import com.example.PrimeDriveBackend.model.VehicleSpecs;
 import com.example.PrimeDriveBackend.repository.VehicleRepository;
 import java.util.NoSuchElementException;
 import com.example.PrimeDriveBackend.exception.UnauthorizedAccessException;
@@ -56,6 +57,18 @@ public class VehicleService {
                 .map(vehicleMapper::toDto)
                 .orElseThrow(() -> new NoSuchElementException("Vehicle not found with id: "
                         + id));
+    }
+
+    /**
+     * Retrieves a vehicle by its ID as an entity.
+     *
+     * @param id the ID of the vehicle
+     * @return the vehicle entity
+     * @throws NoSuchElementException if the vehicle is not found
+     */
+    public Vehicle getVehicleByIdEntity(String id) {
+        return vehicleRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("Specs not found with id: " + id));
     }
 
     /**

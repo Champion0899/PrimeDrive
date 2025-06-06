@@ -8,39 +8,49 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * Entity representing a purchase transaction between a user and a vehicle.
+ * Entity representing a purchase transaction.
  *
- * Uses a composite key (userId and vehicleId) to uniquely identify each
- * purchase.
- * Establishes many-to-one relationships to both User and Vehicle entities.
+ * Each purchase has a unique UUID string as its primary key.
+ * This entity establishes many-to-one relationships to the seller and buyer
+ * (Users),
+ * as well as to the vehicle involved in the purchase.
+ *
+ * The seller and buyer are linked by foreign keys 'sellerId' and 'buyerId'.
+ * The purchased vehicle is linked by foreign key 'vehicleId'.
  *
  * Author: Fatlum Epiroti
- * Version: 1.0
- * Date: 2025-06-03
+ * Version: 1.2
+ * Date: 2025-06-06
  */
 @Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@IdClass(PurchaseId.class)
 public class Purchases {
 
-    /** The ID of the user involved in the purchase (part of the composite key). */
+    /** Unique UUID string serving as the primary key of the purchase. */
     @Id
-    private UUID userId;
+    @Column(name = "id", nullable = false, updatable = false, columnDefinition = "VARCHAR(36)")
+    private String id;
 
-    /**
-     * The ID of the vehicle involved in the purchase (part of the composite key).
-     */
-    @Id
-    private UUID vehicleId;
+    @PrePersist
+    public void ensureId() {
+        if (this.id == null || this.id.isBlank()) {
+            this.id = UUID.randomUUID().toString();
+        }
+    }
 
-    /** The user entity associated with this purchase. */
+    /** Many-to-one relationship to the seller user, linked by 'sellerId'. */
     @ManyToOne
-    @JoinColumn(name = "userId", insertable = false, updatable = false)
-    private Users user;
+    @JoinColumn(name = "sellerId", insertable = false, updatable = false)
+    private Users seller;
 
-    /** The vehicle entity associated with this purchase. */
+    /** Many-to-one relationship to the buyer user, linked by 'buyerId'. */
+    @ManyToOne
+    @JoinColumn(name = "buyerId", insertable = false, updatable = false)
+    private Users buyer;
+
+    /** Many-to-one relationship to the purchased vehicle, linked by 'vehicleId'. */
     @ManyToOne
     @JoinColumn(name = "vehicleId", insertable = false, updatable = false)
     private Vehicle vehicle;
