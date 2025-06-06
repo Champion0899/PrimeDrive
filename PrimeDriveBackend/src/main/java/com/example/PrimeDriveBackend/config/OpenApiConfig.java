@@ -5,7 +5,6 @@ import io.swagger.v3.oas.models.OpenAPI;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-@Configuration
 /**
  * OpenAPI configuration class for the PrimeDrive application.
  *
@@ -16,6 +15,7 @@ import org.springframework.context.annotation.Configuration;
  * @version 1.0
  * @since 2025-06-03
  */
+@Configuration
 public class OpenApiConfig {
 
     /**

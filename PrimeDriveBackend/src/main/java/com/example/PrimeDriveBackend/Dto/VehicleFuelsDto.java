@@ -6,19 +6,21 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
 /**
  * Data Transfer Object (DTO) representing a fuel type for vehicles.
  *
- * This class is used to encapsulate information about the fuel used by a vehicle,
- * such as petrol, diesel, electric, or hybrid types, and includes a unique identifier.
+ * This class is used to encapsulate information about the fuel used by a
+ * vehicle,
+ * such as petrol, diesel, electric, or hybrid types, and includes a unique
+ * identifier.
  *
  * Author: Fatlum Epiroti
  * Version: 1.0
  * Date: 2025-06-03
  */
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class VehicleFuelsDto {
     /** The unique identifier for the fuel type. */
     @NotNull
