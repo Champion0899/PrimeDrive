@@ -1,6 +1,7 @@
 package com.example.PrimeDriveBackend.exception;
 
 import com.example.PrimeDriveBackend.exception.UnauthorizedAccessException;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -10,13 +11,14 @@ import java.util.NoSuchElementException;
 
 /**
  * Global exception handler for REST controllers.
- * Catches specific exceptions and returns structured error responses with HTTP status codes.
+ * Catches specific exceptions and returns structured error responses with HTTP
+ * status codes.
  *
  * Author: Fatlum Epiroti
  * Version: 1.0.0
  * Date: 2025-06-06
  */
-@RestControllerAdvice
+@RestControllerAdvice(basePackages = "com.example.PrimeDriveBackend")
 public class GlobalExceptionHandler {
 
     /**
@@ -76,13 +78,23 @@ public class GlobalExceptionHandler {
     }
 
     /**
-     * Handles any other uncaught exceptions and returns a 500 Internal Server Error.
+     * Handles any other uncaught exceptions and returns a 500 Internal Server
+     * Error.
      *
-     * @param ex The thrown generic Exception
-     * @return ResponseEntity with INTERNAL_SERVER_ERROR status and generic error message
+     * @param ex      The thrown generic Exception
+     * @param request The HttpServletRequest object to get request details
+     * @return ResponseEntity with INTERNAL_SERVER_ERROR status and generic error
+     *         message
      */
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<ErrorResponse> handleGeneric(Exception ex) {
+    public ResponseEntity<ErrorResponse> handleGeneric(Exception ex, HttpServletRequest request) {
+        String path = request.getRequestURI();
+
+        if (path.startsWith("/swagger-ui/") || path.startsWith("/v3/api-docs/") || path.equals("/swagger-ui.html")) {
+            // Do not handle Swagger-related exceptions here
+            throw new RuntimeException(ex);
+        }
+
         return new ResponseEntity<>(new ErrorResponse(
                 HttpStatus.INTERNAL_SERVER_ERROR.value(),
                 "Ein unerwarteter Fehler ist aufgetreten.",
