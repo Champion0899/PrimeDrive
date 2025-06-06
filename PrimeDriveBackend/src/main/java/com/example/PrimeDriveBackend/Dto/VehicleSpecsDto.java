@@ -1,5 +1,7 @@
 package com.example.PrimeDriveBackend.dto;
 
+import jakarta.validation.constraints.Min;
+
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -28,37 +30,44 @@ public class VehicleSpecsDto {
 
     /** Power output in kilowatts (kW). */
     @NotNull
-    @Schema(description = "Power in kW", example = "150")
+    @Min(1)
+    @Schema(description = "Power in kW", example = "150", minimum = "1")
     Integer powerKw;
 
     /** Power output in horsepower (PS). */
     @NotNull
-    @Schema(description = "Power in PS", example = "204")
+    @Min(1)
+    @Schema(description = "Power in PS", example = "204", minimum = "1")
     Integer powerPs;
 
     /** Vehicle length in millimeters. */
     @NotNull
-    @Schema(description = "Length in millimeters", example = "4500")
+    @Min(1)
+    @Schema(description = "Length in millimeters", example = "4500", minimum = "1")
     Integer lengthMillimeter;
 
     /** Vehicle width in millimeters. */
     @NotNull
-    @Schema(description = "Width in millimeters", example = "1800")
+    @Min(1)
+    @Schema(description = "Width in millimeters", example = "1800", minimum = "1")
     Integer widthMillimeter;
 
     /** Vehicle height in millimeters. */
     @NotNull
-    @Schema(description = "Height in millimeters", example = "1400")
+    @Min(1)
+    @Schema(description = "Height in millimeters", example = "1400", minimum = "1")
     Integer heightMillimeter;
 
     /** Minimum trunk volume in liters. */
     @NotNull
-    @Schema(description = "Minimum trunk volume in liters", example = "300")
+    @Min(1)
+    @Schema(description = "Minimum trunk volume in liters", example = "300", minimum = "1")
     Integer trunkInLiterMin;
 
     /** Maximum trunk volume in liters. */
     @NotNull
-    @Schema(description = "Maximum trunk volume in liters", example = "500")
+    @Min(1)
+    @Schema(description = "Maximum trunk volume in liters", example = "500", minimum = "1")
     Integer trunkInLiterMax;
 
     /** Acceleration time from 0 to 100 km/h in seconds. */
@@ -68,7 +77,8 @@ public class VehicleSpecsDto {
 
     /** Maximum speed in kilometers per hour. */
     @NotNull
-    @Schema(description = "Top speed in km/h", example = "250")
+    @Min(1)
+    @Schema(description = "Top speed in km/h", example = "250", minimum = "1")
     Integer topSpeedInKmh;
 
     /** Fuel consumption per 100 km (unit depends on fuel type). */
@@ -78,7 +88,8 @@ public class VehicleSpecsDto {
 
     /** CO2 emissions in grams per kilometer. */
     @NotNull
-    @Schema(description = "CO2 emission in g/km", example = "120")
+    @Min(1)
+    @Schema(description = "CO2 emission in g/km", example = "120", minimum = "1")
     Integer coTwoEmissionInGPerKm;
 
     /** Engine displacement or cubic capacity in liters. */

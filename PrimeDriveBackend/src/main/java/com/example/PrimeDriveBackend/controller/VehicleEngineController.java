@@ -30,6 +30,8 @@ import com.example.PrimeDriveBackend.dto.VehicleEngineDto;
 import com.example.PrimeDriveBackend.service.AuthenticationService;
 import com.example.PrimeDriveBackend.service.VehicleEngineService;
 
+import jakarta.validation.Valid;
+
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -87,7 +89,7 @@ public class VehicleEngineController {
             @ApiResponse(responseCode = "200", description = "Vehicle engine created successfully"),
             @ApiResponse(responseCode = "403", description = "Access denied – only ADMIN allowed")
     })
-    public VehicleEngineDto create(@RequestBody VehicleEngineDto dto, Authentication authentication) {
+    public VehicleEngineDto create(@Valid @RequestBody VehicleEngineDto dto, Authentication authentication) {
         authenticationService.checkAuthentication(authentication);
         return vehicleEngineService.saveEngine(dto);
     }
@@ -109,7 +111,7 @@ public class VehicleEngineController {
             @ApiResponse(responseCode = "200", description = "Vehicle engine updated successfully"),
             @ApiResponse(responseCode = "403", description = "Access denied – only ADMIN allowed")
     })
-    public VehicleEngineDto update(@PathVariable String id, @RequestBody VehicleEngineDto dto,
+    public VehicleEngineDto update(@PathVariable String id, @Valid @RequestBody VehicleEngineDto dto,
             Authentication authentication) {
         authenticationService.checkAuthentication(authentication);
         return vehicleEngineService.updateEngine(id, dto);

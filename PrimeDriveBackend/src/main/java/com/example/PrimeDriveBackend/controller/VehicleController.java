@@ -1,5 +1,7 @@
 package com.example.PrimeDriveBackend.controller;
 
+import jakarta.validation.Valid;
+
 import com.example.PrimeDriveBackend.dto.VehicleDto;
 import com.example.PrimeDriveBackend.service.AuthenticationService;
 import com.example.PrimeDriveBackend.service.VehicleService;
@@ -83,7 +85,7 @@ public class VehicleController {
             @ApiResponse(responseCode = "200", description = "Vehicle created successfully"),
             @ApiResponse(responseCode = "403", description = "Access denied – only SELLER or ADMIN allowed")
     })
-    public VehicleDto create(@RequestBody VehicleDto dto, Authentication authentication) {
+    public VehicleDto create(@Valid @RequestBody VehicleDto dto, Authentication authentication) {
         authenticationService.checkAuthentication(authentication);
         return vehicleService.saveVehicle(dto);
     }
@@ -105,7 +107,7 @@ public class VehicleController {
             @ApiResponse(responseCode = "200", description = "Vehicle updated successfully"),
             @ApiResponse(responseCode = "403", description = "Access denied – only SELLER or ADMIN allowed")
     })
-    public VehicleDto update(@PathVariable String id, @RequestBody VehicleDto dto, Authentication authentication) {
+    public VehicleDto update(@PathVariable String id, @Valid @RequestBody VehicleDto dto, Authentication authentication) {
         authenticationService.checkAuthentication(authentication);
         return vehicleService.updateVehicle(id, dto);
     }

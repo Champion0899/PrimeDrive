@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import com.example.PrimeDriveBackend.dto.VehicleSpecsDto;
 import com.example.PrimeDriveBackend.service.AuthenticationService;
 import com.example.PrimeDriveBackend.service.VehicleSpecsService;
+import jakarta.validation.Valid;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -88,7 +89,7 @@ public class VehicleSpecsController {
             @ApiResponse(responseCode = "200", description = "Vehicle specs created successfully."),
             @ApiResponse(responseCode = "403", description = "Access denied – only SELLER or ADMIN allowed")
     })
-    public VehicleSpecsDto create(@RequestBody VehicleSpecsDto dto, Authentication authentication) {
+    public VehicleSpecsDto create(@Valid @RequestBody VehicleSpecsDto dto, Authentication authentication) {
         authenticationService.checkAuthentication(authentication);
         return vehicleSpecsService.saveSpecs(dto);
     }
@@ -110,7 +111,7 @@ public class VehicleSpecsController {
             @ApiResponse(responseCode = "200", description = "Vehicle specs updated successfully."),
             @ApiResponse(responseCode = "403", description = "Access denied – only SELLER or ADMIN allowed")
     })
-    public VehicleSpecsDto update(@PathVariable String id, @RequestBody VehicleSpecsDto dto,
+    public VehicleSpecsDto update(@PathVariable String id, @Valid @RequestBody VehicleSpecsDto dto,
             Authentication authentication) {
         authenticationService.checkAuthentication(authentication);
         return vehicleSpecsService.updateSpecs(id, dto);

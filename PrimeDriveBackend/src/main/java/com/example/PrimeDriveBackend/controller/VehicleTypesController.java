@@ -19,6 +19,8 @@ import com.example.PrimeDriveBackend.dto.VehicleTypesDto;
 import com.example.PrimeDriveBackend.service.AuthenticationService;
 import com.example.PrimeDriveBackend.service.VehicleTypesService;
 
+import jakarta.validation.Valid;
+
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -89,9 +91,8 @@ public class VehicleTypesController {
             @ApiResponse(responseCode = "200", description = "Vehicle type created successfully"),
             @ApiResponse(responseCode = "403", description = "Access denied – only ADMIN allowed")
     })
-    public VehicleTypesDto create(@RequestBody VehicleTypesDto dto, Authentication authentication) {
+    public VehicleTypesDto create(@Valid @RequestBody VehicleTypesDto dto, Authentication authentication) {
         authenticationService.checkAuthentication(authentication);
-        System.out.println("Creating vehicle type: " + dto.getType());
         return vehicleTypesService.saveType(dto);
     }
 
@@ -112,7 +113,7 @@ public class VehicleTypesController {
             @ApiResponse(responseCode = "200", description = "Vehicle type updated successfully"),
             @ApiResponse(responseCode = "403", description = "Access denied – only ADMIN allowed")
     })
-    public VehicleTypesDto update(@PathVariable String id, @RequestBody VehicleTypesDto dto,
+    public VehicleTypesDto update(@PathVariable String id, @Valid @RequestBody VehicleTypesDto dto,
             Authentication authentication) {
         authenticationService.checkAuthentication(authentication);
         dto.setId(id);

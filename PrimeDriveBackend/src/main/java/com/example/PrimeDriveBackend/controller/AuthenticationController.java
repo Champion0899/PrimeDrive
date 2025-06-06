@@ -35,6 +35,8 @@ import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
+import jakarta.validation.Valid;
+
 /**
  * REST controller providing endpoints for user registration and login.
  * Handles incoming authentication requests and delegates processing to the
@@ -81,7 +83,7 @@ public class AuthenticationController {
     @PostMapping("/register")
     @CrossOrigin
     @Operation(summary = "Register a new user", description = "Registers a new user with the provided credentials. ADMIN role is forbidden here. Use /swagger-register only for initial setup.")
-    public ResponseEntity<?> registerUser(HttpServletRequest httpRequest, @RequestBody RegisterRequestDto request) {
+    public ResponseEntity<?> registerUser(HttpServletRequest httpRequest, @Valid @RequestBody RegisterRequestDto request) {
         // role is enforced as USER regardless of incoming request
         String lastLoginIp = requestInfoService.getClientIp(httpRequest);
         authenticationService.registerUser(
@@ -119,7 +121,7 @@ public class AuthenticationController {
     @PostMapping("/login")
     @CrossOrigin
     @Operation(summary = "User login", description = "Authenticates a user and sets a JWT as HttpOnly cookie. Returns a JSON message object upon login.")
-    public ResponseEntity<?> login(@RequestBody LoginRequestDto request, HttpServletResponse response) {
+    public ResponseEntity<?> login(@Valid @RequestBody LoginRequestDto request, HttpServletResponse response) {
         boolean isAuthenticated = authenticationService.login(
                 request.getUsername(),
                 request.getPassword());
@@ -201,7 +203,7 @@ public class AuthenticationController {
      */
     @PostMapping("/swagger-register")
     @Operation(summary = "Swagger admin registration", description = "Registers an ADMIN user for initial system setup via Swagger. Only enabled if swagger.setup.enabled=true. This endpoint should be disabled in production.")
-    public ResponseEntity<?> swaggerRegister(HttpServletRequest httpRequest, @RequestBody RegisterRequestDto request) {
+    public ResponseEntity<?> swaggerRegister(HttpServletRequest httpRequest, @Valid @RequestBody RegisterRequestDto request) {
         if (!swaggerSetupEnabled) {
             return ResponseEntity.status(403).body("Swagger admin registration is disabled.");
         }
@@ -234,7 +236,7 @@ public class AuthenticationController {
      */
     @PostMapping("/swagger-login")
     @Operation(summary = "Swagger login (JWT in body)", description = "Authenticates a user and returns a JWT in the response body for Swagger testing. Only available if swagger.setup.enabled=true. This endpoint should be disabled in production.")
-    public ResponseEntity<?> swaggerLogin(@RequestBody LoginRequestDto request) {
+    public ResponseEntity<?> swaggerLogin(@Valid @RequestBody LoginRequestDto request) {
         if (!swaggerSetupEnabled) {
             return ResponseEntity.status(403).body("Swagger login is disabled.");
         }

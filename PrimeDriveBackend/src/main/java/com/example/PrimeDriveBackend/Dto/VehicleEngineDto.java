@@ -27,6 +27,7 @@ public class VehicleEngineDto {
 
     /** The type or classification of the engine (e.g., V6, V8, Electric). */
     @NotNull
+    @jakarta.validation.constraints.NotBlank
     @Schema(description = "Engine type", example = "V6")
     private String engineType;
 }

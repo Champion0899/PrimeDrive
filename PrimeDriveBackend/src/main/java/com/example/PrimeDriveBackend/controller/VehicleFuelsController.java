@@ -27,6 +27,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import com.example.PrimeDriveBackend.dto.VehicleFuelsDto;
+import jakarta.validation.Valid;
 import com.example.PrimeDriveBackend.service.AuthenticationService;
 import com.example.PrimeDriveBackend.service.VehicleFuelsService;
 
@@ -87,7 +88,7 @@ public class VehicleFuelsController {
      * @param dto VehicleFuelsDto containing the fuel data to be created
      * @return VehicleFuelsDto representing the created fuel type
      */
-    public VehicleFuelsDto create(@RequestBody VehicleFuelsDto dto, Authentication authentication) {
+    public VehicleFuelsDto create(@Valid @RequestBody VehicleFuelsDto dto, Authentication authentication) {
         authenticationService.checkAuthentication(authentication);
         return vehicleFuelsService.saveFuels(dto);
     }
@@ -109,7 +110,7 @@ public class VehicleFuelsController {
      * @param dto Updated fuel data
      * @return VehicleFuelsDto representing the updated fuel type
      */
-    public VehicleFuelsDto update(@PathVariable String id, @RequestBody VehicleFuelsDto dto,
+    public VehicleFuelsDto update(@PathVariable String id, @Valid @RequestBody VehicleFuelsDto dto,
             Authentication authentication) {
         authenticationService.checkAuthentication(authentication); // Assuming authentication is checked elsewhere
         dto.setId(id);

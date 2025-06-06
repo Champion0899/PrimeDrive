@@ -1,5 +1,7 @@
 package com.example.PrimeDriveBackend.dto;
 
+import jakarta.validation.constraints.Min;
+
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -26,6 +28,7 @@ public class VehicleDoorsDto {
     private String id;
     /** The number of doors for the vehicle (e.g., 2, 4, etc.). */
     @NotNull
-    @Schema(description = "Quantity of the vehicle doors", example = "4")
+    @Min(1)
+    @Schema(description = "Quantity of the vehicle doors", example = "4", minimum = "1")
     private Integer quantity;
 }

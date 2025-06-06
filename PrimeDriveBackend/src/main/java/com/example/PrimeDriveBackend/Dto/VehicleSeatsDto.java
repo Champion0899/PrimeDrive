@@ -2,6 +2,7 @@ package com.example.PrimeDriveBackend.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Min;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -29,6 +30,7 @@ public class VehicleSeatsDto {
     private String id;
     /** The number of seats available in the vehicle. */
     @NotNull
-    @Schema(description = "Number of seats", example = "5")
+    @Min(1)
+    @Schema(description = "Number of seats", example = "5", minimum = "1")
     private Integer quantity;
 }

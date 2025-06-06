@@ -2,6 +2,7 @@ package com.example.PrimeDriveBackend.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -27,6 +28,7 @@ public class VehicleBrandsDto {
     private String id;
     /** The name of the vehicle brand (e.g., BMW, Toyota). */
     @NotNull
+    @NotBlank
     @Schema(description = "Name of the vehicle brand", example = "BMW")
     private String name;
     /** The year the vehicle brand was founded. */
@@ -35,10 +37,12 @@ public class VehicleBrandsDto {
     private Integer founding;
     /** The URL pointing to the brand's logo image. */
     @NotNull
+    @NotBlank
     @Schema(description = "Logo of the vehicle brand", example = "https://example.com/logo.jpg")
     private String logo;
     /** The ID referencing the holding company this brand belongs to. */
     @NotNull
+    @NotBlank
     @Schema(description = "Holding ID of the vehicle brand", example = "48d183d9-5658-4488-984e-8801967850e9")
     private String holdingId;
 }

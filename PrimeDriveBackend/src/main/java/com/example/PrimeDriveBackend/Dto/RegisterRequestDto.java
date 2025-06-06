@@ -1,6 +1,7 @@
 package com.example.PrimeDriveBackend.dto;
 
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotBlank;
 
 import java.sql.Date;
 
@@ -25,16 +26,19 @@ public class RegisterRequestDto {
 
     /** The desired username for the new user account. */
     @NotNull
+    @NotBlank
     @Schema(description = "Username for registration", example = "myUsername", required = true)
     private String username;
 
     /** The password to be associated with the new account. */
     @NotNull
+    @NotBlank
     @Schema(description = "Password for the new account", example = "securePassword123", required = true)
     private String password;
 
     /** The role assigned to the new user (e.g., USER, SELLER, ADMIN). */
     @NotNull
+    @NotBlank
     @Schema(description = "Role of the user", example = "ADMIN", required = true)
     private String role;
 
@@ -46,41 +50,49 @@ public class RegisterRequestDto {
 
     /** The email address of the user. */
     @NotNull
+    @NotBlank
     @Schema(description = "Email address of the user", example = "user@example.com", required = true)
     private String eMail;
 
     /** The first name of the user. */
     @NotNull
+    @NotBlank
     @Schema(description = "First name of the user", example = "John", required = true)
     private String firstName;
 
     /** The last name of the user. */
     @NotNull
+    @NotBlank
     @Schema(description = "Last name of the user", example = "Doe", required = true)
     private String lastName;
 
     /** The street address of the user. */
     @NotNull
+    @NotBlank
     @Schema(description = "Address of the user", example = "Jurastrasse 15", required = true)
     private String address;
 
     /** The postal code of the user's address. */
     @NotNull
+    @NotBlank
     @Schema(description = "ZipCode of the user", example = "3013", required = true)
     private String zipCode;
 
     /** The city of residence. */
     @NotNull
+    @NotBlank
     @Schema(description = "City of the user", example = "Bern", required = true)
     private String city;
 
     /** The country of residence. */
     @NotNull
+    @NotBlank
     @Schema(description = "Country of the user", example = "Schweiz", required = true)
     private String country;
 
     /** The phone number to be associated with the account. */
     @NotNull
+    @NotBlank
     @Schema(description = "Phone number of the user", example = "0790010101", required = true)
     private String phoneNumber;
 

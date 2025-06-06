@@ -12,6 +12,8 @@
  */
 package com.example.PrimeDriveBackend.controller;
 
+import jakarta.validation.Valid;
+
 import java.util.List;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -89,7 +91,7 @@ public class VehicleHoldingsController {
      * @param dto VehicleHoldingsDto containing the data to create
      * @return VehicleHoldingsDto representing the created record
      */
-    public VehicleHoldingsDto create(@RequestBody VehicleHoldingsDto dto, Authentication authentication) {
+    public VehicleHoldingsDto create(@Valid @RequestBody VehicleHoldingsDto dto, Authentication authentication) {
         authenticationService.checkAuthentication(authentication);
         return vehicleHoldingsService.saveHolding(dto);
     }
@@ -111,7 +113,7 @@ public class VehicleHoldingsController {
      * @param dto Updated holding data
      * @return VehicleHoldingsDto with updated information
      */
-    public ResponseEntity<VehicleHoldingsDto> update(@PathVariable String id, @RequestBody VehicleHoldingsDto dto,
+    public ResponseEntity<VehicleHoldingsDto> update(@PathVariable String id, @Valid @RequestBody VehicleHoldingsDto dto,
             Authentication authentication) {
         authenticationService.checkAuthentication(authentication);
         dto.setId(id);

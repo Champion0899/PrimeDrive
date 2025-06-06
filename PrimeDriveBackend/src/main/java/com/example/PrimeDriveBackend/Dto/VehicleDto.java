@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
 
 /**
  * Data Transfer Object (DTO) representing a vehicle in the PrimeDrive system.
@@ -30,36 +32,43 @@ public class VehicleDto {
 
     /** The name or model of the vehicle. */
     @NotNull
+    @NotBlank
     @Schema(description = "Name of the vehicle", example = "M5")
     private String name;
 
     /** The price of the vehicle in the specified currency. */
     @NotNull
+    @Min(1)
     @Schema(description = "Price of the vehicle", example = "50000.00")
     private Double price;
 
     /** The manufacturing year of the vehicle. */
     @NotNull
+    @Min(1)
     @Schema(description = "Year of the build", example = "2020")
     private Integer year;
 
     /** A URL to an image representing the vehicle. */
     @NotNull
+    @NotBlank
     @Schema(description = "Image of the vehicle", example = "https://example.com/image.jpg")
     private String image;
 
     /** The mileage (in kilometers or miles) that the vehicle has been driven. */
     @NotNull
+    @Min(0)
     @Schema(description = "Mileage of the vehicle", example = "30000")
     private Integer mileage;
 
     /** The current condition of the vehicle (e.g., new, used). */
     @NotNull
+    @NotBlank
     @Schema(description = "Condition of the vehicle", example = "new")
     private String condition;
 
     /** A short summary of the vehicle's history, such as accident records. */
     @NotNull
+    @NotBlank
     @Schema(description = "vehicleHistory of the vehicle", example = "No accidents")
     private String vehicleHistory;
 

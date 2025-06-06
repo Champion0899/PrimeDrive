@@ -1,5 +1,7 @@
 package com.example.PrimeDriveBackend.controller;
 
+import jakarta.validation.Valid;
+
 import java.util.List;
 
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -92,7 +94,7 @@ public class VehicleBrandsController {
             @ApiResponse(responseCode = "200", description = "Vehicle brand created successfully."),
             @ApiResponse(responseCode = "403", description = "Access denied – only ADMIN allowed")
     })
-    public VehicleBrandsDto create(@RequestBody VehicleBrandsDto dto, Authentication authentication) {
+    public VehicleBrandsDto create(@Valid @RequestBody VehicleBrandsDto dto, Authentication authentication) {
         authenticationService.checkAuthentication(authentication);
         return vehicleBrandsService.saveBrand(dto);
     }
@@ -115,7 +117,7 @@ public class VehicleBrandsController {
             @ApiResponse(responseCode = "200", description = "Vehicle brand updated successfully."),
             @ApiResponse(responseCode = "403", description = "Access denied – only ADMIN allowed")
     })
-    public VehicleBrandsDto update(@PathVariable String id, @RequestBody VehicleBrandsDto dto,
+    public VehicleBrandsDto update(@PathVariable String id, @Valid @RequestBody VehicleBrandsDto dto,
             Authentication authentication) {
         authenticationService.checkAuthentication(authentication);
         return vehicleBrandsService.updateBrand(id, dto);

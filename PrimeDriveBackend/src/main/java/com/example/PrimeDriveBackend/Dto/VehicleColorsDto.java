@@ -2,6 +2,7 @@ package com.example.PrimeDriveBackend.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -27,10 +28,12 @@ public class VehicleColorsDto {
     private String id;
     /** The name of the color (e.g., Red, Blue). */
     @NotNull
+    @NotBlank
     @Schema(description = "Name of the vehicle color", example = "Red")
     private String name;
     /** The hexadecimal representation of the color (e.g., FF0000 for red). */
     @NotNull
+    @NotBlank
     @Schema(description = "HexCode of the vehicle color", example = "FF0000")
     private String hexCode;
 }

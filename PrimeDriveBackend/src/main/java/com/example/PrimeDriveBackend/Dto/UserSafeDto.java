@@ -4,6 +4,7 @@ import java.sql.Date;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -34,16 +35,19 @@ public class UserSafeDto {
 
     /** The username of the user. */
     @NotNull
+    @NotBlank
     @Schema(description = "Username of the user", example = "userTim")
     private String username;
 
     /** The role assigned to the user (e.g., USER, ADMIN, SELLER). */
     @NotNull
+    @NotBlank
     @Schema(description = "Role of the user", example = "ADMIN")
     private String role;
 
     /** The email address of the user. */
     @NotNull
+    @NotBlank
     @Schema(description = "Email address of the user", example = "test@test.ch")
     private String eMail;
 
@@ -54,41 +58,49 @@ public class UserSafeDto {
 
     /** The user's first name. */
     @NotNull
+    @NotBlank
     @Schema(description = "First name of the user", example = "Tim")
     private String firstName;
 
     /** The user's last name. */
     @NotNull
+    @NotBlank
     @Schema(description = "Last name of the user", example = "Tester")
     private String lastName;
 
     /** The street address of the user. */
     @NotNull
+    @NotBlank
     @Schema(description = "Address of the user", example = "Jurastrasse 15")
     private String address;
 
     /** The postal or ZIP code of the user's address. */
     @NotNull
+    @NotBlank
     @Schema(description = "ZipCode of the user", example = "3013")
     private String zipCode;
 
     /** The city of residence. */
     @NotNull
+    @NotBlank
     @Schema(description = "City of the user", example = "Bern")
     private String city;
 
     /** The country of residence. */
     @NotNull
+    @NotBlank
     @Schema(description = "Country of the user", example = "Schweiz")
     private String country;
 
     /** The user's phone number. */
     @NotNull
+    @NotBlank
     @Schema(description = "Phone number of the user", example = "0790010101")
     private String phoneNumber;
 
     /** The user who created this account. */
     @NotNull
+    @NotBlank
     @Schema(description = "Created user of the user", example = "userTim")
     private String createdUser;
 
@@ -99,6 +111,7 @@ public class UserSafeDto {
 
     /** The user who last modified this account. */
     @NotNull
+    @NotBlank
     @Schema(description = "Modified user of the user", example = "userTim")
     private String modifiedUser;
 
@@ -114,6 +127,7 @@ public class UserSafeDto {
 
     /** The IP address from which the user last logged in. */
     @NotNull
+    @NotBlank
     @Schema(description = "Last login IP of the user", example = "201.10.15.113")
     private String lastLoginIp;
 }

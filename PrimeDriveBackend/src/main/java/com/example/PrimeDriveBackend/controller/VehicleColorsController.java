@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import jakarta.validation.Valid;
+
 import com.example.PrimeDriveBackend.dto.VehicleColorsDto;
 import com.example.PrimeDriveBackend.service.AuthenticationService;
 import com.example.PrimeDriveBackend.service.VehicleColorsService;
@@ -91,7 +93,7 @@ public class VehicleColorsController {
             @ApiResponse(responseCode = "200", description = "Vehicle color created successfully"),
             @ApiResponse(responseCode = "403", description = "Access denied – only ADMIN allowed")
     })
-    public VehicleColorsDto create(@RequestBody VehicleColorsDto dto, Authentication authentication) {
+    public VehicleColorsDto create(@Valid @RequestBody VehicleColorsDto dto, Authentication authentication) {
         authenticationService.checkAuthentication(authentication);
         return vehicleColorsService.saveColor(dto);
     }
@@ -114,7 +116,7 @@ public class VehicleColorsController {
             @ApiResponse(responseCode = "200", description = "Vehicle color updated successfully"),
             @ApiResponse(responseCode = "403", description = "Access denied – only ADMIN allowed")
     })
-    public VehicleColorsDto update(@PathVariable String id, @RequestBody VehicleColorsDto dto,
+    public VehicleColorsDto update(@PathVariable String id, @Valid @RequestBody VehicleColorsDto dto,
             Authentication authentication) {
         authenticationService.checkAuthentication(authentication);
         return vehicleColorsService.updateColor(id, dto);

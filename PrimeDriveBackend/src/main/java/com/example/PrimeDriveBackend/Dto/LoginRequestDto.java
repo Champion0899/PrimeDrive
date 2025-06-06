@@ -1,6 +1,7 @@
 package com.example.PrimeDriveBackend.dto;
 
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotBlank;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
@@ -20,6 +21,7 @@ public class LoginRequestDto {
      * The username of the user attempting to log in.
      */
     @NotNull
+    @NotBlank
     @Schema(description = "username", example = "userTim", required = true)
     private String username;
 
@@ -27,6 +29,7 @@ public class LoginRequestDto {
      * The password associated with the user's account.
      */
     @NotNull
+    @NotBlank
     @Schema(description = "Password", example = "secretPassword123", required = true)
     private String password;
 

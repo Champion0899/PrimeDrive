@@ -1,5 +1,7 @@
 package com.example.PrimeDriveBackend.controller;
 
+import jakarta.validation.Valid;
+
 import com.example.PrimeDriveBackend.dto.UserDto;
 import com.example.PrimeDriveBackend.dto.UserSafeDto;
 import com.example.PrimeDriveBackend.service.AuthenticationService;
@@ -98,7 +100,7 @@ public class UsersController {
             @ApiResponse(responseCode = "200", description = "User created successfully."),
             @ApiResponse(responseCode = "403", description = "Access denied – only ADMIN allowed")
     })
-    public UserDto createUser(@RequestBody UserDto userDto, Authentication authentication) {
+    public UserDto createUser(@Valid @RequestBody UserDto userDto, Authentication authentication) {
         authenticationService.checkAuthentication(authentication);
         return userService.createUser(userDto);
     }
@@ -121,7 +123,7 @@ public class UsersController {
             @ApiResponse(responseCode = "200", description = "User updated successfully."),
             @ApiResponse(responseCode = "403", description = "Access denied – only ADMIN allowed")
     })
-    public UserDto updateUser(@PathVariable String id, @RequestBody UserDto userDto, Authentication authentication) {
+    public UserDto updateUser(@PathVariable String id, @Valid @RequestBody UserDto userDto, Authentication authentication) {
         authenticationService.checkAuthentication(authentication);
         return userService.updateUser(id, userDto);
     }

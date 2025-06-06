@@ -15,6 +15,7 @@ import java.sql.Date;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -28,26 +29,32 @@ public class UserDto {
     private String id;
 
     @NotNull
+    @NotBlank
     @Schema(description = "Username of the user", example = "userTim")
     private String username;
 
     @NotNull
+    @NotBlank
     @Schema(description = "Password of the user", example = "secretPassword123")
     private String password;
 
     @NotNull
+    @NotBlank
     @Schema(description = "First name of the user", example = "Tim")
     private String firstName;
 
     @NotNull
+    @NotBlank
     @Schema(description = "Last name of the user", example = "Tester")
     private String lastName;
 
     @NotNull
+    @NotBlank
     @Schema(description = "Role of the user", example = "ADMIN")
     private String role;
 
     @NotNull
+    @NotBlank
     @Schema(description = "Email address of the user", example = "test@test.ch")
     private String eMail;
 
@@ -56,26 +63,32 @@ public class UserDto {
     private Date birthdate;
 
     @NotNull
+    @NotBlank
     @Schema(description = "Address of the user", example = "Jurastrasse 15")
     private String address;
 
     @NotNull
+    @NotBlank
     @Schema(description = "ZipCode of the user", example = "3013")
     private String zipCode;
 
     @NotNull
+    @NotBlank
     @Schema(description = "City of the user", example = "Bern")
     private String city;
 
     @NotNull
+    @NotBlank
     @Schema(description = "Country of the user", example = "Schweiz")
     private String country;
 
     @NotNull
+    @NotBlank
     @Schema(description = "Phone number of the user", example = "0790010101")
     private String phoneNumber;
 
     @NotNull
+    @NotBlank
     @Schema(description = "Created user of the user", example = "userTim")
     private String createdUser;
 
@@ -84,6 +97,7 @@ public class UserDto {
     private Date createdDate;
 
     @NotNull
+    @NotBlank
     @Schema(description = "Modified user of the user", example = "userTim")
     private String modifiedUser;
 
@@ -96,6 +110,7 @@ public class UserDto {
     private Date lastLogin;
 
     @NotNull
+    @NotBlank
     @Schema(description = "Last login IP of the user", example = "201.10.15.113")
     private String lastLoginIp;
 }

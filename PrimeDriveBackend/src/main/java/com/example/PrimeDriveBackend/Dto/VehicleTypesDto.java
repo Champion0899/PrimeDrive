@@ -28,6 +28,7 @@ public class VehicleTypesDto {
 
     /** The name or classification of the vehicle type (e.g., SUV, Sedan). */
     @NotNull
+    @jakarta.validation.constraints.NotBlank
     @Schema(description = "Type of vehicle", example = "SUV")
     private String type;
 }

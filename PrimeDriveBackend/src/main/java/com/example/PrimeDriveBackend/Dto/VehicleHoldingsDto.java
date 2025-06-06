@@ -1,5 +1,7 @@
 package com.example.PrimeDriveBackend.dto;
 
+import jakarta.validation.constraints.Min;
+
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -32,7 +34,8 @@ public class VehicleHoldingsDto {
 
     /** The year the holding company was founded. */
     @NotNull
-    @Schema(description = "Founding date of the vehicle holding", example = "2020")
+    @Min(1)
+    @Schema(description = "Founding date of the vehicle holding", example = "2020", minimum = "1")
     Integer founding;
 
     /** The URL to the logo image of the vehicle holding. */

@@ -26,6 +26,7 @@ public class VehicleFuelsDto {
     private String id;
     /** The type of fuel used by the vehicle (e.g., Petrol, Diesel, Electric). */
     @NotNull
+    @jakarta.validation.constraints.NotBlank
     @Schema(description = "Fuel type", example = "Petrol")
     private String fuelType;
 }
