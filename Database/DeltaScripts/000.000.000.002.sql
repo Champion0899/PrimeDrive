@@ -6,10 +6,10 @@ SET FOREIGN_KEY_CHECKS=0;
 
 INSERT INTO PrimeDrive.vehicle_holdings (id, name, founding, logo)
 VALUES  
-("b6459c70-357a-11f0-9e9f-6e56b6962fb5", "None", 1970, "test"),
+("b6459c70-357a-11f0-9e9f-6e56b6962fb5", "None", 1970, "https://media.istockphoto.com/id/1209793467/de/foto/crash-tesh-dummy-im-auto.jpg?s=2048x2048&w=is&k=20&c=uJufs-uB4eOUCt6dVIjUiReTVE2ziQ5_4HdwY8YJ9qA="),
 ("b645a51f-357a-11f0-9e9f-6e56b6962fb5", "Toyota Motor Corporation", 1937, "https://yt3.googleusercontent.com/ytc/AIdro_mYu04AGoxqP7sr23-DoKXxGRsD3VDq2-hqFTkUdyIXpg=s900-c-k-c0x00ffffff-no-rj"),
 ("b645addd-357a-11f0-9e9f-6e56b6962fb5", "Volkswagen AG", 1937, "https://uploads.vw-mms.de/system/production/images/cws/078/880/images/2120c5a57137cf72be0f26130c2ca1eb3c125614/B2023CW02240_web_1600.jpg?1686922903"),
-("b645b5fe-357a-11f0-9e9f-6e56b6962fb5", "Zhejiang Geely Holding Group", 1968, "https://zgh.com/media-center/wp-content/uploads/sites/2/2020/01/Geely-2020-sales-hires-2-700x350.jpg"),
+("b645b5fe-357a-11f0-9e9f-6e56b6962fb5", "Zhejiang Geely Holding Group", 1968, "https://www.carlogos.org/logo/Geely-logo-2014-2560x1440.png"),
 ("b645bd81-357a-11f0-9e9f-6e56b6962fb5", "Mercedes-Benz Group", 1998, "https://car-symposium.com/wp-content/uploads/MB_Logo.png"),
 ("b645c554-357a-11f0-9e9f-6e56b6962fb5", "Ford Motor Company", 1903, "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS9Au4DG7p1vAUKar2C6Z5Qe_nC6MsSb45nfg&s"),
 ("b645cdf0-357a-11f0-9e9f-6e56b6962fb5", "Tata Motors", 1945, "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQGL66HpYuYUHLywfLdnHUY6MmJ7tbsvWkRmQ&s"),
