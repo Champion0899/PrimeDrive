@@ -109,7 +109,9 @@ export class VehiclesComponent implements OnInit {
               switchMap((brand) =>
                 forkJoin({
                   type: this.vehiclesService.getTypeById(vehicle.typesId),
-                  color: vehicle.colorsId ? this.vehiclesService.getColorById(vehicle.colorsId) : of(null),
+                  color: vehicle.colorsId
+                    ? this.vehiclesService.getColorById(vehicle.colorsId)
+                    : of(null),
                   specs: this.vehiclesService
                     .getSpecsById(vehicle.specsId)
                     .pipe(
