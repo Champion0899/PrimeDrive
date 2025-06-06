@@ -1,4 +1,12 @@
 import { Component } from '@angular/core';
+import { inject } from '@angular/core';
+import { OnInit } from '@angular/core';
+import {
+  FormGroup,
+  FormControl,
+  Validators,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -25,6 +33,7 @@ import { MatSelectModule } from '@angular/material/select';
     MatFormFieldModule,
     MatInputModule,
     FormsModule,
+    ReactiveFormsModule,
     MatTableModule,
     MatButtonModule,
     CommonModule,
@@ -34,34 +43,15 @@ import { MatSelectModule } from '@angular/material/select';
   templateUrl: './data-management.component.html',
   styleUrl: './data-management.component.scss',
 })
-export class DataManagementComponent {
-  public errorMessage: string | null = null;
+export class DataManagementComponent implements OnInit {
+  private vehiclesService = inject(VehiclesService);
+  public errorMessageCreate: string | null = null;
+  public errorMessageUpdate: string | null = null;
   public dataSource = [];
 
   public colors: Color[] = [];
   public selectedColor: Color | null = null;
   public searchedColorName: string = '';
-  public newHolding: Holding = {
-    id: '',
-    founding: 1970,
-    logo: '',
-    name: '',
-  };
-
-  public newBrand: Brand = {
-    id: '',
-    holdingId: '',
-    founding: 1970,
-    logo: '',
-    name: '',
-  };
-
-  public newType: Type = { id: '', type: '' };
-  public newEngine: Engine = { id: '', engineType: '' };
-  public newFuel: Fuel = { id: '', fuelType: '' };
-  public newDoors: Doors = { id: '', quantity: 0 };
-  public newSeats: Seats = { id: '', quantity: 0 };
-  public newColor: Color = { id: '', name: '', hexCode: '' };
 
   public brands: Brand[] = [];
   public selectedBrand: Brand | null = {
@@ -102,7 +92,135 @@ export class DataManagementComponent {
   public selectedType: Type | null = null;
   public searchedTypeName: string = '';
 
-  constructor(private vehiclesService: VehiclesService) {
+  public formGroup: FormGroup = new FormGroup({});
+  public updateFormGroup: FormGroup = new FormGroup({});
+
+  get colorForm(): FormGroup {
+    return this.formGroup.get('color') as FormGroup;
+  }
+  get brandForm(): FormGroup {
+    return this.formGroup.get('brand') as FormGroup;
+  }
+  get typeForm(): FormGroup {
+    return this.formGroup.get('type') as FormGroup;
+  }
+  get engineForm(): FormGroup {
+    return this.formGroup.get('engine') as FormGroup;
+  }
+  get fuelForm(): FormGroup {
+    return this.formGroup.get('fuel') as FormGroup;
+  }
+  get doorsForm(): FormGroup {
+    return this.formGroup.get('doors') as FormGroup;
+  }
+  get seatsForm(): FormGroup {
+    return this.formGroup.get('seats') as FormGroup;
+  }
+  get holdingForm(): FormGroup {
+    return this.formGroup.get('holding') as FormGroup;
+  }
+
+  get brandUpdateForm(): FormGroup {
+    return this.updateFormGroup.get('brand') as FormGroup;
+  }
+  get colorUpdateForm(): FormGroup {
+    return this.updateFormGroup.get('color') as FormGroup;
+  }
+  get holdingUpdateForm(): FormGroup {
+    return this.updateFormGroup.get('holding') as FormGroup;
+  }
+  get typeUpdateForm(): FormGroup {
+    return this.updateFormGroup.get('type') as FormGroup;
+  }
+  get engineUpdateForm(): FormGroup {
+    return this.updateFormGroup.get('engine') as FormGroup;
+  }
+  get fuelUpdateForm(): FormGroup {
+    return this.updateFormGroup.get('fuel') as FormGroup;
+  }
+  get doorsUpdateForm(): FormGroup {
+    return this.updateFormGroup.get('doors') as FormGroup;
+  }
+  get seatsUpdateForm(): FormGroup {
+    return this.updateFormGroup.get('seats') as FormGroup;
+  }
+
+  ngOnInit(): void {
+    this.formGroup = new FormGroup({
+      color: new FormGroup({
+        name: new FormControl('', [Validators.required]),
+        hexCode: new FormControl('', [
+          Validators.required,
+          Validators.pattern(/^#([0-9a-fA-F]{6})$/),
+        ]),
+      }),
+      brand: new FormGroup({
+        name: new FormControl('', [Validators.required]),
+        logo: new FormControl('', [Validators.required]),
+        founding: new FormControl(1970, [
+          Validators.required,
+          Validators.min(1800),
+          Validators.max(new Date().getFullYear()),
+        ]),
+        holdingId: new FormControl('', [Validators.required]),
+      }),
+      type: new FormGroup({
+        type: new FormControl('', [Validators.required]),
+      }),
+      engine: new FormGroup({
+        engineType: new FormControl('', [Validators.required]),
+      }),
+      fuel: new FormGroup({
+        fuelType: new FormControl('', [Validators.required]),
+      }),
+      doors: new FormGroup({
+        quantity: new FormControl(0, [Validators.required, Validators.min(1)]),
+      }),
+      seats: new FormGroup({
+        quantity: new FormControl(0, [Validators.required, Validators.min(1)]),
+      }),
+      holding: new FormGroup({
+        name: new FormControl('', [Validators.required]),
+        logo: new FormControl('', [Validators.required]),
+        founding: new FormControl(1970, [
+          Validators.required,
+          Validators.min(1800),
+          Validators.max(new Date().getFullYear()),
+        ]),
+      }),
+    });
+    this.updateFormGroup = new FormGroup({
+      brand: new FormGroup({
+        name: new FormControl(''),
+        logo: new FormControl(''),
+        founding: new FormControl(1970),
+        holdingId: new FormControl(''),
+      }),
+      type: new FormGroup({
+        type: new FormControl(''),
+      }),
+      engine: new FormGroup({
+        engineType: new FormControl(''),
+      }),
+      fuel: new FormGroup({
+        fuelType: new FormControl(''),
+      }),
+      doors: new FormGroup({
+        quantity: new FormControl(0),
+      }),
+      seats: new FormGroup({
+        quantity: new FormControl(0),
+      }),
+      color: new FormGroup({
+        name: new FormControl(''),
+        hexCode: new FormControl(''),
+      }),
+      holding: new FormGroup({
+        name: new FormControl(''),
+        logo: new FormControl(''),
+        founding: new FormControl(1970),
+      }),
+    });
     this.loadAllColors();
     this.loadAllDoors();
     this.loadAllEngines();
@@ -120,20 +238,31 @@ export class DataManagementComponent {
       ) ?? null;
   }
   updateColor(): void {
-    if (!this.selectedColor) return;
-    this.vehiclesService.updateColor(this.selectedColor).subscribe({
+    if (!this.selectedColor || this.colorUpdateForm.invalid) return;
+
+    const updatedColor: Color = {
+      ...this.selectedColor,
+      ...this.colorUpdateForm.value,
+    };
+
+    this.vehiclesService.updateColor(updatedColor).subscribe({
       next: () => {
         this.selectedColor = null;
         this.loadAllColors();
-        this.errorMessage = null;
+        this.errorMessageUpdate = null;
       },
       error: (error) => {
-        this.errorMessage = error?.error?.message || 'Default error message';
-      }
+        this.errorMessageUpdate =
+          error?.error?.message || 'Default error message';
+      },
     });
   }
   selectColor(item: Color): void {
     this.selectedColor = { ...item };
+    this.colorUpdateForm.patchValue({
+      name: item.name,
+      hexCode: item.hexCode,
+    });
   }
   deleteColor(id?: string): void {
     const colorId = id ?? this.selectedColor?.id;
@@ -142,29 +271,37 @@ export class DataManagementComponent {
       next: () => {
         this.selectedColor = null;
         this.loadAllColors();
-        this.errorMessage = null;
+        this.errorMessageUpdate = null;
       },
       error: (error) => {
-        this.errorMessage = error?.error?.message || 'Default error message';
-      }
+        this.errorMessageUpdate =
+          error?.error?.message || 'Default error message';
+      },
     });
   }
   createColor(): void {
-    const name = this.newColor.name.trim();
-    const hex = this.newColor.hexCode.trim();
-    if (!name || !hex) return;
-    this.vehiclesService
-      .createColor({ id: '', name, hexCode: hex })
-      .subscribe({
-        next: () => {
-          this.loadAllColors();
-          this.newColor = { id: '', name: '', hexCode: '' };
-          this.errorMessage = null;
-        },
-        error: (error) => {
-          this.errorMessage = error?.error?.message || 'Default error message';
-        }
-      });
+    if (this.colorForm.invalid) {
+      this.errorMessageCreate = 'Please fill in all color fields correctly.';
+      return;
+    }
+    const color: Color = {
+      id: '',
+      ...this.colorForm.value,
+    };
+    this.vehiclesService.createColor(color).subscribe({
+      next: () => {
+        this.loadAllColors();
+        this.colorForm.reset({
+          name: '',
+          hexCode: '',
+        });
+        this.errorMessageCreate = null;
+      },
+      error: (error) => {
+        this.errorMessageCreate =
+          error?.error?.message || 'Default error message';
+      },
+    });
   }
   loadAllColors(): void {
     this.vehiclesService.getColors().subscribe((data: Color[]) => {
@@ -182,20 +319,30 @@ export class DataManagementComponent {
       ) ?? null;
   }
   updateDoors(): void {
-    if (!this.selectedDoors) return;
-    this.vehiclesService.updateDoors(this.selectedDoors).subscribe({
+    if (!this.selectedDoors || this.doorsUpdateForm.invalid) return;
+
+    const updatedDoors: Doors = {
+      ...this.selectedDoors,
+      ...this.doorsUpdateForm.value,
+    };
+
+    this.vehiclesService.updateDoors(updatedDoors).subscribe({
       next: () => {
         this.selectedDoors = null;
         this.loadAllDoors();
-        this.errorMessage = null;
+        this.errorMessageUpdate = null;
       },
       error: (error) => {
-        this.errorMessage = error?.error?.message || 'Default error message';
-      }
+        this.errorMessageUpdate =
+          error?.error?.message || 'Default error message';
+      },
     });
   }
   selectDoors(item: Doors): void {
     this.selectedDoors = { ...item };
+    this.doorsUpdateForm.patchValue({
+      quantity: item.quantity,
+    });
   }
   deleteDoors(id?: string): void {
     const doorsId = id ?? this.selectedDoors?.id;
@@ -204,11 +351,12 @@ export class DataManagementComponent {
       next: () => {
         this.selectedDoors = null;
         this.loadAllDoors();
-        this.errorMessage = null;
+        this.errorMessageUpdate = null;
       },
       error: (error) => {
-        this.errorMessage = error?.error?.message || 'Default error message';
-      }
+        this.errorMessageUpdate =
+          error?.error?.message || 'Default error message';
+      },
     });
   }
   loadAllDoors(): void {
@@ -217,16 +365,26 @@ export class DataManagementComponent {
     });
   }
   createDoors(): void {
-    if (this.newDoors.quantity <= 0) return;
-    this.vehiclesService.createDoors(this.newDoors).subscribe({
+    if (this.doorsForm.invalid) {
+      this.errorMessageCreate = 'Please fill in all doors fields correctly.';
+      return;
+    }
+    const doors: Doors = {
+      id: '',
+      ...this.doorsForm.value,
+    };
+    this.vehiclesService.createDoors(doors).subscribe({
       next: () => {
         this.loadAllDoors();
-        this.newDoors = { id: '', quantity: 0 };
-        this.errorMessage = null;
+        this.doorsForm.reset({
+          quantity: 0,
+        });
+        this.errorMessageCreate = null;
       },
       error: (error) => {
-        this.errorMessage = error?.error?.message || 'Default error message';
-      }
+        this.errorMessageCreate =
+          error?.error?.message || 'Default error message';
+      },
     });
   }
 
@@ -239,20 +397,30 @@ export class DataManagementComponent {
       ) ?? null;
   }
   updateEngine(): void {
-    if (!this.selectedEngine) return;
-    this.vehiclesService.updateEngine(this.selectedEngine).subscribe({
+    if (!this.selectedEngine || this.engineUpdateForm.invalid) return;
+
+    const updatedEngine: Engine = {
+      ...this.selectedEngine,
+      ...this.engineUpdateForm.value,
+    };
+
+    this.vehiclesService.updateEngine(updatedEngine).subscribe({
       next: () => {
         this.selectedEngine = null;
         this.loadAllEngines();
-        this.errorMessage = null;
+        this.errorMessageUpdate = null;
       },
       error: (error) => {
-        this.errorMessage = error?.error?.message || 'Default error message';
-      }
+        this.errorMessageUpdate =
+          error?.error?.message || 'Default error message';
+      },
     });
   }
   selectEngine(item: Engine): void {
     this.selectedEngine = { ...item };
+    this.engineUpdateForm.patchValue({
+      engineType: item.engineType,
+    });
   }
   deleteEngine(id?: string): void {
     const engineId = id ?? this.selectedEngine?.id;
@@ -261,11 +429,12 @@ export class DataManagementComponent {
       next: () => {
         this.selectedEngine = null;
         this.loadAllEngines();
-        this.errorMessage = null;
+        this.errorMessageUpdate = null;
       },
       error: (error) => {
-        this.errorMessage = error?.error?.message || 'Default error message';
-      }
+        this.errorMessageUpdate =
+          error?.error?.message || 'Default error message';
+      },
     });
   }
   loadAllEngines(): void {
@@ -274,20 +443,27 @@ export class DataManagementComponent {
     });
   }
   createEngine(): void {
-    const engineValue = this.newEngine.engineType.trim();
-    if (!engineValue) return;
-    this.vehiclesService
-      .createEngine({ id: '', engineType: engineValue })
-      .subscribe({
-        next: () => {
-          this.loadAllEngines();
-          this.newEngine = { id: '', engineType: '' };
-          this.errorMessage = null;
-        },
-        error: (error) => {
-          this.errorMessage = error?.error?.message || 'Default error message';
-        }
-      });
+    if (this.engineForm.invalid) {
+      this.errorMessageCreate = 'Please fill in all engine fields correctly.';
+      return;
+    }
+    const engine: Engine = {
+      id: '',
+      ...this.engineForm.value,
+    };
+    this.vehiclesService.createEngine(engine).subscribe({
+      next: () => {
+        this.loadAllEngines();
+        this.engineForm.reset({
+          engineType: '',
+        });
+        this.errorMessageCreate = null;
+      },
+      error: (error) => {
+        this.errorMessageCreate =
+          error?.error?.message || 'Default error message';
+      },
+    });
   }
 
   fetchFuelByName(): void {
@@ -299,20 +475,30 @@ export class DataManagementComponent {
       ) ?? null;
   }
   updateFuel(): void {
-    if (!this.selectedFuel) return;
-    this.vehiclesService.updateFuel(this.selectedFuel).subscribe({
+    if (!this.selectedFuel || this.fuelUpdateForm.invalid) return;
+
+    const updatedFuel: Fuel = {
+      ...this.selectedFuel,
+      ...this.fuelUpdateForm.value,
+    };
+
+    this.vehiclesService.updateFuel(updatedFuel).subscribe({
       next: () => {
         this.selectedFuel = null;
         this.loadAllFuels();
-        this.errorMessage = null;
+        this.errorMessageUpdate = null;
       },
       error: (error) => {
-        this.errorMessage = error?.error?.message || 'Default error message';
-      }
+        this.errorMessageUpdate =
+          error?.error?.message || 'Default error message';
+      },
     });
   }
   selectFuel(item: Fuel): void {
     this.selectedFuel = { ...item };
+    this.fuelUpdateForm.patchValue({
+      fuelType: item.fuelType,
+    });
   }
   deleteFuel(id?: string): void {
     const fuelId = id ?? this.selectedFuel?.id;
@@ -321,11 +507,12 @@ export class DataManagementComponent {
       next: () => {
         this.selectedFuel = null;
         this.loadAllFuels();
-        this.errorMessage = null;
+        this.errorMessageUpdate = null;
       },
       error: (error) => {
-        this.errorMessage = error?.error?.message || 'Default error message';
-      }
+        this.errorMessageUpdate =
+          error?.error?.message || 'Default error message';
+      },
     });
   }
   loadAllFuels(): void {
@@ -334,20 +521,27 @@ export class DataManagementComponent {
     });
   }
   createFuel(): void {
-    const fuelValue = this.newFuel.fuelType.trim();
-    if (!fuelValue) return;
-    this.vehiclesService
-      .createFuel({ id: '', fuelType: fuelValue })
-      .subscribe({
-        next: () => {
-          this.loadAllFuels();
-          this.newFuel = { id: '', fuelType: '' };
-          this.errorMessage = null;
-        },
-        error: (error) => {
-          this.errorMessage = error?.error?.message || 'Default error message';
-        }
-      });
+    if (this.fuelForm.invalid) {
+      this.errorMessageCreate = 'Please fill in all fuel fields correctly.';
+      return;
+    }
+    const fuel: Fuel = {
+      id: '',
+      ...this.fuelForm.value,
+    };
+    this.vehiclesService.createFuel(fuel).subscribe({
+      next: () => {
+        this.loadAllFuels();
+        this.fuelForm.reset({
+          fuelType: '',
+        });
+        this.errorMessageCreate = null;
+      },
+      error: (error) => {
+        this.errorMessageCreate =
+          error?.error?.message || 'Default error message';
+      },
+    });
   }
 
   fetchHoldingByName(): void {
@@ -359,20 +553,32 @@ export class DataManagementComponent {
       ) ?? null;
   }
   updateHolding(): void {
-    if (!this.selectedHolding) return;
-    this.vehiclesService.updateHolding(this.selectedHolding).subscribe({
+    if (!this.selectedHolding || this.holdingUpdateForm.invalid) return;
+
+    const updatedHolding: Holding = {
+      ...this.selectedHolding,
+      ...this.holdingUpdateForm.value,
+    };
+
+    this.vehiclesService.updateHolding(updatedHolding).subscribe({
       next: () => {
         this.selectedHolding = null;
         this.loadAllHoldings();
-        this.errorMessage = null;
+        this.errorMessageUpdate = null;
       },
       error: (error) => {
-        this.errorMessage = error?.error?.message || 'Default error message';
-      }
+        this.errorMessageUpdate =
+          error?.error?.message || 'Default error message';
+      },
     });
   }
   selectHolding(item: Holding): void {
     this.selectedHolding = { ...item };
+    this.holdingUpdateForm.patchValue({
+      name: item.name,
+      logo: item.logo,
+      founding: item.founding,
+    });
   }
   deleteHolding(id?: string): void {
     const holdingId = id ?? this.selectedHolding?.id;
@@ -381,11 +587,12 @@ export class DataManagementComponent {
       next: () => {
         this.selectedHolding = null;
         this.loadAllHoldings();
-        this.errorMessage = null;
+        this.errorMessageUpdate = null;
       },
       error: (error) => {
-        this.errorMessage = error?.error?.message || 'Default error message';
-      }
+        this.errorMessageUpdate =
+          error?.error?.message || 'Default error message';
+      },
     });
   }
   loadAllHoldings(): void {
@@ -395,19 +602,28 @@ export class DataManagementComponent {
   }
 
   createHolding(): void {
-    if (!this.newHolding.name.trim() || !this.newHolding.logo.trim() || this.newHolding.founding <= 0) {
-      this.errorMessage = 'Please fill in all holding fields correctly.';
+    if (this.holdingForm.invalid) {
+      this.errorMessageCreate = 'Please fill in all holding fields correctly.';
       return;
     }
-    this.vehiclesService.createHolding(this.newHolding).subscribe({
+    const holding: Holding = {
+      id: '',
+      ...this.holdingForm.value,
+    };
+    this.vehiclesService.createHolding(holding).subscribe({
       next: () => {
         this.loadAllHoldings();
-        this.newHolding = { id: '', founding: 1970, logo: '', name: '' };
-        this.errorMessage = null;
+        this.holdingForm.reset({
+          name: '',
+          logo: '',
+          founding: 1970,
+        });
+        this.errorMessageCreate = null;
       },
       error: (error) => {
-        this.errorMessage = error?.error?.message || 'Failed to create holding.';
-      }
+        this.errorMessageCreate =
+          error?.error?.message || 'Failed to create holding.';
+      },
     });
   }
 
@@ -421,20 +637,30 @@ export class DataManagementComponent {
       ) ?? null;
   }
   updateSeats(): void {
-    if (!this.selectedSeats) return;
-    this.vehiclesService.updateSeats(this.selectedSeats).subscribe({
+    if (!this.selectedSeats || this.seatsUpdateForm.invalid) return;
+
+    const updatedSeats: Seats = {
+      ...this.selectedSeats,
+      ...this.seatsUpdateForm.value,
+    };
+
+    this.vehiclesService.updateSeats(updatedSeats).subscribe({
       next: () => {
         this.selectedSeats = null;
         this.loadAllSeats();
-        this.errorMessage = null;
+        this.errorMessageUpdate = null;
       },
       error: (error) => {
-        this.errorMessage = error?.error?.message || 'Default error message';
-      }
+        this.errorMessageUpdate =
+          error?.error?.message || 'Default error message';
+      },
     });
   }
   selectSeats(item: Seats): void {
     this.selectedSeats = { ...item };
+    this.seatsUpdateForm.patchValue({
+      quantity: item.quantity,
+    });
   }
   deleteSeats(id?: string): void {
     const seatsId = id ?? this.selectedSeats?.id;
@@ -443,11 +669,12 @@ export class DataManagementComponent {
       next: () => {
         this.selectedSeats = null;
         this.loadAllSeats();
-        this.errorMessage = null;
+        this.errorMessageUpdate = null;
       },
       error: (error) => {
-        this.errorMessage = error?.error?.message || 'Default error message';
-      }
+        this.errorMessageUpdate =
+          error?.error?.message || 'Default error message';
+      },
     });
   }
   loadAllSeats(): void {
@@ -456,16 +683,26 @@ export class DataManagementComponent {
     });
   }
   createSeats(): void {
-    if (this.newSeats.quantity <= 0) return;
-    this.vehiclesService.createSeats(this.newSeats).subscribe({
+    if (this.seatsForm.invalid) {
+      this.errorMessageCreate = 'Please fill in all seats fields correctly.';
+      return;
+    }
+    const seats: Seats = {
+      id: '',
+      ...this.seatsForm.value,
+    };
+    this.vehiclesService.createSeats(seats).subscribe({
       next: () => {
         this.loadAllSeats();
-        this.newSeats = { id: '', quantity: 0 };
-        this.errorMessage = null;
+        this.seatsForm.reset({
+          quantity: 0,
+        });
+        this.errorMessageCreate = null;
       },
       error: (error) => {
-        this.errorMessage = error?.error?.message || 'Default error message';
-      }
+        this.errorMessageCreate =
+          error?.error?.message || 'Default error message';
+      },
     });
   }
 
@@ -476,36 +713,53 @@ export class DataManagementComponent {
       ) ?? null;
   }
   updateType(): void {
-    if (!this.selectedType) return;
-    this.vehiclesService.updateType(this.selectedType).subscribe({
+    if (!this.selectedType || this.typeUpdateForm.invalid) return;
+
+    const updatedType: Type = {
+      ...this.selectedType,
+      ...this.typeUpdateForm.value,
+    };
+
+    this.vehiclesService.updateType(updatedType).subscribe({
       next: () => {
         this.selectedType = null;
         this.loadAllTypes();
-        this.errorMessage = null;
+        this.errorMessageUpdate = null;
       },
       error: (error) => {
-        this.errorMessage = error?.error?.message || 'Default error message';
-      }
+        this.errorMessageUpdate =
+          error?.error?.message || 'Default error message';
+      },
     });
   }
   createType(): void {
-    const typeValue = this.newType.type.trim();
-    if (!typeValue) return;
-    this.vehiclesService
-      .createType({ id: '', type: typeValue })
-      .subscribe({
-        next: () => {
-          this.loadAllTypes();
-          this.newType = { id: '', type: '' };
-          this.errorMessage = null;
-        },
-        error: (error) => {
-          this.errorMessage = error?.error?.message || 'Default error message';
-        }
-      });
+    if (this.typeForm.invalid) {
+      this.errorMessageCreate = 'Please fill in all type fields correctly.';
+      return;
+    }
+    const type: Type = {
+      id: '',
+      ...this.typeForm.value,
+    };
+    this.vehiclesService.createType(type).subscribe({
+      next: () => {
+        this.loadAllTypes();
+        this.typeForm.reset({
+          type: '',
+        });
+        this.errorMessageCreate = null;
+      },
+      error: (error) => {
+        this.errorMessageCreate =
+          error?.error?.message || 'Default error message';
+      },
+    });
   }
   selectType(item: Type): void {
     this.selectedType = { ...item };
+    this.typeUpdateForm.patchValue({
+      type: item.type,
+    });
   }
   deleteType(id?: string): void {
     const typeId = id ?? this.selectedType?.id;
@@ -514,11 +768,12 @@ export class DataManagementComponent {
       next: () => {
         this.selectedType = null;
         this.loadAllTypes();
-        this.errorMessage = null;
+        this.errorMessageUpdate = null;
       },
       error: (error) => {
-        this.errorMessage = error?.error?.message || 'Default error message';
-      }
+        this.errorMessageUpdate =
+          error?.error?.message || 'Default error message';
+      },
     });
   }
   loadAllTypes(): void {
@@ -534,20 +789,33 @@ export class DataManagementComponent {
       ) ?? null;
   }
   updateBrand(): void {
-    if (!this.selectedBrand) return;
-    this.vehiclesService.updateBrand(this.selectedBrand).subscribe({
+    if (!this.selectedBrand || this.brandUpdateForm.invalid) return;
+
+    const updatedBrand: Brand = {
+      ...this.selectedBrand,
+      ...this.brandUpdateForm.value,
+    };
+
+    this.vehiclesService.updateBrand(updatedBrand).subscribe({
       next: () => {
         this.selectedBrand = null;
         this.loadAllBrands();
-        this.errorMessage = null;
+        this.errorMessageUpdate = null;
       },
       error: (error) => {
-        this.errorMessage = error?.error?.message || 'Default error message';
-      }
+        this.errorMessageUpdate =
+          error?.error?.message || 'Default error message';
+      },
     });
   }
   selectBrand(item: Brand): void {
     this.selectedBrand = { ...item };
+    this.brandUpdateForm.patchValue({
+      name: item.name,
+      logo: item.logo,
+      founding: item.founding,
+      holdingId: item.holdingId,
+    });
   }
   deleteBrand(id?: string): void {
     const brandId = id ?? this.selectedBrand?.id;
@@ -556,11 +824,12 @@ export class DataManagementComponent {
       next: () => {
         this.selectedBrand = null;
         this.loadAllBrands();
-        this.errorMessage = null;
+        this.errorMessageUpdate = null;
       },
       error: (error) => {
-        this.errorMessage = error?.error?.message || 'Default error message';
-      }
+        this.errorMessageUpdate =
+          error?.error?.message || 'Default error message';
+      },
     });
   }
   loadAllBrands(): void {
@@ -570,25 +839,29 @@ export class DataManagementComponent {
   }
 
   createBrand(): void {
-    if (!this.newBrand.name.trim() || !this.newBrand.logo.trim() || this.newBrand.founding <= 0 || !this.newBrand.holdingId.trim()) {
-      this.errorMessage = 'Please fill in all brand fields correctly.';
+    if (this.brandForm.invalid) {
+      this.errorMessageCreate = 'Please fill in all brand fields correctly.';
       return;
     }
-    this.vehiclesService.createBrand(this.newBrand).subscribe({
+    const brand: Brand = {
+      id: '',
+      ...this.brandForm.value,
+    };
+    this.vehiclesService.createBrand(brand).subscribe({
       next: () => {
         this.loadAllBrands();
-        this.newBrand = {
-          id: '',
-          holdingId: '',
-          founding: 1970,
-          logo: '',
+        this.brandForm.reset({
           name: '',
-        };
-        this.errorMessage = null;
+          logo: '',
+          founding: 1970,
+          holdingId: '',
+        });
+        this.errorMessageCreate = null;
       },
       error: (error) => {
-        this.errorMessage = error?.error?.message || 'Failed to create brand.';
-      }
+        this.errorMessageCreate =
+          error?.error?.message || 'Failed to create brand.';
+      },
     });
   }
 
@@ -598,6 +871,7 @@ export class DataManagementComponent {
     }
   }
   onTabChange(): void {
-    this.errorMessage = null;
+    this.errorMessageCreate = null;
+    this.errorMessageUpdate = null;
   }
 }
