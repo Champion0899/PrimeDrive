@@ -1,53 +1,53 @@
 <mat-card class="sell-form-card">
   <mat-card-title>Fahrzeug zum Verkauf eintragen</mat-card-title>
-  <form (ngSubmit)="onSubmit()" #vehicleForm="ngForm">
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
     <mat-form-field appearance="fill">
       <mat-label>Fahrzeugname</mat-label>
-      <input matInput name="name" [(ngModel)]="vehicle.name" required placeholder="Fahrzeugname eingeben">
+      <input matInput formControlName="name" required placeholder="Fahrzeugname eingeben">
     </mat-form-field>
 
     <mat-form-field appearance="fill">
       <mat-label>Preis</mat-label>
-      <input matInput type="number" name="price" [(ngModel)]="vehicle.price" required placeholder="Preis in CHF">
+      <input matInput type="number" formControlName="price" required placeholder="Preis in CHF">
     </mat-form-field>
 
     <mat-form-field appearance="fill">
       <mat-label>Baujahr</mat-label>
-      <input matInput type="number" name="year" [(ngModel)]="vehicle.year" required placeholder="Baujahr z.B. 2020">
+      <input matInput type="number" formControlName="year" required placeholder="Baujahr z.B. 2020">
     </mat-form-field>
 
     <mat-form-field appearance="fill">
       <mat-label>Kilometerstand</mat-label>
-      <input matInput type="number" name="mileage" [(ngModel)]="vehicle.mileage" required placeholder="Kilometerstand z.B. 100000">
+      <input matInput type="number" formControlName="mileage" required placeholder="Kilometerstand z.B. 100000">
     </mat-form-field>
 
     <mat-form-field appearance="fill">
       <mat-label>Zustand</mat-label>
-      <input matInput name="condition" [(ngModel)]="vehicle.condition" placeholder="z. B. Gebraucht, Neu">
+      <input matInput formControlName="condition" placeholder="z. B. Gebraucht, Neu">
     </mat-form-field>
 
     <mat-form-field appearance="fill">
       <mat-label>Fahrzeughistorie</mat-label>
-      <textarea matInput name="vehicleHistory" [(ngModel)]="vehicle.vehicleHistory" placeholder="Kurze Beschreibung oder Historie"></textarea>
+      <textarea matInput formControlName="vehicleHistory" placeholder="Kurze Beschreibung oder Historie"></textarea>
     </mat-form-field>
 
     <mat-form-field appearance="fill">
       <mat-label>Marke</mat-label>
-      <mat-select name="brandsId" [(ngModel)]="vehicle.brandsId" required>
+      <mat-select formControlName="brandsId" required>
         <mat-option *ngFor="let brand of brands" [value]="brand.id">{{ brand.name }}</mat-option>
       </mat-select>
     </mat-form-field>
 
     <mat-form-field appearance="fill">
       <mat-label>Farbe</mat-label>
-      <mat-select name="colorsId" [(ngModel)]="vehicle.colorsId" required>
+      <mat-select formControlName="colorsId" required>
         <mat-option *ngFor="let color of colors" [value]="color.id">{{ color.name }}</mat-option>
       </mat-select>
     </mat-form-field>
 
     <mat-form-field appearance="fill">
       <mat-label>Typ</mat-label>
-      <mat-select name="typesId" [(ngModel)]="vehicle.typesId" required>
+      <mat-select formControlName="typesId" required>
         <mat-option *ngFor="let type of types" [value]="type.id">{{ type.type }}</mat-option>
       </mat-select>
     </mat-form-field>
@@ -55,93 +55,95 @@
     <mat-divider></mat-divider>
     <h3>Technische Spezifikationen</h3>
 
-    <mat-form-field appearance="fill">
-      <mat-label>Leistung (kW)</mat-label>
-      <input matInput type="number" [(ngModel)]="spec.powerKw" name="powerKw" required placeholder="z.B. 100">
-    </mat-form-field>
+    <div formGroupName="specs">
+      <mat-form-field appearance="fill">
+        <mat-label>Leistung (kW)</mat-label>
+        <input matInput type="number" formControlName="powerKw" required placeholder="z.B. 100">
+      </mat-form-field>
 
-    <mat-form-field appearance="fill">
-      <mat-label>Leistung (PS)</mat-label>
-      <input matInput type="number" [(ngModel)]="spec.powerPs" name="powerPs" required placeholder="z.B. 136">
-    </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Leistung (PS)</mat-label>
+        <input matInput type="number" formControlName="powerPs" required placeholder="z.B. 136">
+      </mat-form-field>
 
-    <mat-form-field appearance="fill">
-      <mat-label>Länge (mm)</mat-label>
-      <input matInput type="number" [(ngModel)]="spec.lengthMillimeters" name="lengthMillimeters" required placeholder="z.B. 4500">
-    </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Länge (mm)</mat-label>
+        <input matInput type="number" formControlName="lengthMillimeters" required placeholder="z.B. 4500">
+      </mat-form-field>
 
-    <mat-form-field appearance="fill">
-      <mat-label>Breite (mm)</mat-label>
-      <input matInput type="number" [(ngModel)]="spec.widthMillimeters" name="widthMillimeters" required placeholder="z.B. 1800">
-    </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Breite (mm)</mat-label>
+        <input matInput type="number" formControlName="widthMillimeters" required placeholder="z.B. 1800">
+      </mat-form-field>
 
-    <mat-form-field appearance="fill">
-      <mat-label>Höhe (mm)</mat-label>
-      <input matInput type="number" [(ngModel)]="spec.heightMillimeters" name="heightMillimeters" required placeholder="z.B. 1400">
-    </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Höhe (mm)</mat-label>
+        <input matInput type="number" formControlName="heightMillimeters" required placeholder="z.B. 1400">
+      </mat-form-field>
 
-    <mat-form-field appearance="fill">
-      <mat-label>Kofferraumvolumen min (l)</mat-label>
-      <input matInput type="number" [(ngModel)]="spec.trunkInLiterMin" name="trunkInLiterMin" required placeholder="z.B. 350">
-    </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Kofferraumvolumen min (l)</mat-label>
+        <input matInput type="number" formControlName="trunkInLiterMin" required placeholder="z.B. 350">
+      </mat-form-field>
 
-    <mat-form-field appearance="fill">
-      <mat-label>Kofferraumvolumen max (l)</mat-label>
-      <input matInput type="number" [(ngModel)]="spec.trunkInLiterMax" name="trunkInLiterMax" required placeholder="z.B. 1200">
-    </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Kofferraumvolumen max (l)</mat-label>
+        <input matInput type="number" formControlName="trunkInLiterMax" required placeholder="z.B. 1200">
+      </mat-form-field>
 
-    <mat-form-field appearance="fill">
-      <mat-label>0–100 km/h (s)</mat-label>
-      <input matInput type="number" [(ngModel)]="spec.zeroToHundredInSeconds" name="zeroToHundredInSeconds" required placeholder="z.B. 9.8">
-    </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>0–100 km/h (s)</mat-label>
+        <input matInput type="number" formControlName="zeroToHundredInSeconds" required placeholder="z.B. 9.8">
+      </mat-form-field>
 
-    <mat-form-field appearance="fill">
-      <mat-label>Vmax (km/h)</mat-label>
-      <input matInput type="number" [(ngModel)]="spec.topSpeedInKmH" name="topSpeedInKmH" required placeholder="z.B. 190">
-    </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Vmax (km/h)</mat-label>
+        <input matInput type="number" formControlName="topSpeedInKmH" required placeholder="z.B. 190">
+      </mat-form-field>
 
-    <mat-form-field appearance="fill">
-      <mat-label>Verbrauch/100km</mat-label>
-      <input matInput type="number" [(ngModel)]="spec.consumptionHundredInX" name="consumptionHundredInX" required placeholder="z.B. 6.5">
-    </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Verbrauch/100km</mat-label>
+        <input matInput type="number" formControlName="consumptionHundredInX" required placeholder="z.B. 6.5">
+      </mat-form-field>
 
-    <mat-form-field appearance="fill">
-      <mat-label>CO₂-Emissionen (g/km)</mat-label>
-      <input matInput type="number" [(ngModel)]="spec.coTwoEmissionsInGPerKm" name="coTwoEmissionsInGPerKm" required placeholder="z.B. 130">
-    </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>CO₂-Emissionen (g/km)</mat-label>
+        <input matInput type="number" formControlName="coTwoEmissionsInGPerKm" required placeholder="z.B. 130">
+      </mat-form-field>
 
-    <mat-form-field appearance="fill">
-      <mat-label>Hubraum (cm³)</mat-label>
-      <input matInput type="number" [(ngModel)]="spec.cubicCapacity" name="cubicCapacity" required placeholder="z.B. 1598">
-    </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Hubraum (cm³)</mat-label>
+        <input matInput type="number" formControlName="cubicCapacity" required placeholder="z.B. 1598">
+      </mat-form-field>
 
-    <mat-form-field appearance="fill">
-      <mat-label>Anzahl Türen</mat-label>
-      <mat-select [(ngModel)]="spec.doorsId" name="doorsId" required>
-        <mat-option *ngFor="let door of doors" [value]="door.id">{{ door.name }}</mat-option>
-      </mat-select>
-    </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Anzahl Türen</mat-label>
+        <mat-select formControlName="doorsId" required>
+          <mat-option *ngFor="let door of doors" [value]="door.id">{{ door.quantity }}</mat-option>
+        </mat-select>
+      </mat-form-field>
 
-    <mat-form-field appearance="fill">
-      <mat-label>Anzahl Sitze</mat-label>
-      <mat-select [(ngModel)]="spec.seatsId" name="seatsId" required>
-        <mat-option *ngFor="let seat of seats" [value]="seat.id">{{ seat.name }}</mat-option>
-      </mat-select>
-    </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Anzahl Sitze</mat-label>
+        <mat-select formControlName="seatsId" required>
+          <mat-option *ngFor="let seat of seats" [value]="seat.id">{{ seat.quantity }}</mat-option>
+        </mat-select>
+      </mat-form-field>
 
-    <mat-form-field appearance="fill">
-      <mat-label>Motor</mat-label>
-      <mat-select [(ngModel)]="spec.engineId" name="engineId" required>
-        <mat-option *ngFor="let engine of engines" [value]="engine.id">{{ engine.name }}</mat-option>
-      </mat-select>
-    </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Motor</mat-label>
+        <mat-select formControlName="engineId" required>
+          <mat-option *ngFor="let engine of engines" [value]="engine.id">{{ engine.engineType }}</mat-option>
+        </mat-select>
+      </mat-form-field>
 
-    <mat-form-field appearance="fill">
-      <mat-label>Kraftstoffart</mat-label>
-      <mat-select [(ngModel)]="spec.fuelsId" name="fuelsId" required>
-        <mat-option *ngFor="let fuel of fuels" [value]="fuel.id">{{ fuel.name }}</mat-option>
-      </mat-select>
-    </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Kraftstoffart</mat-label>
+        <mat-select formControlName="fuelsId" required>
+          <mat-option *ngFor="let fuel of fuels" [value]="fuel.id">{{ fuel.fuelType }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
 
     <button mat-raised-button color="primary" type="submit">Speichern</button>
   </form>

@@ -1,6 +1,12 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import {
+  FormsModule,
+  ReactiveFormsModule,
+  FormBuilder,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -11,8 +17,9 @@ import { MatDividerModule } from '@angular/material/divider';
 import { Vehicle } from '../../Models/vehicles/vehicle.interface';
 import { Brand } from '../../Models/vehicles/brand.interface';
 import { Color } from '../../Models/vehicles/color.interface';
-import { Type as VehicleType } from '../../Models/vehicles/type.interface'
+import { Type as VehicleType } from '../../Models/vehicles/type.interface';
 import { Specs } from '../../Models/vehicles/specs.interface';
+import { VehiclesService } from '../../Services/vehicles/vehicles.service';
 
 @Component({
   selector: 'app-sell',
@@ -20,6 +27,7 @@ import { Specs } from '../../Models/vehicles/specs.interface';
   imports: [
     CommonModule,
     FormsModule,
+    ReactiveFormsModule,
     MatCardModule,
     MatFormFieldModule,
     MatInputModule,
@@ -32,21 +40,10 @@ import { Specs } from '../../Models/vehicles/specs.interface';
   styleUrl: './sell.component.scss',
 })
 export class SellComponent {
-  vehicle: Vehicle = {
-    id: '',
-    name: '',
-    price: 0,
-    year: new Date().getFullYear(),
-    image: '',
-    mileage: 0,
-    condition: '',
-    vehicleHistory: '',
-    brandsId: '',
-    specsId: '',
-    typesId: '',
-    colorsId: '',
-    sellerId: '',
-  };
+  private vehicleService = inject(VehiclesService);
+
+  form!: FormGroup;
+  specsForm!: FormGroup;
 
   brands: Brand[] = [];
   colors: Color[] = [];
@@ -56,39 +53,16 @@ export class SellComponent {
   seats: any[] = [];
   engines: any[] = [];
   fuels: any[] = [];
-  spec: Specs = {
-    id: '',
-    powerKw: 0,
-    powerPs: 0,
-    lengthMillimeters: 0,
-    widthMillimeters: 0,
-    heightMillimeters: 0,
-    trunkInLiterMin: 0,
-    trunkInLiterMax: 0,
-    zeroToHundredInSeconds: 0,
-    topSpeedInKmH: 0,
-    consumptionHundredInX: 0,
-    coTwoEmissionsInGPerKm: 0,
-    cubicCapacity: 0,
-    doorsId: '',
-    seatsId: '',
-    engineId: '',
-    fuelsId: '',
-  };
 
   userVehicles: Vehicle[] = [];
 
+  constructor(private fb: FormBuilder) {}
+
   onSubmit() {
-    // Combine vehicle and spec before processing
-    console.log('Vehicle submitted:', this.vehicle);
-    console.log('Specs submitted:', this.spec);
+    console.log('Vehicle submitted:', this.form.value);
+    console.log('Specs submitted:', this.specsForm.value);
 
-    // Hier könntest du die spec speichern oder mit vehicle verknüpfen
-    // this.vehicle.specsId = this.spec.id; // falls Specs separat gespeichert werden
-    // this.userVehicles.push({...this.vehicle}); // falls lokal gespeichert wird
-
-    // Reset after submission
-    this.vehicle = {
+    this.form.reset({
       id: '',
       name: '',
       price: 0,
@@ -102,9 +76,9 @@ export class SellComponent {
       typesId: '',
       colorsId: '',
       sellerId: '',
-    };
+    });
 
-    this.spec = {
+    this.specsForm.reset({
       id: '',
       powerKw: 0,
       powerPs: 0,
@@ -122,14 +96,72 @@ export class SellComponent {
       seatsId: '',
       engineId: '',
       fuelsId: '',
-    };
+    });
   }
 
   editVehicle(vehicle: Vehicle) {
-    this.vehicle = { ...vehicle };
+    this.form.patchValue(vehicle);
   }
 
   deleteVehicle(id: string) {
     this.userVehicles = this.userVehicles.filter((v) => v.id !== id);
+  }
+
+  ngOnInit() {
+    this.vehicleService.getBrands().subscribe((data) => (this.brands = data));
+    this.vehicleService.getColors().subscribe((data) => (this.colors = data));
+    this.vehicleService.getTypes().subscribe((data) => (this.types = data));
+    this.vehicleService.getDoors().subscribe((data) => {
+      this.doors = data;
+      console.log('Doors:', data);
+    });
+    this.vehicleService.getSeats().subscribe((data) => {
+      this.seats = data;
+      console.log('Seats:', data);
+    });
+    this.vehicleService.getEngines().subscribe((data) => {
+      this.engines = data;
+      console.log('Engines:', data);
+    });
+    this.vehicleService.getFuels().subscribe((data) => {
+      this.fuels = data;
+      console.log('Fuels:', data);
+    });
+
+    this.form = this.fb.group({
+      id: [''],
+      name: [''],
+      price: [0],
+      year: [new Date().getFullYear()],
+      image: [''],
+      mileage: [0],
+      condition: [''],
+      vehicleHistory: [''],
+      brandsId: [''],
+      specsId: [''],
+      typesId: [''],
+      colorsId: [''],
+      sellerId: [''],
+    });
+
+    this.specsForm = this.fb.group({
+      id: [''],
+      powerKw: [0],
+      powerPs: [0],
+      lengthMillimeters: [0],
+      widthMillimeters: [0],
+      heightMillimeters: [0],
+      trunkInLiterMin: [0],
+      trunkInLiterMax: [0],
+      zeroToHundredInSeconds: [0],
+      topSpeedInKmH: [0],
+      consumptionHundredInX: [0],
+      coTwoEmissionsInGPerKm: [0],
+      cubicCapacity: [0],
+      doorsId: [''],
+      seatsId: [''],
+      engineId: [''],
+      fuelsId: [''],
+    });
   }
 }
