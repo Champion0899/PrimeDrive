@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   FormsModule,
@@ -20,6 +20,7 @@ import { Color } from '../../Models/vehicles/color.interface';
 import { Type as VehicleType } from '../../Models/vehicles/type.interface';
 import { Specs } from '../../Models/vehicles/specs.interface';
 import { VehiclesService } from '../../Services/vehicles/vehicles.service';
+import { UsersService } from '../../Services/users/users.service';
 
 @Component({
   selector: 'app-sell',
@@ -38,12 +39,47 @@ import { VehiclesService } from '../../Services/vehicles/vehicles.service';
   ],
   templateUrl: './sell.component.html',
   styleUrl: './sell.component.scss',
+  encapsulation: ViewEncapsulation.None,
 })
 export class SellComponent {
   private vehicleService = inject(VehiclesService);
+  private usersService = inject(UsersService);
 
-  form!: FormGroup;
-  specsForm!: FormGroup;
+  form: FormGroup = this.fb.group({
+    id: [''],
+    name: [''],
+    price: [0],
+    year: [new Date().getFullYear()],
+    image: [''],
+    mileage: [0],
+    condition: [''],
+    vehicleHistory: [''],
+    brandsId: [''],
+    specsId: [''],
+    typesId: [''],
+    colorsId: ['', Validators.required],
+    sellerId: [''],
+  });
+
+  specsForm: FormGroup = this.fb.group({
+    id: [''],
+    powerKw: [0],
+    powerPs: [0],
+    lengthMillimeter: [0],
+    widthMillimeter: [0],
+    heightMillimeter: [0],
+    trunkInLiterMin: [0],
+    trunkInLiterMax: [0],
+    zeroToHundredInSeconds: [0],
+    topSpeedInKmh: [0],
+    consumptionHundredInX: [0],
+    coTwoEmissionInGPerKm: [0],
+    cubicCapacity: [0],
+    doorsId: [''],
+    seatsId: [''],
+    engineId: [''],
+    fuelsId: [''],
+  });
 
   brands: Brand[] = [];
   colors: Color[] = [];
@@ -59,48 +95,125 @@ export class SellComponent {
   constructor(private fb: FormBuilder) {}
 
   onSubmit() {
-    console.log('Vehicle submitted:', this.form.value);
-    console.log('Specs submitted:', this.specsForm.value);
+    if (this.form.invalid || this.specsForm.invalid) {
+      console.warn('Formulareingaben ungültig.');
+      this.form.markAllAsTouched();
+      this.specsForm.markAllAsTouched();
+      return;
+    }
 
-    this.form.reset({
-      id: '',
-      name: '',
-      price: 0,
-      year: new Date().getFullYear(),
-      image: '',
-      mileage: 0,
-      condition: '',
-      vehicleHistory: '',
-      brandsId: '',
-      specsId: '',
-      typesId: '',
-      colorsId: '',
-      sellerId: '',
+    this.usersService.getCurrentUser().subscribe((user) => {
+      if (!user || !user.id) {
+        console.warn('Kein eingeloggter Benutzer gefunden.');
+        return;
+      }
+
+      const rawSpecs = this.specsForm.value;
+      const rawVehicle = {
+        ...this.form.value,
+        sellerId: user.id,
+      };
+
+      const specsPayload = {
+        id: '',
+        powerKw: rawSpecs.powerKw,
+        powerPs: rawSpecs.powerPs,
+        lengthMillimeter: rawSpecs.lengthMillimeter,
+        widthMillimeter: rawSpecs.widthMillimeter,
+        heightMillimeter: rawSpecs.heightMillimeter,
+        trunkInLiterMin: rawSpecs.trunkInLiterMin,
+        trunkInLiterMax: rawSpecs.trunkInLiterMax,
+        zeroToHundredInSeconds: rawSpecs.zeroToHundredInSeconds,
+        topSpeedInKmh: rawSpecs.topSpeedInKmh,
+        consumptionHundredInX: rawSpecs.consumptionHundredInX,
+        coTwoEmissionInGPerKm: rawSpecs.coTwoEmissionInGPerKm,
+        cubicCapacity: rawSpecs.cubicCapacity,
+        doorsId: rawSpecs.doorsId,
+        seatsId: rawSpecs.seatsId,
+        engineId: rawSpecs.engineId,
+        fuelsId: rawSpecs.fuelsId,
+      };
+
+      this.vehicleService
+        .createSpecs(specsPayload)
+        .subscribe((createdSpecs) => {
+          const vehicleData: Vehicle = {
+            ...rawVehicle,
+            specsId: createdSpecs.id,
+          };
+          console.log('Vehicle Data:', vehicleData);
+          this.vehicleService
+            .createVehicle(vehicleData)
+            .subscribe((createdVehicle) => {
+              this.loadUserVehicles(user.id);
+
+              this.form.reset({
+                id: '',
+                name: '',
+                price: 0,
+                year: new Date().getFullYear(),
+                image: '',
+                mileage: 0,
+                condition: '',
+                vehicleHistory: '',
+                brandsId: '',
+                specsId: '',
+                typesId: '',
+                colorsId: '',
+                sellerId: '',
+              });
+
+              this.specsForm.reset({
+                id: '',
+                powerKw: 0,
+                powerPs: 0,
+                lengthMillimeter: 0,
+                widthMillimeter: 0,
+                heightMillimeter: 0,
+                trunkInLiterMin: 0,
+                trunkInLiterMax: 0,
+                zeroToHundredInSeconds: 0,
+                topSpeedInKmh: 0,
+                consumptionHundredInX: 0,
+                coTwoEmissionInGPerKm: 0,
+                cubicCapacity: 0,
+                doorsId: '',
+                seatsId: '',
+                engineId: '',
+                fuelsId: '',
+              });
+            });
+        });
     });
+  }
 
-    this.specsForm.reset({
-      id: '',
-      powerKw: 0,
-      powerPs: 0,
-      lengthMillimeters: 0,
-      widthMillimeters: 0,
-      heightMillimeters: 0,
-      trunkInLiterMin: 0,
-      trunkInLiterMax: 0,
-      zeroToHundredInSeconds: 0,
-      topSpeedInKmH: 0,
-      consumptionHundredInX: 0,
-      coTwoEmissionsInGPerKm: 0,
-      cubicCapacity: 0,
-      doorsId: '',
-      seatsId: '',
-      engineId: '',
-      fuelsId: '',
+  loadUserVehicles(userId: string) {
+    this.vehicleService.getVehicles().subscribe((vehicles) => {
+      this.userVehicles = vehicles.filter((v) => v.sellerId === userId);
     });
   }
 
   editVehicle(vehicle: Vehicle) {
     this.form.patchValue(vehicle);
+    if (vehicle.specsId) {
+      this.vehicleService.getSpecsById(vehicle.specsId).subscribe((specs) => {
+        this.specsForm.patchValue(specs);
+      });
+
+      this.form.patchValue({
+        colorsId: vehicle.colorsId,
+        brandsId: vehicle.brandsId,
+        typesId: vehicle.typesId,
+        sellerId: vehicle.sellerId,
+        name: vehicle.name,
+        price: vehicle.price,
+        year: vehicle.year,
+        image: vehicle.image,
+        mileage: vehicle.mileage,
+        condition: vehicle.condition,
+        vehicleHistory: vehicle.vehicleHistory,
+      });
+    }
   }
 
   deleteVehicle(id: string) {
@@ -113,55 +226,21 @@ export class SellComponent {
     this.vehicleService.getTypes().subscribe((data) => (this.types = data));
     this.vehicleService.getDoors().subscribe((data) => {
       this.doors = data;
-      console.log('Doors:', data);
     });
     this.vehicleService.getSeats().subscribe((data) => {
       this.seats = data;
-      console.log('Seats:', data);
     });
     this.vehicleService.getEngines().subscribe((data) => {
       this.engines = data;
-      console.log('Engines:', data);
     });
     this.vehicleService.getFuels().subscribe((data) => {
       this.fuels = data;
-      console.log('Fuels:', data);
     });
-
-    this.form = this.fb.group({
-      id: [''],
-      name: [''],
-      price: [0],
-      year: [new Date().getFullYear()],
-      image: [''],
-      mileage: [0],
-      condition: [''],
-      vehicleHistory: [''],
-      brandsId: [''],
-      specsId: [''],
-      typesId: [''],
-      colorsId: [''],
-      sellerId: [''],
-    });
-
-    this.specsForm = this.fb.group({
-      id: [''],
-      powerKw: [0],
-      powerPs: [0],
-      lengthMillimeters: [0],
-      widthMillimeters: [0],
-      heightMillimeters: [0],
-      trunkInLiterMin: [0],
-      trunkInLiterMax: [0],
-      zeroToHundredInSeconds: [0],
-      topSpeedInKmH: [0],
-      consumptionHundredInX: [0],
-      coTwoEmissionsInGPerKm: [0],
-      cubicCapacity: [0],
-      doorsId: [''],
-      seatsId: [''],
-      engineId: [''],
-      fuelsId: [''],
+    this.usersService.getCurrentUser().subscribe((user) => {
+      if (user && user.id) {
+        this.form.patchValue({ sellerId: user.id });
+        this.loadUserVehicles(user.id);
+      }
     });
   }
 }

@@ -7,6 +7,11 @@
     </mat-form-field>
 
     <mat-form-field appearance="fill">
+      <mat-label>Bild-URL</mat-label>
+      <input matInput formControlName="image" required placeholder="Link zum Fahrzeugbild">
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
       <mat-label>Preis</mat-label>
       <input matInput type="number" formControlName="price" required placeholder="Preis in CHF">
     </mat-form-field>
@@ -34,28 +39,34 @@
     <mat-form-field appearance="fill">
       <mat-label>Marke</mat-label>
       <mat-select formControlName="brandsId" required>
-        <mat-option *ngFor="let brand of brands" [value]="brand.id">{{ brand.name }}</mat-option>
+        @for (brand of brands; track brand.id) {
+          <mat-option [value]="brand.id">{{ brand.name }}</mat-option>
+        }
       </mat-select>
     </mat-form-field>
 
     <mat-form-field appearance="fill">
       <mat-label>Farbe</mat-label>
       <mat-select formControlName="colorsId" required>
-        <mat-option *ngFor="let color of colors" [value]="color.id">{{ color.name }}</mat-option>
+        @for (color of colors; track color.id) {
+          <mat-option [value]="color.id">{{ color.name }}</mat-option>
+        }
       </mat-select>
     </mat-form-field>
 
     <mat-form-field appearance="fill">
       <mat-label>Typ</mat-label>
       <mat-select formControlName="typesId" required>
-        <mat-option *ngFor="let type of types" [value]="type.id">{{ type.type }}</mat-option>
+        @for (type of types; track type.id) {
+          <mat-option [value]="type.id">{{ type.type }}</mat-option>
+        }
       </mat-select>
     </mat-form-field>
 
     <mat-divider></mat-divider>
     <h3>Technische Spezifikationen</h3>
 
-    <div formGroupName="specs">
+    <div [formGroup]="specsForm">
       <mat-form-field appearance="fill">
         <mat-label>Leistung (kW)</mat-label>
         <input matInput type="number" formControlName="powerKw" required placeholder="z.B. 100">
@@ -68,17 +79,17 @@
 
       <mat-form-field appearance="fill">
         <mat-label>Länge (mm)</mat-label>
-        <input matInput type="number" formControlName="lengthMillimeters" required placeholder="z.B. 4500">
+        <input matInput type="number" formControlName="lengthMillimeter" required placeholder="z.B. 4500">
       </mat-form-field>
 
       <mat-form-field appearance="fill">
         <mat-label>Breite (mm)</mat-label>
-        <input matInput type="number" formControlName="widthMillimeters" required placeholder="z.B. 1800">
+        <input matInput type="number" formControlName="widthMillimeter" required placeholder="z.B. 1800">
       </mat-form-field>
 
       <mat-form-field appearance="fill">
         <mat-label>Höhe (mm)</mat-label>
-        <input matInput type="number" formControlName="heightMillimeters" required placeholder="z.B. 1400">
+        <input matInput type="number" formControlName="heightMillimeter" required placeholder="z.B. 1400">
       </mat-form-field>
 
       <mat-form-field appearance="fill">
@@ -98,7 +109,7 @@
 
       <mat-form-field appearance="fill">
         <mat-label>Vmax (km/h)</mat-label>
-        <input matInput type="number" formControlName="topSpeedInKmH" required placeholder="z.B. 190">
+        <input matInput type="number" formControlName="topSpeedInKmh" required placeholder="z.B. 190">
       </mat-form-field>
 
       <mat-form-field appearance="fill">
@@ -108,7 +119,7 @@
 
       <mat-form-field appearance="fill">
         <mat-label>CO₂-Emissionen (g/km)</mat-label>
-        <input matInput type="number" formControlName="coTwoEmissionsInGPerKm" required placeholder="z.B. 130">
+        <input matInput type="number" formControlName="coTwoEmissionInGPerKm" required placeholder="z.B. 130">
       </mat-form-field>
 
       <mat-form-field appearance="fill">
@@ -119,28 +130,36 @@
       <mat-form-field appearance="fill">
         <mat-label>Anzahl Türen</mat-label>
         <mat-select formControlName="doorsId" required>
-          <mat-option *ngFor="let door of doors" [value]="door.id">{{ door.quantity }}</mat-option>
+          @for (door of doors; track door.id) {
+            <mat-option [value]="door.id">{{ door.quantity }}</mat-option>
+          }
         </mat-select>
       </mat-form-field>
 
       <mat-form-field appearance="fill">
         <mat-label>Anzahl Sitze</mat-label>
         <mat-select formControlName="seatsId" required>
-          <mat-option *ngFor="let seat of seats" [value]="seat.id">{{ seat.quantity }}</mat-option>
+          @for (seat of seats; track seat.id) {
+            <mat-option [value]="seat.id">{{ seat.quantity }}</mat-option>
+          }
         </mat-select>
       </mat-form-field>
 
       <mat-form-field appearance="fill">
         <mat-label>Motor</mat-label>
         <mat-select formControlName="engineId" required>
-          <mat-option *ngFor="let engine of engines" [value]="engine.id">{{ engine.engineType }}</mat-option>
+          @for (engine of engines; track engine.id) {
+            <mat-option [value]="engine.id">{{ engine.engineType }}</mat-option>
+          }
         </mat-select>
       </mat-form-field>
 
       <mat-form-field appearance="fill">
         <mat-label>Kraftstoffart</mat-label>
         <mat-select formControlName="fuelsId" required>
-          <mat-option *ngFor="let fuel of fuels" [value]="fuel.id">{{ fuel.fuelType }}</mat-option>
+          @for (fuel of fuels; track fuel.id) {
+            <mat-option [value]="fuel.id">{{ fuel.fuelType }}</mat-option>
+          }
         </mat-select>
       </mat-form-field>
     </div>

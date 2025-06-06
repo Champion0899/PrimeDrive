@@ -15,7 +15,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule, MatLabel } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { Router } from '@angular/router';
-import { forkJoin, map, switchMap } from 'rxjs';
+import { forkJoin, map, switchMap, of } from 'rxjs';
 import { VehicleWithLessDetails } from '../../Models/vehicles/vehicleWithLessDetails';
 import { VehiclesService } from '../../Services/vehicles/vehicles.service';
 import { FormsModule } from '@angular/forms';
@@ -35,7 +35,7 @@ import { MatButtonModule } from '@angular/material/button';
     MatInput,
     MatLabel,
     MatIcon,
-    MatButtonModule
+    MatButtonModule,
   ],
   templateUrl: './vehicles.component.html',
   styleUrl: './vehicles.component.scss',
@@ -109,7 +109,7 @@ export class VehiclesComponent implements OnInit {
               switchMap((brand) =>
                 forkJoin({
                   type: this.vehiclesService.getTypeById(vehicle.typesId),
-                  color: this.vehiclesService.getColorById(vehicle.colorsId),
+                  color: vehicle.colorsId ? this.vehiclesService.getColorById(vehicle.colorsId) : of(null),
                   specs: this.vehiclesService
                     .getSpecsById(vehicle.specsId)
                     .pipe(
@@ -206,7 +206,6 @@ export class VehiclesComponent implements OnInit {
               vehicles.map((v) => v.specs?.doors?.quantity).filter(Boolean)
             ),
           ];
-          console.log('Vehicles fetched successfully:', this.vehicles);
         },
         error: (error: HttpErrorResponse) => {
           console.error('Error fetching vehicles:', error.message);

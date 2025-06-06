@@ -360,6 +360,7 @@ export class VehiclesService {
    * @returns Observable of the created Specs.
    */
   public createSpecs(specs: Specs): Observable<Specs> {
+    console.log('Creating specs:', specs);
     return this.httpClient.post<Specs>(`${this.apiUrl}/vehicle_specs`, specs, {
       withCredentials: true,
     });
