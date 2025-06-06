@@ -1,5 +1,5 @@
-import { Injectable } from '@angular/core';
-import { CanActivate, Router } from '@angular/router';
+import { Injectable, inject } from '@angular/core';
+import { CanActivate, Router, CanActivateFn } from '@angular/router';
 import { UsersService } from '../Services/users/users.service';
 
 /**
@@ -7,7 +7,7 @@ import { UsersService } from '../Services/users/users.service';
  * It checks the current user's role using the UsersService and redirects non-admins.
  *
  * Author: Fatlum Epiroti
- * Version: 1.0.0
+ * Version: 2.0
  * Date: 2025-06-06
  */
 @Injectable({
@@ -40,3 +40,34 @@ export class AdminGuard implements CanActivate {
     });
   }
 }
+
+/**
+ * Guard that prevents access to routes unless the user has an 'ADMIN' role.
+ * It checks the current user's role using the UsersService and redirects non-admins.
+ *
+ * Author: Fatlum Epiroti
+ * Version: 1.0.0
+ * Date: 2025-06-06
+ */
+
+/**
+ * Determines whether the current user has permission to activate a route.
+ * Grants access only if the user has an 'ADMIN' role; otherwise, redirects to '/vehicles'.
+ *
+ * @returns Promise<boolean | UrlTree> Resolves to true if user is admin, or UrlTree redirect otherwise.
+ */
+export const adminGuard: CanActivateFn = async () => {
+  const userService = inject(UsersService);
+  const router = inject(Router);
+
+  try {
+    const user = await userService.getCurrentUser().toPromise();
+    if (user?.role?.includes('ADMIN')) {
+      return true;
+    } else {
+      return router.createUrlTree(['/vehicles']);
+    }
+  } catch {
+    return router.createUrlTree(['/vehicles']);
+  }
+};
