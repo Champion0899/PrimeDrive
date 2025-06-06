@@ -16,6 +16,15 @@ import { Color } from '../../../Models/vehicles/color.interface';
 import { Type as VehicleType } from '../../../Models/vehicles/type.interface';
 import { User } from '../../../Models/vehicles/user.interface';
 
+/**
+ * Component that displays full details of a specific vehicle.
+ * Retrieves the vehicle ID from route parameters and fetches all related entities,
+ * including brand, type, color, specifications, and seller information.
+ *
+ * Author: Fatlum Epiroti
+ * Version: 1.0.0
+ * Date: 2025-06-06
+ */
 @Component({
   selector: 'app-vehicle-details',
   standalone: true,
@@ -28,10 +37,22 @@ export class VehicleDetailsComponent implements OnInit {
   private route = inject(ActivatedRoute);
   private VehiclesService = inject(VehiclesService);
 
+  /**
+   * Lifecycle hook that triggers the fetching of vehicle details after component initialization.
+   *
+   * @returns void
+   */
   ngOnInit(): void {
     this.getVehicleDetails();
   }
 
+  /**
+   * Fetches all detailed data for a vehicle by ID using the VehiclesService.
+   * Aggregates related entities (brand, type, color, specs, seller, engine, fuel, doors, seats)
+   * into a single VehicleWithFullDetails object.
+   *
+   * @returns void
+   */
   private getVehicleDetails(): void {
     const vehicleId = this.route.snapshot.paramMap.get('id');
     if (!vehicleId) {

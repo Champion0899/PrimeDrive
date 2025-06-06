@@ -11,6 +11,10 @@ import { HttpErrorResponse } from '@angular/common/http';
 /**
  * Component for the registration dialog.
  * Collects user data and sends it to the AuthService for registration.
+ *
+ * Author: Fatlum Epiroti
+ * Version: 1.0.0
+ * Date: 2025-06-03
  */
 @Component({
   selector: 'app-register-dialog',
@@ -22,7 +26,7 @@ import { HttpErrorResponse } from '@angular/common/http';
     MatButtonModule,
     MatFormFieldModule,
     FormsModule,
-    MatError
+    MatError,
   ],
   templateUrl: './register-dialog.component.html',
   styleUrl: './register-dialog.component.scss',
@@ -109,7 +113,9 @@ export class RegisterDialogComponent implements AfterViewChecked {
       this.confirmPasswordModel.control.setErrors({ mismatch: true });
     } else if (this.confirmPasswordModel?.errors?.['mismatch']) {
       this.confirmPasswordModel.control.setErrors(null);
-      this.confirmPasswordModel.control.updateValueAndValidity({ onlySelf: true });
+      this.confirmPasswordModel.control.updateValueAndValidity({
+        onlySelf: true,
+      });
     }
 
     // Manual validation for zip code

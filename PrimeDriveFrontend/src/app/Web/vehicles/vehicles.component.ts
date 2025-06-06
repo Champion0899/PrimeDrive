@@ -1,3 +1,12 @@
+/**
+ * Component that displays a list of vehicles with filter functionality.
+ * Retrieves all vehicles and their nested details (brand, type, specs, etc.).
+ * Supports dynamic filtering, reset, and navigation to individual vehicle details.
+ *
+ * Author: Fatlum Epiroti
+ * Version: 1.0.0
+ * Date: 2025-06-06
+ */
 import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -63,14 +72,33 @@ export class VehiclesComponent implements OnInit {
   private vehiclesService = inject(VehiclesService);
   private router = inject(Router);
 
+  /**
+   * Lifecycle hook that is called after component initialization.
+   * Triggers the loading of all vehicles from the backend.
+   *
+   * @returns void
+   */
   public ngOnInit(): void {
     this.getVehicles();
   }
 
+  /**
+   * Navigates to the detailed view of a selected vehicle.
+   *
+   * @param vehicleId The ID of the selected vehicle.
+   * @returns void
+   */
   public goToVehicleDetails(vehicleId: string): void {
     this.router.navigate(['/vehicles', vehicleId]);
   }
 
+  /**
+   * Loads all vehicles from the backend and maps related entities
+   * such as brand, type, color, specs, engine, fuel, seats, and doors.
+   * Also computes unique values for filter dropdowns.
+   *
+   * @returns void
+   */
   private getVehicles() {
     this.vehiclesService
       .getVehicles()
@@ -186,6 +214,11 @@ export class VehiclesComponent implements OnInit {
       });
   }
 
+  /**
+   * Applies current filter settings to the vehicle list.
+   *
+   * @returns VehicleWithLessDetails[] Array of vehicles that match the filter criteria.
+   */
   public getFilteredVehicles(): VehicleWithLessDetails[] {
     return this.vehicles.filter((v) => {
       return (
@@ -213,6 +246,11 @@ export class VehiclesComponent implements OnInit {
     });
   }
 
+  /**
+   * Resets all applied filters to their default state.
+   *
+   * @returns void
+   */
   public resetFilters(): void {
     this.filters = {
       brand: 'All',
@@ -230,6 +268,11 @@ export class VehiclesComponent implements OnInit {
     };
   }
 
+  /**
+   * Dynamically updates the filter dropdown options based on current filter state.
+   *
+   * @returns void
+   */
   public updateFilterOptions(): void {
     const filtered = this.getFilteredVehicles();
     const allVehicles = this.vehicles;

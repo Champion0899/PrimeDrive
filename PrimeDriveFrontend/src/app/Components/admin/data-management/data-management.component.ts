@@ -1,3 +1,11 @@
+/**
+ * Component for managing vehicle-related data such as colors, brands, engines, etc.
+ * Allows create, update, delete and list operations for each entity via the VehiclesService.
+ *
+ * Author: Fatlum Epiroti
+ * Version: 1.0.0
+ * Date: 2025-06-03
+ */
 import { Component } from '@angular/core';
 import { inject } from '@angular/core';
 import { OnInit } from '@angular/core';
@@ -92,7 +100,17 @@ export class DataManagementComponent implements OnInit {
   public selectedType: Type | null = null;
   public searchedTypeName: string = '';
 
+  /**
+   * Main form group used for creating new entities.
+   * Contains nested FormGroups for each vehicle-related entity 
+   * with proper validation rules.
+   */
   public formGroup: FormGroup = new FormGroup({});
+  /**
+   * Form group used for updating existing entities.
+   * Contains nested FormGroups mirroring the structure of `formGroup`,
+   * but with prefilled or editable values without validation constraints.
+   */
   public updateFormGroup: FormGroup = new FormGroup({});
 
   get colorForm(): FormGroup {
@@ -145,6 +163,14 @@ export class DataManagementComponent implements OnInit {
     return this.updateFormGroup.get('seats') as FormGroup;
   }
 
+  /**
+   * Lifecycle hook that is called after component initialization.
+   * Initializes the form groups for all entities (color, brand, engine, etc.) 
+   * with their respective FormControls and validators.
+   * Also triggers the loading of all data entries from the backend for each entity.
+   *
+   * @returns void
+   */
   ngOnInit(): void {
     this.formGroup = new FormGroup({
       color: new FormGroup({
@@ -231,12 +257,22 @@ export class DataManagementComponent implements OnInit {
     this.loadAllBrands();
   }
 
+  /**
+   * Filters the colors list based on the searchedColorName.
+   *
+   * @returns void
+   */
   fetchColorByName(): void {
     this.selectedColor =
       this.colors.find((color) =>
         color.name.toLowerCase().includes(this.searchedColorName.toLowerCase())
       ) ?? null;
   }
+  /**
+   * Updates the selected color using the update form values.
+   *
+   * @returns void
+   */
   updateColor(): void {
     if (!this.selectedColor || this.colorUpdateForm.invalid) return;
 
@@ -257,6 +293,12 @@ export class DataManagementComponent implements OnInit {
       },
     });
   }
+  /**
+   * Selects a color and pre-fills the update form with its data.
+   *
+   * @param item The selected Color object
+   * @returns void
+   */
   selectColor(item: Color): void {
     this.selectedColor = { ...item };
     this.colorUpdateForm.patchValue({
@@ -264,6 +306,12 @@ export class DataManagementComponent implements OnInit {
       hexCode: item.hexCode,
     });
   }
+  /**
+   * Deletes the specified color by ID or currently selected one.
+   *
+   * @param id Optional color ID to delete
+   * @returns void
+   */
   deleteColor(id?: string): void {
     const colorId = id ?? this.selectedColor?.id;
     if (!colorId) return;
@@ -279,6 +327,13 @@ export class DataManagementComponent implements OnInit {
       },
     });
   }
+  /**
+   * Creates a new color entry using the form data.
+   * Sends the data to the backend via the VehiclesService.
+   * Displays error message if validation fails or backend returns error.
+   *
+   * @returns void
+   */
   createColor(): void {
     if (this.colorForm.invalid) {
       this.errorMessageCreate = 'Please fill in all color fields correctly.';
@@ -303,12 +358,22 @@ export class DataManagementComponent implements OnInit {
       },
     });
   }
+  /**
+   * Loads all color entries from the backend.
+   *
+   * @returns void
+   */
   loadAllColors(): void {
     this.vehiclesService.getColors().subscribe((data: Color[]) => {
       this.colors = data;
     });
   }
 
+  /**
+   * Filters the doors list based on the searchedDoorsName.
+   *
+   * @returns void
+   */
   fetchDoorsByName(): void {
     this.selectedDoors =
       this.doors.find((doors) =>
@@ -318,6 +383,11 @@ export class DataManagementComponent implements OnInit {
           .includes(this.searchedDoorsName.toLowerCase())
       ) ?? null;
   }
+  /**
+   * Updates the selected doors using the update form values.
+   *
+   * @returns void
+   */
   updateDoors(): void {
     if (!this.selectedDoors || this.doorsUpdateForm.invalid) return;
 
@@ -338,12 +408,24 @@ export class DataManagementComponent implements OnInit {
       },
     });
   }
+  /**
+   * Selects a doors entry and pre-fills the update form with its data.
+   *
+   * @param item The selected Doors object
+   * @returns void
+   */
   selectDoors(item: Doors): void {
     this.selectedDoors = { ...item };
     this.doorsUpdateForm.patchValue({
       quantity: item.quantity,
     });
   }
+  /**
+   * Deletes the specified doors entry by ID or currently selected one.
+   *
+   * @param id Optional doors ID to delete
+   * @returns void
+   */
   deleteDoors(id?: string): void {
     const doorsId = id ?? this.selectedDoors?.id;
     if (!doorsId) return;
@@ -359,11 +441,23 @@ export class DataManagementComponent implements OnInit {
       },
     });
   }
+  /**
+   * Loads all doors entries from the backend.
+   *
+   * @returns void
+   */
   loadAllDoors(): void {
     this.vehiclesService.getDoors().subscribe((data: Doors[]) => {
       this.doors = data;
     });
   }
+  /**
+   * Creates a new doors entry using the form data.
+   * Sends the data to the backend via the VehiclesService.
+   * Displays error message if validation fails or backend returns error.
+   *
+   * @returns void
+   */
   createDoors(): void {
     if (this.doorsForm.invalid) {
       this.errorMessageCreate = 'Please fill in all doors fields correctly.';
@@ -388,6 +482,11 @@ export class DataManagementComponent implements OnInit {
     });
   }
 
+  /**
+   * Filters the engines list based on the searchedEngineName.
+   *
+   * @returns void
+   */
   fetchEngineByName(): void {
     this.selectedEngine =
       this.engines.find((engine) =>
@@ -396,6 +495,11 @@ export class DataManagementComponent implements OnInit {
           .includes(this.searchedEngineName.toLowerCase())
       ) ?? null;
   }
+  /**
+   * Updates the selected engine using the update form values.
+   *
+   * @returns void
+   */
   updateEngine(): void {
     if (!this.selectedEngine || this.engineUpdateForm.invalid) return;
 
@@ -416,12 +520,24 @@ export class DataManagementComponent implements OnInit {
       },
     });
   }
+  /**
+   * Selects an engine and pre-fills the update form with its data.
+   *
+   * @param item The selected Engine object
+   * @returns void
+   */
   selectEngine(item: Engine): void {
     this.selectedEngine = { ...item };
     this.engineUpdateForm.patchValue({
       engineType: item.engineType,
     });
   }
+  /**
+   * Deletes the specified engine entry by ID or currently selected one.
+   *
+   * @param id Optional engine ID to delete
+   * @returns void
+   */
   deleteEngine(id?: string): void {
     const engineId = id ?? this.selectedEngine?.id;
     if (!engineId) return;
@@ -437,11 +553,23 @@ export class DataManagementComponent implements OnInit {
       },
     });
   }
+  /**
+   * Loads all engine entries from the backend.
+   *
+   * @returns void
+   */
   loadAllEngines(): void {
     this.vehiclesService.getEngines().subscribe((data: Engine[]) => {
       this.engines = data;
     });
   }
+  /**
+   * Creates a new engine entry using the form data.
+   * Sends the data to the backend via the VehiclesService.
+   * Displays error message if validation fails or backend returns error.
+   *
+   * @returns void
+   */
   createEngine(): void {
     if (this.engineForm.invalid) {
       this.errorMessageCreate = 'Please fill in all engine fields correctly.';
@@ -466,6 +594,11 @@ export class DataManagementComponent implements OnInit {
     });
   }
 
+  /**
+   * Filters the fuels list based on the searchedFuelName.
+   *
+   * @returns void
+   */
   fetchFuelByName(): void {
     this.selectedFuel =
       this.fuels.find((fuel) =>
@@ -474,6 +607,11 @@ export class DataManagementComponent implements OnInit {
           .includes(this.searchedFuelName.toLowerCase())
       ) ?? null;
   }
+  /**
+   * Updates the selected fuel using the update form values.
+   *
+   * @returns void
+   */
   updateFuel(): void {
     if (!this.selectedFuel || this.fuelUpdateForm.invalid) return;
 
@@ -494,12 +632,24 @@ export class DataManagementComponent implements OnInit {
       },
     });
   }
+  /**
+   * Selects a fuel and pre-fills the update form with its data.
+   *
+   * @param item The selected Fuel object
+   * @returns void
+   */
   selectFuel(item: Fuel): void {
     this.selectedFuel = { ...item };
     this.fuelUpdateForm.patchValue({
       fuelType: item.fuelType,
     });
   }
+  /**
+   * Deletes the specified fuel entry by ID or currently selected one.
+   *
+   * @param id Optional fuel ID to delete
+   * @returns void
+   */
   deleteFuel(id?: string): void {
     const fuelId = id ?? this.selectedFuel?.id;
     if (!fuelId) return;
@@ -515,11 +665,23 @@ export class DataManagementComponent implements OnInit {
       },
     });
   }
+  /**
+   * Loads all fuel entries from the backend.
+   *
+   * @returns void
+   */
   loadAllFuels(): void {
     this.vehiclesService.getFuels().subscribe((data: Fuel[]) => {
       this.fuels = data;
     });
   }
+  /**
+   * Creates a new fuel entry using the form data.
+   * Sends the data to the backend via the VehiclesService.
+   * Displays error message if validation fails or backend returns error.
+   *
+   * @returns void
+   */
   createFuel(): void {
     if (this.fuelForm.invalid) {
       this.errorMessageCreate = 'Please fill in all fuel fields correctly.';
@@ -544,6 +706,11 @@ export class DataManagementComponent implements OnInit {
     });
   }
 
+  /**
+   * Filters the holdings list based on the searchedHoldingName.
+   *
+   * @returns void
+   */
   fetchHoldingByName(): void {
     this.selectedHolding =
       this.holdings.find((holding) =>
@@ -552,6 +719,11 @@ export class DataManagementComponent implements OnInit {
           .includes(this.searchedHoldingName.toLowerCase())
       ) ?? null;
   }
+  /**
+   * Updates the selected holding using the update form values.
+   *
+   * @returns void
+   */
   updateHolding(): void {
     if (!this.selectedHolding || this.holdingUpdateForm.invalid) return;
 
@@ -572,6 +744,12 @@ export class DataManagementComponent implements OnInit {
       },
     });
   }
+  /**
+   * Selects a holding and pre-fills the update form with its data.
+   *
+   * @param item The selected Holding object
+   * @returns void
+   */
   selectHolding(item: Holding): void {
     this.selectedHolding = { ...item };
     this.holdingUpdateForm.patchValue({
@@ -580,6 +758,12 @@ export class DataManagementComponent implements OnInit {
       founding: item.founding,
     });
   }
+  /**
+   * Deletes the specified holding entry by ID or currently selected one.
+   *
+   * @param id Optional holding ID to delete
+   * @returns void
+   */
   deleteHolding(id?: string): void {
     const holdingId = id ?? this.selectedHolding?.id;
     if (!holdingId) return;
@@ -595,12 +779,23 @@ export class DataManagementComponent implements OnInit {
       },
     });
   }
+  /**
+   * Loads all holding entries from the backend.
+   *
+   * @returns void
+   */
   loadAllHoldings(): void {
     this.vehiclesService.getHoldings().subscribe((data: Holding[]) => {
       this.holdings = data;
     });
   }
-
+  /**
+   * Creates a new holding entry using the form data.
+   * Sends the data to the backend via the VehiclesService.
+   * Displays error message if validation fails or backend returns error.
+   *
+   * @returns void
+   */
   createHolding(): void {
     if (this.holdingForm.invalid) {
       this.errorMessageCreate = 'Please fill in all holding fields correctly.';
@@ -627,6 +822,11 @@ export class DataManagementComponent implements OnInit {
     });
   }
 
+  /**
+   * Filters the seats list based on the searchedSeatsName.
+   *
+   * @returns void
+   */
   fetchSeatsByName(): void {
     this.selectedSeats =
       this.seats.find((seats) =>
@@ -636,6 +836,11 @@ export class DataManagementComponent implements OnInit {
           .includes(this.searchedSeatsName.toLowerCase())
       ) ?? null;
   }
+  /**
+   * Updates the selected seats using the update form values.
+   *
+   * @returns void
+   */
   updateSeats(): void {
     if (!this.selectedSeats || this.seatsUpdateForm.invalid) return;
 
@@ -656,12 +861,24 @@ export class DataManagementComponent implements OnInit {
       },
     });
   }
+  /**
+   * Selects a seats entry and pre-fills the update form with its data.
+   *
+   * @param item The selected Seats object
+   * @returns void
+   */
   selectSeats(item: Seats): void {
     this.selectedSeats = { ...item };
     this.seatsUpdateForm.patchValue({
       quantity: item.quantity,
     });
   }
+  /**
+   * Deletes the specified seats entry by ID or currently selected one.
+   *
+   * @param id Optional seats ID to delete
+   * @returns void
+   */
   deleteSeats(id?: string): void {
     const seatsId = id ?? this.selectedSeats?.id;
     if (!seatsId) return;
@@ -677,11 +894,23 @@ export class DataManagementComponent implements OnInit {
       },
     });
   }
+  /**
+   * Loads all seats entries from the backend.
+   *
+   * @returns void
+   */
   loadAllSeats(): void {
     this.vehiclesService.getSeats().subscribe((data: Seats[]) => {
       this.seats = data;
     });
   }
+  /**
+   * Creates a new seats entry using the form data.
+   * Sends the data to the backend via the VehiclesService.
+   * Displays error message if validation fails or backend returns error.
+   *
+   * @returns void
+   */
   createSeats(): void {
     if (this.seatsForm.invalid) {
       this.errorMessageCreate = 'Please fill in all seats fields correctly.';
@@ -706,12 +935,22 @@ export class DataManagementComponent implements OnInit {
     });
   }
 
+  /**
+   * Filters the types list based on the searchedTypeName.
+   *
+   * @returns void
+   */
   fetchTypeByName(): void {
     this.selectedType =
       this.types.find((type) =>
         type.type.toLowerCase().includes(this.searchedTypeName.toLowerCase())
       ) ?? null;
   }
+  /**
+   * Updates the selected type using the update form values.
+   *
+   * @returns void
+   */
   updateType(): void {
     if (!this.selectedType || this.typeUpdateForm.invalid) return;
 
@@ -732,6 +971,13 @@ export class DataManagementComponent implements OnInit {
       },
     });
   }
+  /**
+   * Creates a new type entry using the form data.
+   * Sends the data to the backend via the VehiclesService.
+   * Displays error message if validation fails or backend returns error.
+   *
+   * @returns void
+   */
   createType(): void {
     if (this.typeForm.invalid) {
       this.errorMessageCreate = 'Please fill in all type fields correctly.';
@@ -755,12 +1001,24 @@ export class DataManagementComponent implements OnInit {
       },
     });
   }
+  /**
+   * Selects a type and pre-fills the update form with its data.
+   *
+   * @param item The selected Type object
+   * @returns void
+   */
   selectType(item: Type): void {
     this.selectedType = { ...item };
     this.typeUpdateForm.patchValue({
       type: item.type,
     });
   }
+  /**
+   * Deletes the specified type entry by ID or currently selected one.
+   *
+   * @param id Optional type ID to delete
+   * @returns void
+   */
   deleteType(id?: string): void {
     const typeId = id ?? this.selectedType?.id;
     if (!typeId) return;
@@ -776,18 +1034,33 @@ export class DataManagementComponent implements OnInit {
       },
     });
   }
+  /**
+   * Loads all type entries from the backend.
+   *
+   * @returns void
+   */
   loadAllTypes(): void {
     this.vehiclesService.getTypes().subscribe((data: Type[]) => {
       this.types = data;
     });
   }
 
+  /**
+   * Filters the brands list based on the searchedBrandName.
+   *
+   * @returns void
+   */
   fetchBrandByName(): void {
     this.selectedBrand =
       this.brands.find((brand) =>
         brand.name.toLowerCase().includes(this.searchedBrandName.toLowerCase())
       ) ?? null;
   }
+  /**
+   * Updates the selected brand using the update form values.
+   *
+   * @returns void
+   */
   updateBrand(): void {
     if (!this.selectedBrand || this.brandUpdateForm.invalid) return;
 
@@ -808,6 +1081,12 @@ export class DataManagementComponent implements OnInit {
       },
     });
   }
+  /**
+   * Selects a brand and pre-fills the update form with its data.
+   *
+   * @param item The selected Brand object
+   * @returns void
+   */
   selectBrand(item: Brand): void {
     this.selectedBrand = { ...item };
     this.brandUpdateForm.patchValue({
@@ -817,6 +1096,12 @@ export class DataManagementComponent implements OnInit {
       holdingId: item.holdingId,
     });
   }
+  /**
+   * Deletes the specified brand entry by ID or currently selected one.
+   *
+   * @param id Optional brand ID to delete
+   * @returns void
+   */
   deleteBrand(id?: string): void {
     const brandId = id ?? this.selectedBrand?.id;
     if (!brandId) return;
@@ -832,12 +1117,24 @@ export class DataManagementComponent implements OnInit {
       },
     });
   }
+  /**
+   * Loads all brand entries from the backend.
+   *
+   * @returns void
+   */
   loadAllBrands(): void {
     this.vehiclesService.getBrands().subscribe((data: Brand[]) => {
       this.brands = data;
     });
   }
 
+  /**
+   * Creates a new brand entry using the form data.
+   * Sends the data to the backend via the VehiclesService.
+   * Displays error message if validation fails or backend returns error.
+   *
+   * @returns void
+   */
   createBrand(): void {
     if (this.brandForm.invalid) {
       this.errorMessageCreate = 'Please fill in all brand fields correctly.';
@@ -865,11 +1162,22 @@ export class DataManagementComponent implements OnInit {
     });
   }
 
+  /**
+   * Updates the holdingId of the selected brand when a new holding is selected.
+   *
+   * @param holding The selected Holding object
+   * @returns void
+   */
   onHoldingSelectedForBrand(holding: Holding): void {
     if (this.selectedBrand) {
       this.selectedBrand.holdingId = holding.id;
     }
   }
+  /**
+   * Resets the error messages when a new tab is selected.
+   *
+   * @returns void
+   */
   onTabChange(): void {
     this.errorMessageCreate = null;
     this.errorMessageUpdate = null;
