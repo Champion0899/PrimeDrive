@@ -36,8 +36,6 @@ Diese Vorlage hilft dabei, Fehler strukturiert zu dokumentieren, damit sie schne
 
 [➡️ Zum Bug Report Template](./Issue-Template/bug_report.md)
 
----
-
 ### 💡 Feature Request Template
 
 Mit dieser Vorlage kannst du neue Funktionswünsche klar und nachvollziehbar vorschlagen.
