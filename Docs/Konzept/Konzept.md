@@ -14,7 +14,7 @@ Hier werden die Ergebnisse der geführten Interviews dokumentiert. Ziel ist es, 
 
 In diesem Abschnitt wird beschrieben, wie Continuous Integration, Deployment und Monitoring umgesetzt werden sollen, um eine stabile und effiziente Entwicklung zu gewährleisten.
 
-[➡️ Zum DevOps-Plan](./DevOps/Tools.md)
+[➡️ Zum DevOps-Plan](./DevOps/Tools.md#️-devops-tools)
 
 ---
 
