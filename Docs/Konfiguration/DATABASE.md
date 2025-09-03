@@ -1,6 +1,8 @@
-# 📦 PrimeDrive – DATABASE Setup
+# 📦 DATABASE Setup
 
 Dieses Verzeichnis enthält alles, was du brauchst, um deine MySQL-Datenbank für das PrimeDrive-Projekt mit Docker zu initialisieren, zu droppen, zu restoren und DeltaScripts sauber auszuführen. 🚀
+
+---
 
 ## 📁 Struktur
 
@@ -18,6 +20,8 @@ DATABASE/
 └── .env                # Konfiguration (Benutzername, Passwort, DB-Name etc.)
 ```
 
+---
+
 ## ⚙️ Konfiguration
 
 Erstelle eine `.env`-Datei mit folgendem Inhalt:
@@ -30,6 +34,8 @@ DB_HOST=127.0.0.1
 DB_PORT=3306
 ```
 
+---
+
 ## 🐳 Docker starten
 
 ```bash
@@ -38,6 +44,8 @@ docker compose up -d
 ```
 
 → Container mit MySQL läuft nun lokal erreichbar über `127.0.0.1:3306`
+
+---
 
 ## 🔄 Datenbank resetten & wiederherstellen
 
@@ -50,12 +58,16 @@ cd DATABASE/Deploy
 → Führt alle SQL-Dateien in `DeltaScripts/` sequenziell in einer Transaktion aus
 → Loggt jede Migration in `schema_version`-Tabelle
 
+---
+
 ## 📜 DeltaScripts Format
 
 Benennungsschema: `000.000.000.001.sql`
 → Nummerierung entscheidet über Ausführungsreihenfolge
 → Transaktionen sind empfohlen (`START TRANSACTION; ... COMMIT;`)
 → Jede ausgeführte Datei wird in `schema_version` geloggt
+
+---
 
 ## 📁 Beispiel-Migration
 
@@ -75,6 +87,8 @@ CREATE TABLE PlattformNutzerkonto (
 COMMIT;
 ```
 
+---
+
 ## 🪡 Tipps
 
 - Verwende `INT` + `AUTO_INCREMENT` für IDs
@@ -88,4 +102,8 @@ COMMIT;
 
 ---
 
-[README](../README.md)
+## 🚀 Actions
+
+Hier findest du die zentralen Aktionen und Verknüpfungen rund um das Projekt.
+
+[➡️ Zum README](../../README.md#️-database-dokumentation--setup)

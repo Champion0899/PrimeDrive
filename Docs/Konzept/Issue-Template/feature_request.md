@@ -22,3 +22,11 @@ Wie könnte man es umsetzen?
 - [ ] Funktionalität ist implementiert und getestet
 - [ ] Edge Cases sind berücksichtigt
 - [ ] Dokumentation/Usage Examples aktualisiert
+
+---
+
+## 🚀 Actions
+
+Hier findest du die zentralen Aktionen und Verknüpfungen rund um das Projekt.
+
+[➡️ Zurück zum Konzept](../Konzept.md#-feature-request-template)

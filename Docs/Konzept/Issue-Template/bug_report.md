@@ -33,3 +33,11 @@ Falls vorhanden, bitte anhängen.
 - [ ] Der Bug tritt nach Fix nicht mehr auf
 - [ ] Tests decken den Fix ab
 - [ ] Keine Regressionen in verwandten Bereichen
+
+---
+
+## 🚀 Actions
+
+Hier findest du die zentralen Aktionen und Verknüpfungen rund um das Projekt.
+
+[➡️ Zurück zum Konzept](../Konzept.md#-bug-report-template)

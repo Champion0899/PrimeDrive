@@ -1,4 +1,4 @@
-## User Story
+## 📋 User Story
 
 <!--
 TODO: User Stories Eruieren und beschreiben beim testen von dem was wir haben
@@ -18,4 +18,10 @@ TODO: User Stories Eruieren und beschreiben beim testen von dem was wir haben
 
 - Als Administrator möchte ich sicherstellen, dass das System auch bei hoher Nutzerzahl stabil läuft, um die Verfügbarkeit zu gewährleisten.
 
--
+---
+
+## 🚀 Actions
+
+Hier findest du die zentralen Aktionen und Verknüpfungen rund um das Projekt.
+
+[➡️ Zurück zum Konzept](../Konzept.md#user-story)

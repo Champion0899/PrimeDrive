@@ -1,17 +1,17 @@
-# DevOps Tools – PrimeDrive
+# 🛠️ DevOps Tools
 
 Dieses Dokument beschreibt die in PrimeDrive eingesetzten DevOps-Tools und deren Zweck im Software Development Lifecycle.
 
 ---
 
-## Plan
+## 📝 Plan
 
 - **Git / GitHub**  
   Versionsverwaltung, Kollaboration über Pull Requests, Issue Tracking und Projektplanung.
 
 ---
 
-## Code
+## 💻 Code
 
 - **Angular (Frontend)**  
   Entwicklung des Web-Frontends mit TypeScript, Komponentenarchitektur und RxJS.
@@ -24,7 +24,7 @@ Dieses Dokument beschreibt die in PrimeDrive eingesetzten DevOps-Tools und deren
 
 ---
 
-## Build
+## 🏗️ Build
 
 - **Maven**  
   Build- und Abhängigkeitsmanagement für das Java-Backend.
@@ -37,7 +37,7 @@ Dieses Dokument beschreibt die in PrimeDrive eingesetzten DevOps-Tools und deren
 
 ---
 
-## Test
+## 🧪 Test
 
 - **ESLint**  
   Code-Qualitätssicherung für Angular/TypeScript.
@@ -56,7 +56,7 @@ Dieses Dokument beschreibt die in PrimeDrive eingesetzten DevOps-Tools und deren
 
 ---
 
-## Release
+## 📦 Release
 
 - **Git / GitHub**  
   Versionierung, Branch-Strategie und Release-Verwaltung.  
@@ -64,7 +64,7 @@ Dieses Dokument beschreibt die in PrimeDrive eingesetzten DevOps-Tools und deren
 
 ---
 
-## Deploy
+## 🚀 Deploy
 
 - **Maven**  
   Erzeugung und Deployment von Backend-Artefakten.
@@ -79,7 +79,7 @@ Dieses Dokument beschreibt die in PrimeDrive eingesetzten DevOps-Tools und deren
 
 ---
 
-## Operate
+## ⚙️ Operate
 
 - **Logfiles**  
   Laufzeitanalyse, Debugging und Fehlerdiagnose.
@@ -88,7 +88,7 @@ Dieses Dokument beschreibt die in PrimeDrive eingesetzten DevOps-Tools und deren
 
 ---
 
-## Monitor
+## 📊 Monitor
 
 - **Elasticsearch**  
   Sammlung, Suche und Analyse von Logs zur Laufzeitüberwachung.
@@ -96,3 +96,9 @@ Dieses Dokument beschreibt die in PrimeDrive eingesetzten DevOps-Tools und deren
   Sammeln von Service- und Systemmetriken (via Exporter) zur Laufzeitüberwachung und Alerting.
 
 ---
+
+## 🚀 Actions
+
+Hier findest du die zentralen Aktionen und Verknüpfungen rund um das Projekt.
+
+[➡️ Zurück zum Konzept](../Konzept.md#devops)

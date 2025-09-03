@@ -1,4 +1,4 @@
-# Interviews zu Autoverkauf und Ankauf
+# 🗣️ Interviews zu Autoverkauf und Ankauf
 
 Zu Beginn der Interviews habe ich den Befragten eine kurze Einführung gegeben, um den Kontext des Projekts zu verdeutlichen:
 
@@ -6,7 +6,7 @@ Bei **PrimeDrive** handelt es sich um eine Plattform für den An- und Verkauf vo
 
 Im Folgenden sind die Ergebnisse aus den Interviews mit zwei Personen festgehalten. Ziel war es, ihre Erfahrungen, Herausforderungen und Eindrücke rund um das Thema Autoverkauf und -ankauf besser zu verstehen. Die Antworten dienen als Grundlage für die weitere Projektarbeit.
 
-## Liridon, CH, Ferdinand Coffee, Barista Geschäftsführer
+## 👤 Liridon, CH, Ferdinand Coffee, Barista Geschäftsführer
 
 1. Wenn du das Thema Autoverkauf und Ankauf hörst was löst das bei dir aus? Warum?  
    Da geht es um Business und irgendjemand möchte Geld machen, das denke ich mir dabei.
@@ -26,7 +26,7 @@ Im Folgenden sind die Ergebnisse aus den Interviews mit zwei Personen festgehalt
 6. Alternativen - was hast du schon versucht?  
    AMAG Direktbestelle über den Händler oder andere Internetanbieter.
 
-## Sara, DE, GoldKind Künstlerin und FABK
+## 👤 Sara, DE, GoldKind Künstlerin und FABK
 
 1. Wenn du das Thema Autoverkauf und Ankauf hörst was löst das bei dir aus? Warum?  
    Autoverkauf löst eher Stress aus, weil sie glaubt, das alleine nicht hinzubekommen. Autokauf findet sie eher interessant, weil sie es noch spannend findet, Autos auszusuchen und zu testen.
@@ -49,6 +49,14 @@ Im Folgenden sind die Ergebnisse aus den Interviews mit zwei Personen festgehalt
 
 ---
 
-## Zustimmung
+## ✅ Zustimmung
 
 Beide Interviewpartner sind damit einverstanden, das Projekt zu testen und für weitere Interviews zur Verfügung zu stehen.
+
+---
+
+## 🚀 Actions
+
+Hier findest du die zentralen Aktionen und Verknüpfungen rund um das Projekt.
+
+[➡️ Zurück zum Konzept](../Konzept.md#interviews)
