@@ -125,8 +125,8 @@ export class SellComponent {
 
   /**
    * Verarbeitet die Eingabe aus beiden Formularen (allgemeine Fahrzeugdaten und Spezifikationen).
-   * Erstellt zunächst die technischen Spezifikationen, verknüpft diese anschließend mit dem Fahrzeug
-   * und speichert den Eintrag in der Datenbank. Führt anschließend ein Reset der Formulare durch.
+   * Erstellt zunächst die technischen Spezifikationen, verknüpft diese anschliessend mit dem Fahrzeug
+   * und speichert den Eintrag in der Datenbank. Führt anschliessend ein Reset der Formulare durch.
    */
   onSubmit() {
     if (this.form.invalid || this.specsForm.invalid) {

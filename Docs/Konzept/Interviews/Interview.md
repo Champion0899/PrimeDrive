@@ -42,7 +42,7 @@ Im Folgenden sind die Ergebnisse aus den Interviews mit zwei Personen festgehalt
    Einschlägige Internetseiten wie AutoScout24 suchen, wo sie nur die wichtigsten Parameter eingeben kann, damit ihr Wunschfahrzeug dargestellt wird.
 
 5. Was ist frustrierend, störend, aufwändig, warum?  
-   Das ganze Prozedere beim Verkauf, mit den potenziellen Käufern zu erreichen, ist sehr komplex und mühsam. Beim Kauf geht sie lieber auf Händler zu, weil sie weiß, es sind Profis.
+   Das ganze Prozedere beim Verkauf, mit den potenziellen Käufern zu erreichen, ist sehr komplex und mühsam. Beim Kauf geht sie lieber auf Händler zu, weil sie weiss, es sind Profis.
 
 6. Alternativen - was hast du schon versucht?  
    Beides, ich habe schon ein Auto im Autohaus gekauft und übers Autohaus verkauft. Ich habe auch Seiten ausprobiert, wo ich schätzen konnte, was es wert ist.
