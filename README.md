@@ -7,7 +7,7 @@
 
 ## 📑 Konzept
 
-📖 Hier findest du die ausführliche Projektbeschreibung sowie die wichtigsten Grundlagen. 🚀
+Hier findest du die ausführliche Projektbeschreibung sowie die wichtigsten Grundlagen.
 
 [➡️ Zum Konzept](Docs/Konzept/Konzept.md#konzept)
 
@@ -15,7 +15,7 @@
 
 ## 🛠️ Installation & Setup
 
-⚙️ Hier erfährst du, wie die Datenbank eingerichtet und das Projekt gestartet wird. 💡
+Hier erfährst du, wie die Datenbank eingerichtet und das Projekt gestartet wird.
 
 ### 🗄️ Database Dokumentation & Setup
 
