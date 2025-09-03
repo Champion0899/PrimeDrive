@@ -757,3 +757,12 @@ Mittel
 | Kriterium | Independent | Negotiable | Valuable | Estimable | Small | Testable |
 | --------- | ----------- | ---------- | -------- | --------- | ----- | -------- |
 | Bewertung | Ja          | Ja         | Ja       | Ja        | Nein  | Ja       |
+
+---
+
+## 🚀 Actions
+
+Hier findest du die zentralen Aktionen und Verknüpfungen rund um das Projekt.
+
+[➡️ Zurück zum Konzept](../Konzept.md#-user-story)
+
