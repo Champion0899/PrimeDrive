@@ -302,4 +302,4 @@ Alerts bei kritischen Werten konfigurieren.
 
 Hier findest du die zentralen Aktionen und Verknüpfungen rund um das Projekt.
 
-[➡️ Zum Konzept](../Konzept.md#-konzept)
+[➡️ Zum Konzept](../Konzept.md#-Issues)
