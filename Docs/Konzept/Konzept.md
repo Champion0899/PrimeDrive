@@ -25,10 +25,13 @@ Hier werden die zentralen User Stories gesammelt, die die wichtigsten Anwendungs
 [➡️ Zu den User Stories](./UserStory/UserStory.md)
 
 ---
-## 
 
-[➡️ Zum den Issues](./UserStory/Issues.md#️-devops-tools)
---
+## 📝 Issues
+Hier findest du alle Issues
+
+[➡️ Zu den Issues](./UserStory/Issues.md)
+
+---
 
 ## 📝 Issue-Templates
 
