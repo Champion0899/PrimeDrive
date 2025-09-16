@@ -91,7 +91,6 @@ COMMIT;
 
 ## 🪡 Tipps
 
-- Verwende `INT` + `AUTO_INCREMENT` für IDs
 - Trenne jede Änderung in eine eigene Datei
 - `DROP PROCEDURE ...` bei temporären SQL-Prozeduren nicht vergessen
 - Nutze keine `DELIMITER` – Transaktionen reichen meist
