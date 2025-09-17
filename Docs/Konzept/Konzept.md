@@ -83,9 +83,9 @@ PrimeDrive – Perquai che tia proxim’auta è dapli che mo in vehichel.
 ### Social Media: 
 Über Social Media (z. B. Instagram, Facebook, LinkedIn, TikTok) erreichen wir eine breite Zielgruppe, steigern die Markenbekanntheit und schaffen direkte Interaktion mit Interessenten.
 ### Newsletter: 
-Mit regelmäßigen Newslettern halten wir bestehende Nutzer auf dem Laufenden, informieren über neue Angebote und stärken die Kundenbindung.
+Mit regelmässigen Newslettern halten wir bestehende Nutzer auf dem Laufenden, informieren über neue Angebote und stärken die Kundenbindung.
 ### Plakate / Werbetafeln (Out-of-Home): 
-Mit großflächiger Außenwerbung erzeugen wir Sichtbarkeit im Alltag, sprechen auch Menschen außerhalb des digitalen Umfelds an und steigern die Markenwahrnehmung.
+Mit grossflächiger Aussenwerbung erzeugen wir Sichtbarkeit im Alltag, sprechen auch Menschen ausserhalb des digitalen Umfelds an und steigern die Markenwahrnehmung.
 ### Ads (z. B. Google, Display, Retargeting): 
 Durch gezielte Online-Anzeigen holen wir Nutzer genau dort ab, wo sie nach Autos oder Verkaufsplattformen suchen, und generieren direkte Conversions.
 ### Telefon: 
