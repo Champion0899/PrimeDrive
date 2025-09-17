@@ -55,11 +55,22 @@ Mit dieser Vorlage kannst du neue Funktionswünsche klar und nachvollziehbar vor
 
 Hier findest du die Customer Journey.
 
-- Möchte Auto Kaufen oder Verkaufen
-- Geht auf Google oder Sozial Media und sucht nach Plattformen für Verkauf oder Kauf
-- Bonusprogramm für Verkäufer
-- Bonus wenn man andere Leute auf die Plattform bringt
-- Newsletter
+### Bedarf erkennen
+Der Nutzer möchte ein Auto kaufen oder verkaufen.
+
+###  Plattform entdecken
+Er sucht auf Google oder in sozialen Medien nach geeigneten Plattformen und stößt auf Prime Drive.
+
+### Anmeldung & Nutzung
+Er registriert sich schnell und einfach, legt ein Profil an und kann sofort Fahrzeuge einstellen oder nach passenden Angeboten suchen.
+
+### Anreize & Vorteile
+Bonusprogramm für Verkäufer: Wer Fahrzeuge über Prime Drive verkauft, sammelt Punkte oder erhält Vergünstigungen.
+
+Empfehlungsbonus: Wer Freunde oder Bekannte auf die Plattform bringt, wird mit zusätzlichen Vorteilen belohnt.
+
+### Bindung & Kommunikation
+Regelmäßige Newsletter informieren über neue Angebote, Aktionen und Tipps rund um Kauf und Verkauf von Autos.
 
 ---
 
