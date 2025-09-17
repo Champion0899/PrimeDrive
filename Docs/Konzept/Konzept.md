@@ -51,6 +51,16 @@ Mit dieser Vorlage kannst du neue Funktionswünsche klar und nachvollziehbar vor
 
 ---
 
+## Customer Journey
+
+Hier findest du die Customer Journey.
+
+- Bonusprogramm für Verkäufer
+- Bonus wenn man andere Leute auf die Plattform bringt
+- Newsletter
+
+---
+
 ## 🚀 Actions
 
 Hier findest du die zentralen Aktionen und Verknüpfungen rund um das Projekt.
