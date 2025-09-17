@@ -58,7 +58,7 @@ Wenn du ein Auto kaufen möchtest, kannst du gezielt nach Marke, Modell, Preis o
 Wenn du ein Auto verkaufen willst, erstellst du in wenigen Schritten eine Anzeige mit Fotos, Beschreibung und Preis.
 So kommen Käufer und Verkäufer direkt zusammen – unkompliziert, transparent und ohne unnötige Umwege.
 
-### Sloagnas
+### Slogans
 
 #### Deutsch (Original):
 PrimeDrive – Weil dein nächstes Auto mehr als nur ein Fahrzeug ist.
