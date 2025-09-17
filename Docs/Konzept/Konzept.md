@@ -51,6 +51,32 @@ Mit dieser Vorlage kannst du neue Funktionswünsche klar und nachvollziehbar vor
 
 ---
 
+## Angebot
+
+Auf unserer Plattform kannst du ganz einfach Autos kaufen und verkaufen.
+Wenn du ein Auto kaufen möchtest, kannst du gezielt nach Marke, Modell, Preis oder anderen Kriterien suchen und dir passende Angebote anschauen.
+Wenn du ein Auto verkaufen willst, erstellst du in wenigen Schritten eine Anzeige mit Fotos, Beschreibung und Preis.
+So kommen Käufer und Verkäufer direkt zusammen – unkompliziert, transparent und ohne unnötige Umwege.
+
+### Sloagnas
+
+#### Deutsch (Original):
+PrimeDrive – Weil dein nächstes Auto mehr als nur ein Fahrzeug ist.
+
+#### Englisch:
+PrimeDrive – Because your next car is more than just a vehicle.
+
+#### Italienisch:
+PrimeDrive – Perché la tua prossima auto è più di un semplice veicolo.
+
+#### Französisch:
+PrimeDrive – Parce que ta prochaine voiture est plus qu’un simple véhicule.
+
+#### Rätoromanisch:
+PrimeDrive – Perquai che tia proxim’auta è dapli che mo in vehichel.
+
+---
+
 ## Customer Journey
 
 Hier findest du die Customer Journey.
