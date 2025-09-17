@@ -55,6 +55,8 @@ Mit dieser Vorlage kannst du neue Funktionswünsche klar und nachvollziehbar vor
 
 Hier findest du die Customer Journey.
 
+- Möchte Auto Kaufen oder Verkaufen
+- Geht auf Google oder Sozial Media und sucht nach Plattformen für Verkauf oder Kauf
 - Bonusprogramm für Verkäufer
 - Bonus wenn man andere Leute auf die Plattform bringt
 - Newsletter
