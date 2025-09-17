@@ -62,6 +62,7 @@ So kommen Käufer und Verkäufer direkt zusammen – unkompliziert, transparent 
 
 #### Deutsch (Original):
 PrimeDrive – Weil dein nächstes Auto mehr als nur ein Fahrzeug ist.
+PrimeDrive - Mehr als nur ein Fahrzeug.
 
 #### Englisch:
 PrimeDrive – Because your next car is more than just a vehicle.
