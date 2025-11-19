@@ -1,17 +1,17 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable, Type, inject } from '@angular/core';
-import { Observable } from 'rxjs';
-import { Vehicle } from '../../Models/vehicles/vehicle.interface';
-import { Brand } from '../../Models/vehicles/brand.interface';
-import { Type as VehicleType } from '../../Models/vehicles/type.interface';
-import { Color } from '../../Models/vehicles/color.interface';
-import { Specs } from '../../Models/vehicles/specs.interface';
-import { Engine } from '../../Models/vehicles/engine.interface';
-import { Fuel } from '../../Models/vehicles/fuel.interface';
-import { Doors } from '../../Models/vehicles/doors.interface';
-import { Seats } from '../../Models/vehicles/seats.interface';
-import { User } from '../../Models/vehicles/user.interface';
-import { Holding } from '../../Models/vehicles/holding.interface';
+import {HttpClient} from '@angular/common/http';
+import {inject, Injectable} from '@angular/core';
+import {Observable} from 'rxjs';
+import {Vehicle} from '../../Models/vehicles/vehicle.interface';
+import {Brand} from '../../Models/vehicles/brand.interface';
+import {Type as VehicleType} from '../../Models/vehicles/type.interface';
+import {Color} from '../../Models/vehicles/color.interface';
+import {Specs} from '../../Models/vehicles/specs.interface';
+import {Engine} from '../../Models/vehicles/engine.interface';
+import {Fuel} from '../../Models/vehicles/fuel.interface';
+import {Doors} from '../../Models/vehicles/doors.interface';
+import {Seats} from '../../Models/vehicles/seats.interface';
+import {User} from '../../Models/vehicles/user.interface';
+import {Holding} from '../../Models/vehicles/holding.interface';
 
 /**
  * Service for accessing vehicle-related data from the backend API.
@@ -27,6 +27,7 @@ import { Holding } from '../../Models/vehicles/holding.interface';
 export class VehiclesService {
   private apiUrl = 'https://localhost:8443/api';
   private httpClient = inject(HttpClient);
+
   /**
    * Retrieves a list of all vehicles from the backend.
    * @returns Observable of Vehicle array.
@@ -287,6 +288,7 @@ export class VehiclesService {
       withCredentials: true,
     });
   }
+
   /**
    * Retrieves a list of all vehicle colors.
    * @returns Observable of Color array.
@@ -344,6 +346,7 @@ export class VehiclesService {
       withCredentials: true,
     });
   }
+
   /**
    * Retrieves a list of all vehicle specs.
    * @returns Observable of Specs array.
@@ -402,6 +405,7 @@ export class VehiclesService {
       withCredentials: true,
     });
   }
+
   /**
    * Retrieves a list of all vehicle engines.
    * @returns Observable of Engine array.
@@ -463,6 +467,7 @@ export class VehiclesService {
       withCredentials: true,
     });
   }
+
   /**
    * Retrieves a list of all vehicle fuels.
    * @returns Observable of Fuel array.
@@ -520,6 +525,7 @@ export class VehiclesService {
       withCredentials: true,
     });
   }
+
   /**
    * Retrieves a list of all vehicle doors.
    * @returns Observable of Doors array.
@@ -577,6 +583,7 @@ export class VehiclesService {
       withCredentials: true,
     });
   }
+
   /**
    * Retrieves a list of all vehicle seats.
    * @returns Observable of Seats array.
@@ -623,6 +630,7 @@ export class VehiclesService {
       withCredentials: true,
     });
   }
+
   /**
    * Retrieves user data by user ID.
    * @param id - The UUID of the user.

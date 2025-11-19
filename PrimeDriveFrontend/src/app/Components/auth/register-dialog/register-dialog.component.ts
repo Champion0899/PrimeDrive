@@ -37,29 +37,29 @@ export class RegisterDialogComponent implements AfterViewChecked {
   @ViewChild('zipCodeModel') zipCodeModel!: NgModel;
   @ViewChild('phoneNumberModel') phoneNumberModel!: NgModel;
   /** @public Username for registration */
-  public username: string = '';
+  public username = '';
   /** @public Password for registration */
-  public password: string = '';
+  public password = '';
   /** @public Confirmation of the password */
-  public confirmPassword: string = '';
+  public confirmPassword = '';
   /** @public First name of the user */
-  public firstName: string = '';
+  public firstName = '';
   /** @public Last name of the user */
-  public lastName: string = '';
+  public lastName = '';
   /** @public Email address of the user */
-  public email: string = '';
+  public email = '';
   /** @public Birthdate of the user */
-  public birthdate: string = '';
+  public birthdate = '';
   /** @public Address of the user */
-  public address: string = '';
+  public address = '';
   /** @public Zip code of the user's address */
-  public zipCode: string = '';
+  public zipCode = '';
   /** @public City of the user's address */
-  public city: string = '';
+  public city = '';
   /** @public Country of the user's address */
-  public country: string = '';
+  public country = '';
   /** @public Phone number of the user */
-  public phoneNumber: string = '';
+  public phoneNumber = '';
 
   private authService = inject(AuthService);
 

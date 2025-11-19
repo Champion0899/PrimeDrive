@@ -1,10 +1,10 @@
-import { Component, inject, Inject } from '@angular/core';
-import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatButtonModule } from '@angular/material/button';
-import { AuthService } from '../../../Services/auth/auth.service';
-import { FormsModule } from '@angular/forms';
+import {Component, inject} from '@angular/core';
+import {MatDialogModule, MatDialogRef} from '@angular/material/dialog';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatInputModule} from '@angular/material/input';
+import {MatButtonModule} from '@angular/material/button';
+import {AuthService} from '../../../Services/auth/auth.service';
+import {FormsModule} from '@angular/forms';
 
 /**
  * Component for rendering a login dialog with username and password inputs.
@@ -36,9 +36,9 @@ export class LoginDialogComponent {
   private dialogRef = inject(MatDialogRef<LoginDialogComponent>);
 
   /** Holds the input username from the user. */
-  protected username: string = '';
+  protected username = '';
   /** Holds the input password from the user. */
-  protected password: string = '';
+  protected password = '';
 
   /**
    * Handles user login action.

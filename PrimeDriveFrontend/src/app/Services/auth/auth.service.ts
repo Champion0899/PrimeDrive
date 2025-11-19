@@ -56,8 +56,8 @@ export class AuthService {
    * @param registerDto - An object containing user registration fields.
    * @returns Observable indicating completion or failure.
    */
-  public register(registerDto: any): Observable<any> {
-    return this.httpClient.post<any>(`${this.apiUrl}/register`, registerDto, {
+  public register(registerDto: unknown): Observable<unknown> {
+    return this.httpClient.post<unknown>(`${this.apiUrl}/register`, registerDto, {
       withCredentials: true,
     });
   }

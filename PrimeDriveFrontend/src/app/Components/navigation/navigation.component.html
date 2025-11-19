@@ -5,13 +5,13 @@
         <li><a routerLink="/contact" routerLinkActive="active">Contact</a></li>
         <li><a routerLink="/services" routerLinkActive="active">Services</a></li>
         @if (!isLoggedIn) {
-          <li><a (click)="openLoginDialog(); $event.preventDefault()">Login</a></li>
-          <li><a (click)="openRegisterDialog(); $event.preventDefault()">Register</a></li>
+          <li><a href="#" (keydown.enter)="openLoginDialog()" (click)="openLoginDialog(); $event.preventDefault()">Login</a></li>
+          <li><a href="#" (keydown.enter)="openRegisterDialog()" (click)="openRegisterDialog(); $event.preventDefault()">Register</a></li>
         } @else {
           @if (isAdmin) {
             <li><a routerLink="/admin" routerLinkActive="active">Admin</a></li>
           }
-          <li><a (click)="logout(); $event.preventDefault()">Logout</a></li>
+          <li><a href="#" (keydown.enter)="logout()" (click)="logout(); $event.preventDefault()">Logout</a></li>
         }
     </ul>
 </nav>
