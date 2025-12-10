@@ -200,6 +200,3 @@ jobs:
           echo "GitHub UI: Security > Code scanning alerts." # SARIF is uploaded there
           echo "Reminder: update internal security docs (e.g., Confluence/README/security docs)." # Keep documentation current
         shell: bash
-          echo "GitHub UI: Security > Code scanning alerts." # SARIF is uploaded there
-          echo "Reminder: update internal security docs (e.g., Confluence/README/security docs)." # Keep documentation current
-        shell: bash
