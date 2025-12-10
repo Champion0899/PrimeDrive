@@ -1,0 +1,133 @@
+name: OWASP ZAP DAST
+
+on:
+    push:
+        branches: ["main", "feature/**", "bugfix/**", "hotfix/**"]
+        paths:
+            - "PrimeDriveBackend/**"
+            - ".github/workflows/owasp-zap.yml"
+    pull_request:
+        branches: ["main"]
+        paths:
+            - "PrimeDriveBackend/**"
+            - ".github/workflows/owasp-zap.yml"
+    schedule:
+        - cron: "0 3 * * 1"
+    workflow_dispatch:
+        inputs:
+            target_url:
+                description: "Optional: override ZAP target URL for ad-hoc scans"
+                required: false
+                default: ""
+            scan_type:
+                description: "baseline (default) or full"
+                required: false
+                default: "baseline"
+            max_high_alerts:
+                description: "Allowed number of High findings before failing"
+                required: false
+                default: "0"
+            max_medium_alerts:
+                description: "Allowed number of Medium findings before failing"
+                required: false
+                default: "0"
+
+env:
+    ZAP_TARGET_URL: ${{ github.event.inputs.target_url || secrets.ZAP_TARGET_URL || vars.ZAP_TARGET_URL }}
+    ZAP_AUTH_HEADER: ${{ secrets.ZAP_AUTH_HEADER || vars.ZAP_AUTH_HEADER }}
+    ZAP_MAX_HIGH_ALERTS: ${{ github.event.inputs.max_high_alerts || vars.ZAP_MAX_HIGH_ALERTS || '0' }}
+    ZAP_MAX_MEDIUM_ALERTS: ${{ github.event.inputs.max_medium_alerts || vars.ZAP_MAX_MEDIUM_ALERTS || '0' }}
+
+jobs:
+    zap-baseline:
+        name: ZAP Baseline (DAST)
+        runs-on: ubuntu-latest
+        if: github.event.inputs.target_url != '' || secrets.ZAP_TARGET_URL != '' || vars.ZAP_TARGET_URL != ''
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v4
+
+            - name: Ensure target URL is configured
+              run: |
+                  echo "ZAP target: ${ZAP_TARGET_URL}"
+                  if [ -z "${ZAP_TARGET_URL}" ]; then
+                    echo "Missing ZAP_TARGET_URL (secret or workflow input)." >&2
+                    exit 1
+                  fi
+
+            - name: Run ZAP baseline scan
+              uses: zaproxy/action-baseline@v0.12.0
+              with:
+                  target: ${{ env.ZAP_TARGET_URL }}
+                  allow_issue_writing: false
+                  fail_action: false
+                  cmd_options: >-
+                      -J zap-report.json
+                      -x zap-report.xml
+                      -w zap-warnings.md
+                      -r zap-report.html
+                      -d
+                      ${{ env.ZAP_AUTH_HEADER != '' && format('-z "-config replacer.full_list(0).description=auth-header -config replacer.full_list(0).enabled=true -config replacer.full_list(0).matchtype=REQ_HEADER -config replacer.full_list(0).matchstr=Authorization -config replacer.full_list(0).replacement={0}"', env.ZAP_AUTH_HEADER) || '' }}
+
+            - name: Enforce thresholds (baseline)
+              run: python .github/scripts/zap_evaluate.py zap-report.json
+              env:
+                  ZAP_MAX_HIGH_ALERTS: ${{ env.ZAP_MAX_HIGH_ALERTS }}
+                  ZAP_MAX_MEDIUM_ALERTS: ${{ env.ZAP_MAX_MEDIUM_ALERTS }}
+
+            - name: Upload ZAP baseline artifacts
+              uses: actions/upload-artifact@v4
+              with:
+                  name: zap-baseline-${{ github.run_id }}
+                  path: |
+                      zap-report.html
+                      zap-report.xml
+                      zap-report.json
+                      zap-warnings.md
+
+    zap-full-scan:
+        name: ZAP Full Scan (scheduled)
+        runs-on: ubuntu-latest
+        if: (github.event.inputs.target_url != '' || secrets.ZAP_TARGET_URL != '' || vars.ZAP_TARGET_URL != '') && (github.event_name == 'schedule' || (github.event_name == 'workflow_dispatch' && github.event.inputs.scan_type == 'full'))
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v4
+
+            - name: Ensure target URL is configured
+              run: |
+                  echo "ZAP target: ${ZAP_TARGET_URL}"
+                  if [ -z "${ZAP_TARGET_URL}" ]; then
+                    echo "Missing ZAP_TARGET_URL (secret or workflow input)." >&2
+                    exit 1
+                  fi
+
+            - name: Run ZAP full scan
+              uses: zaproxy/action-full-scan@v0.9.0
+              with:
+                  target: ${{ env.ZAP_TARGET_URL }}
+                  allow_issue_writing: false
+                  fail_action: false
+                  cmd_options: >-
+                      -J zap-fullscan-report.json
+                      -x zap-fullscan-report.xml
+                      -r zap-fullscan-report.html
+                      -w zap-fullscan-warnings.md
+                      -m 10
+                      -d
+                      ${{ env.ZAP_AUTH_HEADER != '' && format('-z "-config replacer.full_list(0).description=auth-header -config replacer.full_list(0).enabled=true -config replacer.full_list(0).matchtype=REQ_HEADER -config replacer.full_list(0).matchstr=Authorization -config replacer.full_list(0).replacement={0}"', env.ZAP_AUTH_HEADER) || '' }}
+
+            - name: Enforce thresholds (full scan)
+              run: python .github/scripts/zap_evaluate.py zap-fullscan-report.json
+              env:
+                  ZAP_MAX_HIGH_ALERTS: ${{ env.ZAP_MAX_HIGH_ALERTS }}
+                  ZAP_MAX_MEDIUM_ALERTS: ${{ env.ZAP_MAX_MEDIUM_ALERTS }}
+
+            - name: Upload ZAP full scan artifacts
+              uses: actions/upload-artifact@v4
+              with:
+                  name: zap-fullscan-${{ github.run_id }}
+                  path: |
+                      zap-fullscan-report.html
+                      zap-fullscan-report.xml
+                      zap-fullscan-report.json
+                      zap-fullscan-warnings.md
