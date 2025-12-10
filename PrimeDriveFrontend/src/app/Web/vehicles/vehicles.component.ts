@@ -41,7 +41,7 @@ import { MatButtonModule } from '@angular/material/button';
   styleUrl: './vehicles.component.scss',
 })
 export class VehiclesComponent implements OnInit {
-  public filtersExpanded: boolean = true;
+  public filtersExpanded = true;
   public vehicles: VehicleWithLessDetails[] = [];
   public filters = {
     brand: 'All',

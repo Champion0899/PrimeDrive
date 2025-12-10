@@ -14,7 +14,8 @@ import { UsersService } from '../Services/users/users.service';
   providedIn: 'root',
 })
 export class AdminGuard implements CanActivate {
-  constructor(private usersService: UsersService, private router: Router) {}
+  private usersService = inject(UsersService)
+  private router = inject(Router)
   /**
    * Determines whether the current user has permission to activate a route.
    * Grants access only if the user has an 'ADMIN' role; otherwise, redirects to '/vehicles'.

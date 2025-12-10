@@ -59,7 +59,7 @@ export class DataManagementComponent implements OnInit {
 
   public colors: Color[] = [];
   public selectedColor: Color | null = null;
-  public searchedColorName: string = '';
+  public searchedColorName = '';
 
   public brands: Brand[] = [];
   public selectedBrand: Brand | null = {
@@ -69,19 +69,19 @@ export class DataManagementComponent implements OnInit {
     logo: '',
     name: '',
   };
-  public searchedBrandName: string = '';
+  public searchedBrandName = '';
 
   public doors: Doors[] = [];
   public selectedDoors: Doors | null = null;
-  public searchedDoorsName: string = '';
+  public searchedDoorsName = '';
 
   public engines: Engine[] = [];
   public selectedEngine: Engine | null = null;
-  public searchedEngineName: string = '';
+  public searchedEngineName = '';
 
   public fuels: Fuel[] = [];
   public selectedFuel: Fuel | null = null;
-  public searchedFuelName: string = '';
+  public searchedFuelName = '';
 
   public holdings: Holding[] = [];
   public selectedHolding: Holding | null = {
@@ -90,15 +90,15 @@ export class DataManagementComponent implements OnInit {
     logo: '',
     name: '',
   };
-  public searchedHoldingName: string = '';
+  public searchedHoldingName = '';
 
   public seats: Seats[] = [];
   public selectedSeats: Seats | null = null;
-  public searchedSeatsName: string = '';
+  public searchedSeatsName = '';
 
   public types: Type[] = [];
   public selectedType: Type | null = null;
-  public searchedTypeName: string = '';
+  public searchedTypeName = '';
 
   /**
    * Main form group used for creating new entities.

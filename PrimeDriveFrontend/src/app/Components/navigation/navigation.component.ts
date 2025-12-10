@@ -29,9 +29,9 @@ import { RouterModule } from '@angular/router';
 })
 export class NavigationComponent implements OnInit {
   /** Indicates if the user is currently logged in. */
-  protected isLoggedIn: boolean = false;
+  protected isLoggedIn = false;
   /** Indicates if the current user has admin privileges. */
-  protected isAdmin: boolean = false;
+  protected isAdmin = false;
   private dialog = inject(MatDialog);
   private authService = inject(AuthService);
   private readonly usersService: UsersService = inject(UsersService);

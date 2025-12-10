@@ -27,29 +27,27 @@
  * @method deleteVehicle(id) - Entfernt ein Fahrzeug aus der lokalen Liste
  * @method ngOnInit() - Initialisiert Daten beim Laden der Komponente
  */
-import { Component, inject, ViewEncapsulation } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import {
-  FormsModule,
-  ReactiveFormsModule,
-  FormBuilder,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
-import { MatCardModule } from '@angular/material/card';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatSelectModule } from '@angular/material/select';
-import { MatButtonModule } from '@angular/material/button';
-import { MatTableModule } from '@angular/material/table';
-import { MatDividerModule } from '@angular/material/divider';
-import { Vehicle } from '../../Models/vehicles/vehicle.interface';
-import { Brand } from '../../Models/vehicles/brand.interface';
-import { Color } from '../../Models/vehicles/color.interface';
-import { Type as VehicleType } from '../../Models/vehicles/type.interface';
-import { Specs } from '../../Models/vehicles/specs.interface';
-import { VehiclesService } from '../../Services/vehicles/vehicles.service';
-import { UsersService } from '../../Services/users/users.service';
+import {Component, inject, OnInit, ViewEncapsulation} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators,} from '@angular/forms';
+import {MatCardModule} from '@angular/material/card';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatInputModule} from '@angular/material/input';
+import {MatSelectModule} from '@angular/material/select';
+import {MatButtonModule} from '@angular/material/button';
+import {MatTableModule} from '@angular/material/table';
+import {MatDividerModule} from '@angular/material/divider';
+import {Vehicle} from '../../Models/vehicles/vehicle.interface';
+import {Brand} from '../../Models/vehicles/brand.interface';
+import {Color} from '../../Models/vehicles/color.interface';
+import {Type as VehicleType} from '../../Models/vehicles/type.interface';
+import {Specs} from '../../Models/vehicles/specs.interface';
+import {VehiclesService} from '../../Services/vehicles/vehicles.service';
+import {UsersService} from '../../Services/users/users.service';
+import {Seats} from "../../Models/vehicles/seats.interface";
+import {Doors} from "../../Models/vehicles/doors.interface";
+import {Engine} from "../../Models/vehicles/engine.interface";
+import {Fuel} from "../../Models/vehicles/fuel.interface";
 
 @Component({
   selector: 'app-sell',
@@ -70,9 +68,11 @@ import { UsersService } from '../../Services/users/users.service';
   styleUrl: './sell.component.scss',
   encapsulation: ViewEncapsulation.None,
 })
-export class SellComponent {
+export class SellComponent implements OnInit {
   private vehicleService = inject(VehiclesService);
   private usersService = inject(UsersService);
+  private fb = inject(FormBuilder)
+
 
   form: FormGroup = this.fb.group({
     id: [''],
@@ -114,14 +114,13 @@ export class SellComponent {
   colors: Color[] = [];
   types: VehicleType[] = [];
   specs: Specs[] = [];
-  doors: any[] = [];
-  seats: any[] = [];
-  engines: any[] = [];
-  fuels: any[] = [];
+  doors: Doors[] = [];
+  seats: Seats[] = [];
+  engines: Engine[] = [];
+  fuels: Fuel[] = [];
 
   userVehicles: Vehicle[] = [];
 
-  constructor(private fb: FormBuilder) {}
 
   /**
    * Verarbeitet die Eingabe aus beiden Formularen (allgemeine Fahrzeugdaten und Spezifikationen).
@@ -178,7 +177,7 @@ export class SellComponent {
           console.log('Vehicle Data:', vehicleData);
           this.vehicleService
             .createVehicle(vehicleData)
-            .subscribe((createdVehicle) => {
+            .subscribe(() => {
               this.loadUserVehicles(user.id);
 
               this.form.reset({
@@ -274,7 +273,7 @@ export class SellComponent {
 
   /**
    * Initialisiert die Komponente beim Laden.
-   * Lädt alle erforderlichen Referenzdaten (z. B. Marken, Farben, Typen usw.)
+   * Lädt alle erforderlichen Referenzdaten (z.NNBSPB. Marken, Farben, Typen usw.)
    * sowie die Fahrzeugliste des aktuell eingeloggten Nutzers.
    */
   ngOnInit() {
@@ -295,7 +294,7 @@ export class SellComponent {
     });
     this.usersService.getCurrentUser().subscribe((user) => {
       if (user && user.id) {
-        this.form.patchValue({ sellerId: user.id });
+        this.form.patchValue({sellerId: user.id});
         this.loadUserVehicles(user.id);
       }
     });
