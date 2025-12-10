@@ -4,9 +4,9 @@ name: pipeline-orchestrator
 
 on:
     push:
-        branches: [main, dev, test]
+        branches: ["**"]
     pull_request:
-        branches: [main, dev, test]
+        branches: ["**"]
     workflow_dispatch:
 
 permissions:
@@ -38,7 +38,6 @@ jobs:
     security-zap-scan:
         name: OWASP ZAP scan
         needs: [backend-build, mysql-container]
-        if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/test'
         uses: ./.github/workflows/security-zap-scan.yml
         with:
             target_url: http://localhost:8080
