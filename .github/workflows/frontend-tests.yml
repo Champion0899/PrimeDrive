@@ -1,4 +1,4 @@
-name: OPS-004 – Jasmine & Karma for Frontend Tests
+name: Jasmine & Karma for Frontend Tests
 
 on:
   push:
