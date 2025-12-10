@@ -1,0 +1,87 @@
+name: "OWASP Dependency-Check"
+
+on:
+    push:
+        branches: [main] # Adjust if your protected branch differs
+    pull_request:
+        branches: [main] # Adjust if your protected branch differs
+    schedule:
+        - cron: "0 3 * * *" # UTC; change to adjust scan cadence (e.g., weekly)
+
+jobs:
+    dependency-check:
+        name: OWASP Dependency-Check
+        runs-on: ubuntu-latest
+
+        env:
+            JAVA_VERSION: "21" # LTS Java version
+            MAVEN_VERSION: "3.9.9" # Documented Maven version; align runner/tooling if it changes
+            DC_VERSION: "9.1.0" # Dependency-Check Maven plugin version
+            DC_FAIL_CVSS: "7.0" # Fail on High/Critical (CVSS >= threshold); change to adjust policy
+            DC_SUPPRESSION_FILE: dependency-check-suppression.xml # Optional suppression file at repo root; keep reasons/refs/expiry documented
+            REPORT_DIR: PrimeDriveBackend/target # Dependency-Check reports are written here
+
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v4
+
+            - name: Set up Temurin JDK
+              uses: actions/setup-java@v4
+              with:
+                  distribution: temurin
+                  java-version: ${{ env.JAVA_VERSION }}
+                  cache: maven
+
+            - name: Show tool versions
+              run: |
+                  java -version
+                  mvn -version
+              shell: bash
+
+            - name: Build and run Dependency-Check
+              working-directory: PrimeDriveBackend
+              run: |
+                  REPORT_PATH="${{ env.REPORT_DIR }}/dependency-check-report"
+                  SUPPRESSION_PATH="${GITHUB_WORKSPACE}/${{ env.DC_SUPPRESSION_FILE }}"
+                  SUPPRESSION_ARG=""
+
+                  if [[ -f "$SUPPRESSION_PATH" ]]; then
+                    echo "Using suppression file at $SUPPRESSION_PATH" # Maintain reasons/refs/expiry per suppression
+                    SUPPRESSION_ARG="-DsuppressionFile=$SUPPRESSION_PATH"
+                  else
+                    echo "No suppression file found; add ${{ env.DC_SUPPRESSION_FILE }} to manage known false positives." # Suppression file hook
+                  fi
+
+                  mvn -B verify \
+                    -DfailBuildOnCVSS=${{ env.DC_FAIL_CVSS }} \
+                    -Dformats=HTML,JSON,XML,SARIF \
+                    -Ddependency-check.version=${{ env.DC_VERSION }} \
+                    $SUPPRESSION_ARG
+              shell: bash
+
+            - name: Upload Dependency-Check reports
+              if: always()
+              uses: actions/upload-artifact@v4
+              with:
+                  name: dependency-check-reports
+                  path: |
+                      ${{ env.REPORT_DIR }}/dependency-check-report.html
+                      ${{ env.REPORT_DIR }}/dependency-check-report.json
+                      ${{ env.REPORT_DIR }}/dependency-check-report.sarif
+                      ${{ env.REPORT_DIR }}/dependency-check-report.xml
+                  if-no-files-found: warn # Reports live in REPORT_DIR; adjust if project layout changes
+
+            - name: Upload SARIF to GitHub Code Scanning
+              if: always()
+              uses: github/codeql-action/upload-sarif@v3
+              with:
+                  sarif_file: ${{ env.REPORT_DIR }}/dependency-check-report.sarif
+
+            - name: Print scan summary
+              if: always()
+              run: |
+                  echo "Dependency-Check completed."
+                  echo "Reports: ${{ env.REPORT_DIR }}/dependency-check-report.[html|json|xml|sarif]" # Reports are stored here
+                  echo "GitHub UI: Security > Code scanning alerts." # SARIF is uploaded there
+                  echo "Reminder: update internal security docs (e.g., Confluence/README/security docs)." # Keep documentation current
+              shell: bash
