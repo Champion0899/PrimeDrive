@@ -1,5 +1,4 @@
 name: "OWASP Dependency-Check"
-name: "OWASP Dependency-Check"
 
 on:
   push:
