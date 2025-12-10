@@ -1,0 +1,31 @@
+name: Backend Tests
+
+on:
+  push:
+    paths:
+      - 'PrimeDriveBackend/**'
+      - '.github/workflows/backend-tests.yml'
+  pull_request:
+    paths:
+      - 'PrimeDriveBackend/**'
+      - '.github/workflows/backend-tests.yml'
+
+jobs:
+  test-backend:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: PrimeDriveBackend
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+          cache: maven
+
+      - name: Run tests
+        run: ./mvnw -B -ntp test

@@ -103,7 +103,8 @@ public class VehicleSpecsService {
                 .orElseThrow(() -> new NoSuchElementException("No vehicle found for given specs ID"));
 
         String currentUserId = SecurityContextHolder.getContext().getAuthentication().getName();
-        if (!vehicle.getUsers().equals(currentUserId)) {
+        String ownerId = vehicle.getUsers() != null ? vehicle.getUsers().getId() : null;
+        if (ownerId == null || !ownerId.equals(currentUserId)) {
             throw new SecurityException("You are not authorized to update these specs.");
         }
 
@@ -132,7 +133,8 @@ public class VehicleSpecsService {
                 .orElseThrow(() -> new NoSuchElementException("No vehicle found for given specs ID"));
 
         String currentUserId = SecurityContextHolder.getContext().getAuthentication().getName();
-        if (!vehicle.getUsers().equals(currentUserId)) {
+        String ownerId = vehicle.getUsers() != null ? vehicle.getUsers().getId() : null;
+        if (ownerId == null || !ownerId.equals(currentUserId)) {
             throw new SecurityException("You are not authorized to delete these specs.");
         }
 

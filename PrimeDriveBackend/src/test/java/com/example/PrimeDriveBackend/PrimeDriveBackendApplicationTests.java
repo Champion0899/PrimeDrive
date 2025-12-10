@@ -2,6 +2,7 @@ package com.example.PrimeDriveBackend;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 
 /**
  * Test class for verifying Spring Boot context loading for the PrimeDrive
@@ -15,6 +16,7 @@ import org.springframework.boot.test.context.SpringBootTest;
  * Date: 2025-06-03
  */
 @SpringBootTest
+@ActiveProfiles("test")
 class PrimeDriveBackendApplicationTests {
 
 	@Test
