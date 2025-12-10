@@ -42,7 +42,6 @@ jobs:
     zap-baseline:
         name: ZAP Baseline (DAST)
         runs-on: ubuntu-latest
-        if: github.event.inputs.target_url != '' || secrets.ZAP_TARGET_URL != '' || vars.ZAP_TARGET_URL != ''
         steps:
             - name: Checkout repository
               uses: actions/checkout@v4
@@ -88,7 +87,7 @@ jobs:
     zap-full-scan:
         name: ZAP Full Scan (scheduled)
         runs-on: ubuntu-latest
-        if: (github.event.inputs.target_url != '' || secrets.ZAP_TARGET_URL != '' || vars.ZAP_TARGET_URL != '') && (github.event_name == 'schedule' || (github.event_name == 'workflow_dispatch' && github.event.inputs.scan_type == 'full'))
+        if: github.event_name == 'schedule' || (github.event_name == 'workflow_dispatch' && github.event.inputs.scan_type == 'full')
         steps:
             - name: Checkout repository
               uses: actions/checkout@v4
