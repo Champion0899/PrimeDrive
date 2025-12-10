@@ -100,7 +100,8 @@ public class VehicleService {
                 .orElseThrow(() -> new NoSuchElementException("Vehicle not found with id: " + id));
 
         String currentUserId = SecurityContextHolder.getContext().getAuthentication().getName();
-        if (!existing.getUsers().equals(currentUserId)) {
+        String ownerId = existing.getUsers() != null ? existing.getUsers().getId() : null;
+        if (ownerId == null || !ownerId.equals(currentUserId)) {
             throw new UnauthorizedAccessException("You are not authorized to update this vehicle.");
         }
 
@@ -124,7 +125,8 @@ public class VehicleService {
                 .orElseThrow(() -> new NoSuchElementException("Vehicle not found with id: " + id));
 
         String currentUserId = SecurityContextHolder.getContext().getAuthentication().getName();
-        if (!existing.getUsers().equals(currentUserId)) {
+        String ownerId = existing.getUsers() != null ? existing.getUsers().getId() : null;
+        if (ownerId == null || !ownerId.equals(currentUserId)) {
             throw new UnauthorizedAccessException("You are not authorized to update this vehicle.");
         }
         vehicleRepository.deleteById(id);
