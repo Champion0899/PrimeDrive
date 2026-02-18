@@ -1,5 +1,4 @@
-Perfekt – **Variante 3 (Vertrauen & Reputation)** passt strategisch sehr gut zu PrimeDrive 👍
-Ich binde sie jetzt **konkret und sauber in eure bestehende Feature-Roadmap nach dem MVP ein**, inkl. **klarer Begründung**, **zeitlicher Einordnung** und **weiterer Ausbaustufen**.
+
 
 ---
 
